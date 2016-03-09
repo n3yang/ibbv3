@@ -45,10 +45,17 @@ Desktop.ini
 
 
 
-#############
+# yii2 framework
 assets/*
 !assets/.gitignore
 protected/runtime/*
 !protected/runtime/.gitignore
 protected/data/*.db
 themes/classic/views/
+
+# 
+/vendor/
+
+# configure
+config/*
+
