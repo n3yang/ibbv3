@@ -55,6 +55,8 @@ themes/classic/views/
 
 # 
 /vendor/
+/tests/
+
 
 # configure
 config/*
