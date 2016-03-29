@@ -65,11 +65,24 @@ class OfferController extends Controller
         $model = new offer();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            
+            // link tags
+            $newTagIds = ArrayHelper::getValue(Yii::$app->request->post('Offer'), 'tags');
+            foreach ($newTagIds as $tagId){
+                $model->link('tags', Tag::findOne($tagId));
+            }
+
             return $this->redirect(['view', 'id' => $model->id]);
+
         } else {
-            // $model->getTags();
+            
+            // get all tags
+            $tags = Tag::find()->asArray()->all();
+            $tags = ArrayHelper::map($tags, 'id', 'name');
+
             return $this->render('create', [
                 'model' => $model,
+                'tags'  => $tags,
             ]);
         }
     }
