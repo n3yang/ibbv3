@@ -99,10 +99,10 @@ class OfferController extends Controller
         
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
-            // unlink all
+            // unlink all tags
             $model->unlinkAll('tags', true);
 
-            // link new
+            // link new tags
             $newTagIds = ArrayHelper::getValue(Yii::$app->request->post('Offer'), 'tags');
             foreach ($newTagIds as $tagId){
                 $model->link('tags', Tag::findOne($tagId));
