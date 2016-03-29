@@ -36,8 +36,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'link_slug',
             'site',
             'b2c',
-            'created_at:datetime',
-            'updated_at:datetime',
+            'created_at',
+            'updated_at',
             ['attribute'=>'status', 'value'=>$model->getStatusLabel($model->status)],
         ],
     ]) ?>

@@ -3,6 +3,7 @@
 namespace app\models;
 
 use yii\db\ActiveRecord;
+use yii\db\Expression;
 use yii\behaviors\TimestampBehavior;
 
 /**
@@ -36,6 +37,7 @@ class Offer extends \yii\db\ActiveRecord
     const SITE_ZDM = 1;
     const SITE_ZDMFX = 2;
 
+
     /**
      * @inheritdoc
      */
@@ -55,6 +57,7 @@ class Offer extends \yii\db\ActiveRecord
             [['thumb_file_id', 'site', 'b2c', 'created_at'], 'integer'],
             [['price', 'link_slug'], 'string', 'max' => 200],
             ['status', 'default', 'value' => self::STATUS_DRAFT],
+            // ['tags', 'each', 'rule' => ['integer']],
         ];
     }
 
@@ -75,6 +78,7 @@ class Offer extends \yii\db\ActiveRecord
             'created_at' => '添加时间',
             'updated_at' => '修改时间',
             'status' => '状态',
+            'tags' => '标签',
         ];
     }
 
@@ -88,7 +92,7 @@ class Offer extends \yii\db\ActiveRecord
                 //     ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
                 // ],
                 // if you're using datetime instead of UNIX timestamp:
-                // 'value' => new Expression('NOW()'),
+                'value' => new Expression('NOW()'),
             ],
         ];
     }

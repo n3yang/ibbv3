@@ -2,10 +2,12 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use app\models\tag;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\offer */
 /* @var $form yii\widgets\ActiveForm */
+
 ?>
 
 <div class="offer-form">
@@ -29,6 +31,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'created_at')->textInput() ?>
 
     <?= $form->field($model, 'status')->dropDownList($model->getStatusLabel()) ?>
+
+    <?= $form->field($model, 'tags')->checkboxList($tags) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

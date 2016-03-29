@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'link_slug',
             'site',
             'b2c',
-            'created_at:datetime',
+            'created_at',
             ['attribute'=>'status', 'value'=>function($model){return $model->getStatusLabel($model->status);}],
 
             ['class' => 'yii\grid\ActionColumn'],

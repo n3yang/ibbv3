@@ -5,9 +5,11 @@ namespace app\modules\admin\controllers;
 use Yii;
 use app\models\offer;
 use app\models\offerSearch;
+use app\models\tag;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 
 /**
  * OfferController implements the CRUD actions for offer model.
@@ -65,6 +67,7 @@ class OfferController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
+            // $model->getTags();
             return $this->render('create', [
                 'model' => $model,
             ]);
@@ -80,12 +83,30 @@ class OfferController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+            // unlink all
+            $model->unlinkAll('tags', true);
+
+            // link new
+            $newTagIds = ArrayHelper::getValue(Yii::$app->request->post('Offer'), 'tags');
+            foreach ($newTagIds as $tagId){
+                $model->link('tags', Tag::findOne($tagId));
+            }
+            
             return $this->redirect(['view', 'id' => $model->id]);
+
         } else {
+            // get all tags
+            $tags = Tag::find()->asArray()->all();
+            $tags = ArrayHelper::map($tags, 'id', 'name');
+
+            $selectedTags = $model->tags;
+
             return $this->render('update', [
                 'model' => $model,
+                'tags' => $tags,
             ]);
         }
     }
