@@ -3,6 +3,11 @@
 namespace app\models;
 
 use Yii;
+use yii\db\ActiveRecord;
+use yii\db\Expression;
+use yii\behaviors\TimestampBehavior;
+use yii\helpers\FileHelper;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "file".
@@ -15,9 +20,21 @@ use Yii;
  * @property string $md5
  * @property integer $user_id
  * @property string $created_at
+ * @property string $updated_at
  */
 class File extends \yii\db\ActiveRecord
 {
+
+
+    
+    const SCENARIO_CREATE = 'create';
+    const SCENARIO_UPDATE = 'update';
+
+    /**
+     * @var UploadedFile
+     */
+    public $upfile;
+
     /**
      * @inheritdoc
      */
@@ -32,11 +49,11 @@ class File extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['path'], 'required'],
+            [['path'], 'required', 'on' => self::SCENARIO_UPDATE],
             [['size', 'user_id'], 'integer'],
             [['created_at'], 'safe'],
             [['name', 'path', 'mime'], 'string', 'max' => 200],
-            [['md5'], 'string', 'max' => 50]
+            [['md5'], 'string', 'max' => 50],
         ];
     }
 
@@ -56,4 +73,112 @@ class File extends \yii\db\ActiveRecord
             'created_at' => '创建时间',
         ];
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+                // 'attributes' => [
+                //     ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                //     ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                // ],
+                // if you're using datetime instead of UNIX timestamp:
+                'value' => new Expression('NOW()'),
+            ],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIO_CREATE] = ['name', 'user_id', 'created_at', 'upfile'];
+        $scenarios[self::SCENARIO_UPDATE] = ['name', 'path', 'mime', 'size', 'md5', 'user_id', 'upfile'];
+        return $scenarios;
+    }
+
+    public function upload()
+    {
+        // checking extension
+        if ( in_array($this->upfile->extension, Yii::$app->params['allowedFileExtensions']) ) {
+
+            $filename = $this->upfile->baseName . '.' . $this->upfile->extension;
+            if ( file_exists( self::getUploadPath() . '/' . $filename ) ) {
+               $filename = $this->upfile->baseName . '-' . hash('crc32b', microtime(true)) . '.' . $this->upfile->extension;
+            }
+            $targetFile = self::getUploadPath() . '/' . $filename;
+            $this->upfile->saveAs($targetFile);
+
+            // set file infomation
+            $this->path = date('Y') . '/' . date('m') . '/' . $filename;
+            $this->name = $this->upfile->baseName;
+            $this->size = $this->upfile->size;
+            $this->mime = $this->upfile->type;
+            $this->md5  = md5(file_get_contents($targetFile));
+
+            // TODO: md5 checking
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function uploadByLocal($file, $removeFile = true)
+    {
+        if ( !file_exists($file) )
+            return false;
+        // get file info
+        $info = pathinfo($file);
+
+        $targetFile = self::getUploadPath() . '/' . $info['basename'];
+        if ( file_exists( $targetFile ) ) {
+           $targetFile =  $info['filename'] . '-' . hash('crc32b', microtime(true)) . '.' . $info['extension'];
+           $targetFile = self::getUploadPath() . '/' . $targetFile;
+        }
+
+        if ( copy($file, $targetFile) ) {
+            $this->path = date('Y') . '/' . date('m') . '/' . basename($targetFile);
+            $this->name = $info['filename'];
+            $this->size = filesize($targetFile);
+            $this->mime = FileHelper::getMimeType($file);
+            $this->md5  = md5(file_get_contents($targetFile));
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function getUploadPath()
+    {
+        $basePath = Yii::getAlias('@uploadPath');
+        $toPath = $basePath . '/' . date('Y') . '/' . date('m');
+        
+        $rs = FileHelper::createDirectory($toPath);
+
+        return $rs ? $toPath : $basePath;
+    }
+
+    /**
+     * remove file
+     * @return bool true/false
+     */
+    public function removeFile()
+    {
+        if (!$this->path) {
+            return false;
+        }
+        $file = Yii::getAlias('@uploadPath') . '/' . $this->path;
+        if (file_exists($file)) {
+            unlink($file);
+        }
+        return true;
+    }
+
 }
