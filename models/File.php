@@ -106,7 +106,7 @@ class File extends \yii\db\ActiveRecord
     public function upload()
     {
         // checking extension
-        if ( in_array($this->upfile->extension, Yii::$app->params['allowedFileExtensions']) ) {
+        if ( in_array($this->upfile->extension, Yii::$app->params['uploadFileExtensions']) ) {
 
             $filename = $this->upfile->baseName . '.' . $this->upfile->extension;
             if ( file_exists( self::getUploadPath() . '/' . $filename ) ) {
@@ -122,7 +122,7 @@ class File extends \yii\db\ActiveRecord
             $this->mime = $this->upfile->type;
             $this->md5  = md5(file_get_contents($targetFile));
 
-            // TODO: md5 checking
+            // @TODO: md5 checking, same md5 and same user, just updating property
 
             return true;
         } else {

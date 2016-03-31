@@ -89,10 +89,10 @@ $navItems = [
             'label' => 'Tag',
             'url' => Url::toRoute('/admin/tag'),
         ],
-        [
-            'label' => 'Offer Tag',
-            'url' => Url::toRoute('/admin/offer-tag'),
-        ],
+        // [
+        //     'label' => 'Offer Tag',
+        //     'url' => Url::toRoute('/admin/offer-tag'),
+        // ],
         [
             'label' => 'File',
             'url' => Url::toRoute('/admin/file'),
