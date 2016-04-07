@@ -103,6 +103,10 @@ class File extends \yii\db\ActiveRecord
         return $scenarios;
     }
 
+    /**
+     * upload file with $this->upfile
+     * @return boolean true or false
+     */
     public function upload()
     {
         // checking extension
@@ -130,7 +134,13 @@ class File extends \yii\db\ActiveRecord
         }
     }
 
-    public function uploadByLocal($file, $removeFile = true)
+    /**
+     * upload file from local file system
+     * @param  string  $file       the file location
+     * @param  boolean $removeFile remove the source file after uploading
+     * @return boolean             true or false
+     */
+    public function uploadByLocal($file, $removeFile = false)
     {
         if ( !file_exists($file) )
             return false;
@@ -155,6 +165,10 @@ class File extends \yii\db\ActiveRecord
         }
     }
 
+    /**
+     * get uploading directory from configurations
+     * @return string uploading directory
+     */
     public static function getUploadPath()
     {
         $basePath = Yii::getAlias('@uploadPath');
