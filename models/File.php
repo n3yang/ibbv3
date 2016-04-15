@@ -149,7 +149,7 @@ class File extends \yii\db\ActiveRecord
 
         $targetFile = self::getUploadPath() . '/' . $info['basename'];
         if ( file_exists( $targetFile ) ) {
-           $targetFile =  $info['filename'] . '-' . hash('crc32b', microtime(true)) . '.' . $info['extension'];
+           $targetFile = $info['filename'] . '-' . hash('crc32b', microtime(true)) . '.' . $info['extension'];
            $targetFile = self::getUploadPath() . '/' . $targetFile;
         }
 
@@ -163,6 +163,11 @@ class File extends \yii\db\ActiveRecord
         } else {
             return false;
         }
+    }
+
+    public static function getUrl()
+    {
+        # code...
     }
 
     /**
