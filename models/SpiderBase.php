@@ -1,0 +1,178 @@
+<?php
+
+namespace app\models;
+
+use Yii;
+use yii\base\Model;
+use yii\httpclient\Client;
+// use yii\httpclient\
+use yii\helpers\Url;
+
+
+use app\models\Offer;
+use app\models\File;
+/**
+ * Spider Base Class
+ */
+class SpiderBase extends \yii\base\Component
+{
+
+    const USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/600.5.17 (KHTML, like Gecko) Version/7.1.5 Safari/537.85.14';
+    const USER_AGENT_MOBILE = '5.4 rv:11 (iPhone; iPhone OS 6.1.2; zh_CN)';
+
+    public $requestUserAgent = '';
+
+    function __construct()
+    {
+        $this->requestUserAgent = self::USER_AGENT;
+    }
+
+    /**
+     * add new offer
+     * @param array  $offer  
+     * @param array  $tagIds [description]
+     */
+    public function addOffer($data, $tagIds = [])
+    {
+        $offer = new Offer;
+        foreach ($data as $k=>$v){
+            $offer->$k = $v;
+        }
+        return $offer->save();
+    }
+
+    public function addFile()
+    {
+
+    }
+
+
+    public function addRemoteFile($url, $referer = '', $parent_id = '', $desc = '')
+    {
+
+
+        $tempfile = '/tmp/' . basename($url);
+        // get file
+        $curlopt = [CURLOPT_REFERER=>$referer];
+        $content = $this->getHttpContent($url, '', $curlopt);
+        if (file_put_contents($tempfile, $content) < 1) {
+            return false;
+        }
+        // validate the file type
+        $validator = new \yii\validators\ImageValidator;
+        if ( !$validator->validate($tempfile, $error) ) {
+            yii::warning('Remote file type error! error: ' . $error);
+            return false;
+        } else {
+            // move to app upload dir and remove tempfile
+            $fileModel = new File;
+            if ( $fileModel->uploadByLocal($tempfile, true) && $fileModel->save() ) {
+                return [
+                    'id'  => $fileModel->id,
+                    'url' => yii::alias('@uploadUrl') . '/' . $fileModel->path,
+                ];
+            } else {
+                yii::warning('Fail to upload by local');
+                return false;
+            }
+        }
+    }
+
+    /**
+     * 使用http get方式获取连接地址内容
+     * @param  string $url     链接地址
+     * @param  string $param   get请求参数
+     * @param  array  $curlopt curl扩展设置参数
+     * @return string          连接内容
+     */
+    public function getHttpContent($url, $param='', $curlopt=array())
+    {
+        if (is_array($param)) {
+            $reqData = http_build_query($param);
+        }
+        $option = array(
+            CURLOPT_URL             => $url . '?' . $reqData,
+            CURLOPT_RETURNTRANSFER  => 1,
+            CURLOPT_USERAGENT       => $this->requestUserAgent,
+            CURLOPT_COOKIESESSION   => false,
+        );
+        
+        if (!empty($curlopt)) {
+            $option = $option + $curlopt;
+        }
+
+        // log
+        Yii::info('Curl get: ' . $option[CURLOPT_URL]);
+
+        $ch = curl_init();
+        curl_setopt_array($ch, $option);
+        $returnData = curl_exec($ch);
+        if ( $returnData===false ) {
+            Yii::warning('Curl error: ' . curl_error($ch));
+        }
+        $ch = curl_close($ch);
+
+        // log return data
+        // Yii::info('Curl get data: ' . var_export($returnData, 1));
+
+        return $returnData;
+    }
+
+
+    /**
+     * 将商品连接（B2C连接）转换为CPS平台的连接
+     * @param  string $url B2C连接
+     * @return string      CPS连接
+     */
+    public static function replaceToCps($url)
+    {
+        if (strpos($url, 'amazon.cn')) {
+            return $url .= '&t=ibaobr-23&tag=ibaobr-23';
+        }
+        // 检测商品所属商城，并转换对应的CPS平台的连接
+        $matches = [
+            'kaola.com'             =>  '1737'  ,
+            // 'm.jd.com'              =>  '1146'  ,
+            // 'www.jd.com'            =>  '61'    ,
+            'yixun.com'             =>  '337',
+            'm.yhd.com'             =>  '516'   ,
+            'yhd.com'               =>  '58'    ,
+            'm.dangdang.com'        =>  '468'   ,
+            'dangdang.com'          =>  '64'    ,
+            'm.gou.com'             =>  '1602'  ,
+            'gou.com'               =>  '756'   ,
+            'm.muyingzhijia.com'    =>  '897'   ,
+            'muyingzhijia.com'      =>  '114'   ,
+            'supumall.com'          =>  '927'   ,
+            'supuy.com'             =>  '927'   ,
+            'lamall.com'            =>  '1731'  ,
+            'miyabaobei.com'        =>  '930'   ,
+            'ymatou.com'            =>  '1419'  ,
+            'suning.com'            =>  '84'    ,
+            'm.suning.com'          =>  '501'   ,
+            'm.gome.com.cn'         =>  '618'   ,
+            'gome.com.cn'           =>  '236'   ,
+            'moximoxi.net'          =>  '1728'  ,
+            'xiji.com'              =>  '1752'  ,
+            'ikjtao.com'            =>  '723'   ,
+            'kjt.com'               =>  '1884'  ,
+            'jgb.cn'                =>  '1872'  ,
+        ];
+        foreach ($matches as $k => $v) {
+            if (strpos($url, $k)) {
+                $aid = $v;
+                break;
+            }
+        }
+        if (empty($aid))
+            return $url;
+        else
+            return 'http://c.duomai.com/track.php?site_id=149193&aid='.$aid.'&euid=&t=' . urlencode($url);
+    }
+
+    public static function getShortUrl($url)
+    {
+        $slug = Link::generateSlug($url);
+        return '/link/goto/' . $slug;
+    }
+}
