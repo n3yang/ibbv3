@@ -47,6 +47,7 @@ class Link extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['url'], 'required'],
             [['url'], 'string'],
             [['click'], 'integer'],
             [['url'], 'url'],
@@ -61,7 +62,7 @@ class Link extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'PK',
+            'id' => 'ID',
             'name' => '名称',
             'url' => 'URL地址',
             'slug' => '短地址',
@@ -123,6 +124,7 @@ class Link extends \yii\db\ActiveRecord
 
     /**
      * generate Slug by url
+     * 
      * @param  string $url URL or any strings
      * @return string      short strings
      */
@@ -138,4 +140,21 @@ class Link extends \yii\db\ActiveRecord
         return $d;
     }
     
+    /**
+     * find link by slug
+     * 
+     * @param  string $slug 
+     * @return static|null
+     */
+    public function findBySlug($slug)
+    {
+        return static::findOne(['slug' => $slug]);
+    }
+
+    public static function activeCreate()
+    {
+        if (empty($this->slug)) {
+            $this->slug = Link::generateSlug($this->url);
+        }
+    }
 }
