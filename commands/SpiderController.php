@@ -36,11 +36,14 @@ class SpiderController extends Controller
     public function actionSyncZdm($value='')
     {
         $spider = new SpiderZdm;
-        // $list = $spider->fetchList('', 2);
+        // $list = $spider->fetchList('75, 93, 147', 2);
         // var_dump($list);
-        // $article = $spider->fetchArticle(6089338);
-        $article = $spider->fetchArticle(6089840);
+        $article = $spider->fetchArticle(6089338);
+        // $article = $spider->fetchArticle(6089840);
         var_dump($article);
+
+        // $f = $spider->addRemoteFile('http://eimg.smzdm.com/201604/16/5712393eab6aa9184.png');
+        // var_dump($f);
     }
 
 
