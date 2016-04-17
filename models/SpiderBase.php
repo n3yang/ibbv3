@@ -5,8 +5,8 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\httpclient\Client;
-// use yii\httpclient\
 use yii\helpers\Url;
+use yii\helpers\FileHelper;
 
 
 use app\models\Offer;
@@ -21,6 +21,9 @@ class SpiderBase extends \yii\base\Component
     const USER_AGENT_MOBILE = '5.4 rv:11 (iPhone; iPhone OS 6.1.2; zh_CN)';
 
     public $requestUserAgent = '';
+
+    public static $fileExtension = ['jpg', 'jpeg', 'gif', 'png'];
+    public static $fileType = ['image/jpeg', 'image/gif', 'image/png'];
 
     function __construct()
     {
@@ -50,31 +53,39 @@ class SpiderBase extends \yii\base\Component
     public function addRemoteFile($url, $referer = '', $parent_id = '', $desc = '')
     {
 
-
         $tempfile = '/tmp/' . basename($url);
         // get file
         $curlopt = [CURLOPT_REFERER=>$referer];
         $content = $this->getHttpContent($url, '', $curlopt);
-        if (file_put_contents($tempfile, $content) < 1) {
+        if ( file_put_contents($tempfile, $content) < 1 ) {
+            Yii::warning('Fail to save remote tempfile');
             return false;
         }
-        // validate the file type
-        $validator = new \yii\validators\ImageValidator;
-        if ( !$validator->validate($tempfile, $error) ) {
-            yii::warning('Remote file type error! error: ' . $error);
+
+        // validate the file extension
+        $extension = strtolower(pathinfo($tempfile, PATHINFO_EXTENSION));
+        if ( !in_array($extension, static::$fileExtension) ) {
+            Yii::warning('Error file extension: ' . $extension);
             return false;
+        }
+
+        // validate the file type
+        $mimetype = FileHelper::getMimeType($tempfile);
+        if ( !in_array($mimetype, static::$fileType) ) {
+            Yii::warning('Error file mimetype: ' . $mimetype);
+            return false;
+        }
+
+        // move to app upload dir and remove tempfile
+        $fileModel = new File;
+        if ( $fileModel->uploadByLocal($tempfile, true) && $fileModel->save() ) {
+            return [
+                'id'  => $fileModel->id,
+                'url' => Yii::$aliases['@uploadUrl'] . '/' . $fileModel->path,
+            ];
         } else {
-            // move to app upload dir and remove tempfile
-            $fileModel = new File;
-            if ( $fileModel->uploadByLocal($tempfile, true) && $fileModel->save() ) {
-                return [
-                    'id'  => $fileModel->id,
-                    'url' => yii::alias('@uploadUrl') . '/' . $fileModel->path,
-                ];
-            } else {
-                yii::warning('Fail to upload by local');
-                return false;
-            }
+            yii::warning('Fail to upload by local');
+            return false;
         }
     }
 
@@ -91,7 +102,7 @@ class SpiderBase extends \yii\base\Component
             $reqData = http_build_query($param);
         }
         $option = array(
-            CURLOPT_URL             => $url . '?' . $reqData,
+            CURLOPT_URL             => $url . ( empty($reqData) ? '' : ('?' . $reqData) ),
             CURLOPT_RETURNTRANSFER  => 1,
             CURLOPT_USERAGENT       => $this->requestUserAgent,
             CURLOPT_COOKIESESSION   => false,

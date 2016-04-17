@@ -14,7 +14,13 @@ use app\models\SpiderBase;
 class SpiderZdm extends SpiderBase
 {
 
-    // static $
+    /**
+     * Valid Category Ids
+     * @var array
+     */
+    public static $validCategoryIds = ['75', '93', '147'];
+
+    public $urlReplaceCache = [];
 
     public function __construct()
     {
@@ -25,34 +31,35 @@ class SpiderZdm extends SpiderBase
     public function fetchArticle($id)
     {
 
+        Yii::info('Fetch article: ' . $a['article_id']);
+
         $this->switchUserAgentToMobile();
-        $request_data = array(
+        // build request data & get result
+        $reqData = array(
             'f'             => 'iphone', 
             'filtervideo'   => 1,
             's'             => substr(uniqid().time(), 0, 19),
             'imgmode'       => 0
         );
         $url = 'http://api.smzdm.com/v1/youhui/articles/' . $id;
-        $rdata = $this->getHttpContent($url, $request_data);
+        $rdata = $this->getHttpContent($url, $reqData);
         $rdata = json_decode($rdata, 1);
-        if ($rdata['error_code'] == 0) {
-            $a = $rdata['data'];
-        } else {
-            Yii::warning('Fail to fetch article, return: ' . var_export($rdata));
+        
+        // get error ? log it.
+        if ($rdata['error_code'] != 0) {
+            Yii::warning('Fail to fetch article, return: ' . var_export($rdata, true));
             return array();
+        } else {
+            $a = $rdata['data'];
         }
+
         // pass invalid articles
-        if (empty($a)
-            || !in_array($a['article_category']['ID'], [75, 93, 147])
-            || ($a['article_category']['ID']=='147' && strpos($a['article_title'], '儿童')===false)) {
+        if ( !static::isValidArticle($a) ) {
             Yii::info('Find: ' . $a['article_id'] . ', ignore...');
             return array();
         }
 
-        Yii::info('Fetch article: ' . $a['article_id']);
-
         // add images
-        print_r($a);
         foreach($a['article_content_img_list'] as $k => $image_url) {
             $image_url = str_replace('_e600.jpg', '', $image_url);
 
@@ -66,11 +73,14 @@ class SpiderZdm extends SpiderBase
             }
         }
 
-        var_dump($post_image);
+        print_r($a);
 
-        return;
+
+        
         // add post and meta
         $post_content = $this->parseContent($a['article_filter_content'], '<p><a><br><span><h2><strong><b>');
+echo $post_content;
+return;
         $post = array(
             'post_author'   => $this->post_author_id,
             'post_content'  => $post_content, // (mixed) The post content. Default empty.
@@ -110,6 +120,26 @@ class SpiderZdm extends SpiderBase
         parent::setPostCategory($post_id, $category_id);
 
 
+    }
+
+    /**
+     * is Valid Article ?
+     * @param  array  $article The article row
+     * @return boolean         yes or no
+     */
+    public static function isValidArticle($article)
+    {
+        if ( empty($article) ) {
+            return false;
+        }
+        if ( !in_array($article['article_category']['ID'], self::$validCategoryIds) ) {
+            return false;
+        }
+        if ( $article['article_category']['ID']=='147' && strpos($article['article_title'], '儿童')===false ) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -155,7 +185,7 @@ class SpiderZdm extends SpiderBase
 
 
 
-    public function parseContent($content = '', $allowable_tags = '<p><a><br /><span><h2><strong><b><img>')
+    public function parseContent($content = '', $allowedTags = '<p><a><br /><span><h2><strong><b><img>')
     {
         if (empty($content)) {
             return '';
@@ -163,7 +193,7 @@ class SpiderZdm extends SpiderBase
         yii::info('Parsing content...');
         // remove javascript
         $content = preg_replace('/<head>(.*)<\/head>/is', '', $content);
-        $detail = trim(strip_tags($content, $allowable_tags));
+        $detail = trim(strip_tags($content, $allowedTags));
         $doc = new \DOMDocument();
         @$doc->loadHTML($detail);
         $tags = $doc->getElementsByTagName('a');
@@ -187,35 +217,37 @@ class SpiderZdm extends SpiderBase
     {
         $logstr = 'Replace url: ' . $url;
         $url = str_replace('.com/URL/AC/', '.com/URL/AA/', $url);
-        if (array_key_exists($url, $this->url_replace_mapping)) {
-            return $this->url_replace_mapping[$url];
+        $url = str_replace('AC_YH_93', 'AA_YH_93', $url);
+
+        if (array_key_exists($url, $this->urlReplaceCache)) {
+            return $this->urlReplaceCache[$url];
         }
         $real = $this->getRealUrl($url);
         $logstr.= ' -> ' . $real;
         // yes, we found the real url, let's replace it with own.
         if ($real != $url) {
-            $cps = parent::getCpsUrl($real);
-            $redurl = parent::getRedUrl($cps);
+            $cps = parent::replaceToCps($real);
+            $redurl = parent::getShortUrl($cps);
         } else {
             $redurl = $url;
         }
         // TODO: maybe we can find it in my redurl. try it!
 
-        $this->url_replace_mapping[$url] = $redurl;
-        $this->log($logstr . ' -> ' . $redurl);
+        $this->urlReplaceCache[$url] = $redurl;
+        Yii::info($logstr . ' -> ' . $redurl);
         return $redurl;
     }
 
 
     public function getRealUrl($url='')
     {
-        $this->switchUserAgentPc();
-        $rpage = $this->getContent($url);
+        $this->switchUserAgentToPc();
+        $rpage = $this->getHttpContent($url);
         $mtimes = preg_match_all('/return p}\(\'(.*)\',\d+,\d+,\'(.*)\'\.split/', $rpage, $m);
         // var_dump($mtimes, $rpage, $m);
         if ($mtimes < 1) {
             // TODO
-            $this->log();
+            // $this->log();
             return $url;
         } else {
             $js = self::decodeEval($m[1][0], $m[2][0]);
@@ -235,9 +267,9 @@ class SpiderZdm extends SpiderBase
             // jd
             } elseif (strpos($js, 'union.click.jd.com')) {
                 preg_match('/(http:\/\/union.click.jd.*).\\\';/', $js, $m);
-                $ua = $this->request_user_agent;
-                $this->switchUserAgentPc();
-                $jda = $this->getContent($m[1]);
+                $ua = $this->requestUserAgent;
+                $this->switchUserAgentToPc();
+                $jda = $this->getHttpContent($m[1]);
                 preg_match('/hrl=\'(.*).\' ;/', $jda, $mm);
                 if (!empty($mm[1])) {
                         $header = get_headers($mm[1], 1);
@@ -251,7 +283,7 @@ class SpiderZdm extends SpiderBase
                         ];
                         $real = preg_replace(array_keys($replacement), array_values($replacement), $mmm[1]);
                 }
-                $this->request_user_agent = $ua;
+                $this->requestUserAgent = $ua;
             } else if (strpos($js, 'http://item.jd.com/')) {
                 preg_match('/(http:\/\/item.jd.com.*).\\\';/', $js, $m);
                 $real = $m[1];
@@ -271,9 +303,14 @@ class SpiderZdm extends SpiderBase
                 $real = $m[1];
             }
 
+            else if (strpos($js, 'union.dangdang.com')) {
+                preg_match('/backurl=(.*).\';/', $js, $m);
+                $real = urldecode($m[1]);
+            }
+
             // TODO
             if (empty($real)) {
-                $this->log();
+                // $this->log();
                 $real = $url;
             }
             
