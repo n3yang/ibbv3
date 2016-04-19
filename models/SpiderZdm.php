@@ -60,6 +60,7 @@ class SpiderZdm extends SpiderBase
         }
 
         // add images
+        // nothing in new API, reomove it ?
         foreach($a['article_content_img_list'] as $k => $image_url) {
             $image_url = str_replace('_e600.jpg', '', $image_url);
 
@@ -75,7 +76,9 @@ class SpiderZdm extends SpiderBase
 
         print_r($a);
 
-
+        // set quick link
+        $quick_link = $this->replaceUrl($a['article_link']);
+        
         
         // add post and meta
         $post_content = $this->parseContent($a['article_filter_content'], '<p><a><br><span><h2><strong><b>');
@@ -190,10 +193,13 @@ return;
         if (empty($content)) {
             return '';
         }
-        yii::info('Parsing content...');
+        Yii::info('Parsing content...');
         // remove javascript
         $content = preg_replace('/<head>(.*)<\/head>/is', '', $content);
+        // remove not allowed tags
         $detail = trim(strip_tags($content, $allowedTags));
+
+        // get all tag A (link), and replace it to my short link (cps link)
         $doc = new \DOMDocument();
         @$doc->loadHTML($detail);
         $tags = $doc->getElementsByTagName('a');
@@ -205,37 +211,46 @@ return;
             if (strpos($url, 'http://www.smzdm.com/p/')===0){
                 $detail = str_replace($url, '#', $detail);
             } else {
+                // find the real url
                 $myurl = self::replaceUrl($url);
+                // in content
                 $detail = str_replace($url, $myurl, $detail);
             }
         }
 
+        // replace some text
+        $detail = str_replace('值友', '网友', $detail);
+
         return $detail;
     }
 
-    public function replaceUrl($url)
+    public function replaceUrl($url, $title = '')
     {
         $logstr = 'Replace url: ' . $url;
-        $url = str_replace('.com/URL/AC/', '.com/URL/AA/', $url);
-        $url = str_replace('AC_YH_93', 'AA_YH_93', $url);
+        // $url = str_replace('.com/URL/AC/', '.com/URL/AA/', $url);
+        $url = str_replace('AC_YH', 'AA_YH', $url);
 
         if (array_key_exists($url, $this->urlReplaceCache)) {
             return $this->urlReplaceCache[$url];
         }
         $real = $this->getRealUrl($url);
         $logstr.= ' -> ' . $real;
-        // yes, we found the real url, let's replace it with own.
+        // yes, we found the real url, let's replace it to own.
         if ($real != $url) {
             $cps = parent::replaceToCps($real);
-            $redurl = parent::getShortUrl($cps);
+            // create new short url
+            $link = parent::addLinkUniq($cps, $title);
+            $shortUrl = $link['shortUrl'];
         } else {
-            $redurl = $url;
+            $shortUrl = '';
         }
-        // TODO: maybe we can find it in my redurl. try it!
+        // TODO: maybe we can find it in my shortUrl. try it!
 
-        $this->urlReplaceCache[$url] = $redurl;
-        Yii::info($logstr . ' -> ' . $redurl);
-        return $redurl;
+        $this->urlReplaceCache[$url] = $shortUrl;
+        
+        Yii::info($logstr . ' -> ' . $shortUrl);
+
+        return $shortUrl;
     }
 
 
@@ -248,10 +263,11 @@ return;
         if ($mtimes < 1) {
             // TODO
             // $this->log();
+            Yii::warning('Fail to get encoded Javascript: ');
             return $url;
         } else {
             $js = self::decodeEval($m[1][0], $m[2][0]);
-            echo $js;
+            // echo $js;
             // yiqifa CPS平台
             if (strpos($js, 'http://p.yiqifa.com')) {
                 preg_match('/&t=(http:\/\/.*)\';/', $js, $m);
@@ -260,12 +276,14 @@ return;
                 if (strpos($real, '\\') == (strlen($real) - 1) ) {
                     $real = substr($real, 0, strlen($real) -1);
                 }
+            }
             // yhd
-            } elseif (strpos($js, 'yhd.com/')) {
+            else if (strpos($js, 'yhd.com/')) {
                 preg_match('/(http:\/\/.*)\?/', $js, $m);
                 $real = $m[1];
+            }
             // jd
-            } elseif (strpos($js, 'union.click.jd.com')) {
+            else if (strpos($js, 'union.click.jd.com')) {
                 preg_match('/(http:\/\/union.click.jd.*).\\\';/', $js, $m);
                 $ua = $this->requestUserAgent;
                 $this->switchUserAgentToPc();
@@ -287,8 +305,9 @@ return;
             } else if (strpos($js, 'http://item.jd.com/')) {
                 preg_match('/(http:\/\/item.jd.com.*).\\\';/', $js, $m);
                 $real = $m[1];
+            }
             // amazon.cn
-            } else if (strpos($js, 'amazon')) {
+            else if (strpos($js, 'amazon')) {
                 preg_match('/(http:\/\/.*).\\\';/', $js, $m);
                 $replacement = [
                     '/t=joyo01y-23/'        => '',
@@ -297,20 +316,25 @@ return;
                     '/tag=joyo01m0a-23/'    => '',
                 ];
                 $real = preg_replace(array_keys($replacement), '', $m[1]);
+            }
             // suning.com
-            } else if (strpos($js, 'union.suning.com')) {
+            else if (strpos($js, 'union.suning.com')) {
                 preg_match('/vistURL=(.*).\';/', $js, $m);
                 $real = $m[1];
             }
-
+            // dangdang.com
             else if (strpos($js, 'union.dangdang.com')) {
                 preg_match('/backurl=(.*).\';/', $js, $m);
                 $real = urldecode($m[1]);
             }
-
-            // TODO
-            if (empty($real)) {
-                // $this->log();
+            // m.dangdang.com
+            else if (strpos($js, 'm.dangdang.com')) {
+                preg_match("/smzdmhref=\\\\'(.*).\';/", $js, $m);
+                $real = str_replace('&unionid=p-326920m-ACYH93', '', $m[1]);
+            }
+            // default 
+            else {
+                Yii::warning('Fail to get real url, JS: ' . $js);
                 $real = $url;
             }
             

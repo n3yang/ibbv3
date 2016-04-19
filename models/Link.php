@@ -151,10 +151,5 @@ class Link extends \yii\db\ActiveRecord
         return static::findOne(['slug' => $slug]);
     }
 
-    public static function activeCreate()
-    {
-        if (empty($this->slug)) {
-            $this->slug = Link::generateSlug($this->url);
-        }
-    }
+
 }

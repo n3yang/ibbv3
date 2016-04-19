@@ -89,6 +89,25 @@ class SpiderBase extends \yii\base\Component
         }
     }
 
+    public static function addLinkUniq($url, $name = '')
+    {
+        $slug = Link::generateSlug($url);
+        
+        $link = Link::findBySlug($slug);
+        if (!$link) {
+            $link->url  = $url;
+            $link->name = $name;
+            $link->slug = $slug;
+            $link->save();
+        }
+
+        return [
+            'url'      => $link->url,
+            'slug'     => $link->slug,
+            'shortUrl' => static::getShortUrl($link->slug)
+        ];
+    }
+
     /**
      * 使用http get方式获取连接地址内容
      * @param  string $url     链接地址
