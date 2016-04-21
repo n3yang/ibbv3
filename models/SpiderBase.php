@@ -11,6 +11,7 @@ use yii\helpers\FileHelper;
 
 use app\models\Offer;
 use app\models\File;
+use app\models\Link;
 /**
  * Spider Base Class
  */
@@ -50,7 +51,7 @@ class SpiderBase extends \yii\base\Component
     }
 
 
-    public function addRemoteFile($url, $referer = '', $parent_id = '', $desc = '')
+    public function addRemoteFile($url, $referer = '', $name = '' )
     {
 
         $tempfile = '/tmp/' . basename($url);
@@ -82,6 +83,7 @@ class SpiderBase extends \yii\base\Component
             return [
                 'id'  => $fileModel->id,
                 'url' => Yii::$aliases['@uploadUrl'] . '/' . $fileModel->path,
+                'name' => $name,
             ];
         } else {
             yii::warning('Fail to upload by local');
@@ -94,7 +96,9 @@ class SpiderBase extends \yii\base\Component
         $slug = Link::generateSlug($url);
         
         $link = Link::findBySlug($slug);
+
         if (!$link) {
+            $link = new Link;
             $link->url  = $url;
             $link->name = $name;
             $link->slug = $slug;
@@ -104,7 +108,7 @@ class SpiderBase extends \yii\base\Component
         return [
             'url'      => $link->url,
             'slug'     => $link->slug,
-            'shortUrl' => static::getShortUrl($link->slug)
+            'shortUrl' => Link::getSiteShortUrl($link->slug)
         ];
     }
 
@@ -200,9 +204,4 @@ class SpiderBase extends \yii\base\Component
             return 'http://c.duomai.com/track.php?site_id=149193&aid='.$aid.'&euid=&t=' . urlencode($url);
     }
 
-    public static function getShortUrl($url)
-    {
-        $slug = Link::generateSlug($url);
-        return '/link/goto/' . $slug;
-    }
 }

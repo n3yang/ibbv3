@@ -33,6 +33,7 @@ class Offer extends \yii\db\ActiveRecord
     const B2C_SUNING = 3;
     const B2C_GOME = 4;
     const B2C_MIYA = 5;
+    const B2C_DANGDANG = 6;
 
     const SITE_ZDM = 1;
     const SITE_ZDMFX = 2;
@@ -121,6 +122,7 @@ class Offer extends \yii\db\ActiveRecord
             self::B2C_SUNING => '苏宁',
             self::B2C_GOME => '国美',
             self::B2C_MIYA => '蜜牙',
+            self::B2C_DANGDANG => '当当',
         ];
         return $b2c == '' ? $labels : $labels[$b2c];
     }

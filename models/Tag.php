@@ -18,6 +18,34 @@ use yii\behaviors\TimestampBehavior;
  */
 class Tag extends \yii\db\ActiveRecord
 {
+
+
+// insert into tag values
+// ('11','奶粉牛奶','naifenniunai', NOW(), NOW()),
+// ('12','营养辅食','yingyangfushi', NOW(), NOW()),
+// ('13','尿裤湿巾','niaokushijin', NOW(), NOW()),
+// ('14','洗护用品','xihuyongpin', NOW(), NOW()),
+// ('15','喂养用品','weiyangyongpin', NOW(), NOW()),
+// ('16','家纺服饰','jiafangfushi', NOW(), NOW()),
+// ('17','玩具乐器','wanjuyueqi', NOW(), NOW()),
+// ('18','童车童床','tongchetongchuang', NOW(), NOW()),
+// ('19','童装童鞋','tongzhuangtongxie', NOW(), NOW()),
+// ('20','安全座椅','anquanzuoyi', NOW(), NOW()),
+// ('21','妈妈用品','mamayongpin', NOW(), NOW());
+    static $reservedTag = [
+        '11'  => ['name' => '奶粉牛奶', 'slug' => 'naifenniunai'],
+        '12'  => ['name' => '营养辅食', 'slug' => 'yingyangfushi'],
+        '13'  => ['name' => '尿裤湿巾', 'slug' => 'niaokushijin'],
+        '14'  => ['name' => '洗护用品', 'slug' => 'xihuyongpin'],
+        '15'  => ['name' => '喂养用品', 'slug' => 'weiyangyongpin'],
+        '16'  => ['name' => '家纺服饰', 'slug' => 'jiafangfushi'],
+        '17'  => ['name' => '玩具乐器', 'slug' => 'wanjuyueqi'],
+        '18'  => ['name' => '童车童床', 'slug' => 'tongchetongchuang'],
+        '19'  => ['name' => '童装童鞋', 'slug' => 'tongzhuangtongxie'],
+        '20'  => ['name' => '安全座椅', 'slug' => 'anquanzuoyi'],
+        '21'  => ['name' => '妈妈用品', 'slug' => 'mamayongpin'],
+    ];
+
     /**
      * @inheritdoc
      */

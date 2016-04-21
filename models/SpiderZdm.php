@@ -51,6 +51,7 @@ class SpiderZdm extends SpiderBase
             return array();
         } else {
             $a = $rdata['data'];
+            $newOffer['fetched_from'] = $url . '?' . http_build_query($reqData);
         }
 
         // pass invalid articles
@@ -64,7 +65,7 @@ class SpiderZdm extends SpiderBase
         foreach($a['article_content_img_list'] as $k => $image_url) {
             $image_url = str_replace('_e600.jpg', '', $image_url);
 
-            $post_image = parent::addRemoteFile($image_url, 'http://www.smzdm.com', '', $a['article_title']);
+            $post_image = parent::addRemoteFile($image_url, 'http://www.smzdm.com', $a['article_title']);
             Yii::info('Fetch image: ' . $post_image['id']);
 
             $post_images[] = $post_image;
@@ -74,54 +75,56 @@ class SpiderZdm extends SpiderBase
             }
         }
 
-        print_r($a);
-
         // set quick link
-        $quick_link = $this->replaceUrl($a['article_link']);
-        
-        
-        // add post and meta
+        $quickLink = $this->replaceUrl($a['article_link'], $a['article_title']);
+        preg_match("/([\w]+)$/", $quickLink, $matches);
+        $newOffer['link_slug'] = $matches[1];
+
+        // the content
         $post_content = $this->parseContent($a['article_filter_content'], '<p><a><br><span><h2><strong><b>');
-echo $post_content;
-return;
-        $post = array(
-            'post_author'   => $this->post_author_id,
-            'post_content'  => $post_content, // (mixed) The post content. Default empty.
-            'post_title'    => $a['article_title'], // (string) The post title. Default empty.
-            'post_excerpt'  => '', // (string) The post excerpt. Default empty.
-            'post_status'   => 'draft', // (string) The post status. Default 'draft'.
-            'post_date'     => date('Y-m-d H:i:s'),
-        );
-        $meta = array(
-            'product_price' => $a['article_price'],
-            'product_band'  => $a['article_brand'],
-            'product_url'   => $this->replaceUrl($a['article_link']),
-            'article_from'  => $a['article_url'],
-            'show_attach'   => json_encode($post_images_ids),
-        );
-        $post_id = parent::addPost($post, $meta);
-        if (!$post_id) {
-            $this->log();
+
+        // set property
+        $newOffer['title']      = $a['article_title'];
+        $newOffer['content']    = $post_content;
+        $newOffer['price']      = $a['article_price'];
+        $newOffer['site']       = Offer::SITE_ZDM;
+        $newOffer['b2c']        = '';
+        $newOffer['status']     = Offer::STATUS_DRAFT;
+
+        // fetch thumbnail
+        $thumbnail = parent::addRemoteFile($a['article_pic'], 'http://www.smzdm.com', $a['article_title']);
+        $newOffer['thumb_file_id'] = $thumbnail['id'];
+
+
+        if (!parent::addOffer($newOffer)) {
+            Yii::warning('Fail to save new offer. offer: ' . var_export($newOffer, 1) );
             return false;
         }
-        // set thumbnail
-        if (!empty($post_images)){
-            parent::setPostThumbnail($post_id, $post_images[0]['id']);
-            foreach ($post_images as $k => $v) {
-                parent::updatePost(['ID'=>$v['id'], 'post_parent'=>$post_id]);
-            }
+
+
+        $offerModel = new Offer;
+        while ( list($key, $value) = each($newOffer) ) {
+            $offerModel->{$key} = $value;
         }
+        
+        $offerModel->save();
+
+
 
         // set category
         if ($a['article_category']['ID'] == '93') {
-            $category_id = $this->default_toy_category_id;
+            $tagId = '17';
         } else if ($a['article_category']['ID'] == '147'){
-            $category_id = 18;
+            $tagId = '20';
         } else {
-            $category_id = $this->default_category_id;
+            $tagId = '';
         }
-        parent::setPostCategory($post_id, $category_id);
 
+        if ($tagId) {
+            $offerModel->link('tags', Tag::findOne($tagId));
+        }
+
+        return ;
 
     }
 
@@ -362,5 +365,12 @@ return;
     public function switchUserAgentToPc()
     {
         $this->requestUserAgent = self::USER_AGENT;
+    }
+
+    public static function convertB2cId($id='')
+    {
+        return [
+            '153'   => Offer::B2C_DANGDANG
+        ];
     }
 }

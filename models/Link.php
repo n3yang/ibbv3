@@ -151,5 +151,9 @@ class Link extends \yii\db\ActiveRecord
         return static::findOne(['slug' => $slug]);
     }
 
-
+    public static function getSiteShortUrl($url)
+    {
+        $slug = self::generateSlug($url);
+        return '/link/goto/' . $slug;
+    }
 }
