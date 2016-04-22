@@ -45,11 +45,9 @@ class SpiderController extends Controller
         // $f = $spider->addRemoteFile('http://eimg.smzdm.com/201604/16/5712393eab6aa9184.png');
         // var_dump($f);
 
-        // $spider->syncArticle();
-        $file = File::getUrlById(15);
-        $file = File::getUrlById(15);
-        $file = File::getUrlById(15);
-        var_dump($file);        
+        $spider->syncArticle();
+        // $file = File::getUrlById(15);
+        // var_dump($file);
     }
 
 
