@@ -93,7 +93,7 @@ class Link extends \yii\db\ActiveRecord
      */
     public function search($params)
     {
-        $query = Link::find();
+        $query = Link::find()->orderBy('id DESC');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
