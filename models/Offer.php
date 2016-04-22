@@ -7,8 +7,6 @@ use yii\db\Expression;
 use yii\behaviors\TimestampBehavior;
 
 /**
- * ALTER TABLE `ibaobr`.`offer` ADD COLUMN `excerpt` text AFTER `content`;
- * 
  * This is the model class for table "offer".
  *
  * @property string $id

@@ -47,7 +47,7 @@ class SpiderZdm extends SpiderBase
         $last['action_time'] = date('Y-m-d H:i:s');
 
         Yii::$app->cache->set(self::SYNC_CACHE_KEY, $last);
-        Yii::info('Syncing Finished.');
+        Yii::info('Syncing Finished. ' . json_encode($last));
 
         return true;
     }

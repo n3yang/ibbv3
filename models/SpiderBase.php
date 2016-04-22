@@ -79,6 +79,7 @@ class SpiderBase extends \yii\base\Component
         }
 
         // move to app upload dir and remove tempfile
+        // if the file had been uploaded by spider, just read from DB
         $fileModel = File::findOneByMd5($contentHash);
         if ( $fileModel && $fileModel->user_id=='' ) {
             unlink($tempfile);
@@ -87,8 +88,9 @@ class SpiderBase extends \yii\base\Component
                 'url'   => Yii::$aliases['@uploadUrl'] . '/' . $fileModel->path,
                 'name'  => $fileModel->name,
             ];
+        } else {
+            $fileModel = new File;
         }
-
         
         if ( $fileModel->uploadByLocal($tempfile, true) && $fileModel->save() ) {
             return [

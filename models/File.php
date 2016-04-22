@@ -173,9 +173,16 @@ class File extends \yii\db\ActiveRecord
         return static::findOne(['md5' => $hash]);
     }
 
-    public static function getUrl()
+    public static function getUrlById($id)
     {
-        # code...
+        // doesnt work ?
+        // $file = static::getDb()->cache(function($db) use($id){
+        //     return static::find()->where(['id' => $id])->one();
+        // });
+        // return Yii::getAlias('@uploadUrl') . '/' . $file->path;
+        
+        $file = static::findOne($id)->toArray();
+        return Yii::getAlias('@uploadUrl') . '/' . $file['path'];
     }
 
     /**

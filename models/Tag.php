@@ -19,19 +19,20 @@ use yii\behaviors\TimestampBehavior;
 class Tag extends \yii\db\ActiveRecord
 {
 
-
-// insert into tag values
-// ('11','奶粉牛奶','naifenniunai', NOW(), NOW()),
-// ('12','营养辅食','yingyangfushi', NOW(), NOW()),
-// ('13','尿裤湿巾','niaokushijin', NOW(), NOW()),
-// ('14','洗护用品','xihuyongpin', NOW(), NOW()),
-// ('15','喂养用品','weiyangyongpin', NOW(), NOW()),
-// ('16','家纺服饰','jiafangfushi', NOW(), NOW()),
-// ('17','玩具乐器','wanjuyueqi', NOW(), NOW()),
-// ('18','童车童床','tongchetongchuang', NOW(), NOW()),
-// ('19','童装童鞋','tongzhuangtongxie', NOW(), NOW()),
-// ('20','安全座椅','anquanzuoyi', NOW(), NOW()),
-// ('21','妈妈用品','mamayongpin', NOW(), NOW());
+/*
+insert into tag values
+    ('11','奶粉牛奶','naifenniunai', NOW(), NOW()),
+    ('12','营养辅食','yingyangfushi', NOW(), NOW()),
+    ('13','尿裤湿巾','niaokushijin', NOW(), NOW()),
+    ('14','洗护用品','xihuyongpin', NOW(), NOW()),
+    ('15','喂养用品','weiyangyongpin', NOW(), NOW()),
+    ('16','家纺服饰','jiafangfushi', NOW(), NOW()),
+    ('17','玩具乐器','wanjuyueqi', NOW(), NOW()),
+    ('18','童车童床','tongchetongchuang', NOW(), NOW()),
+    ('19','童装童鞋','tongzhuangtongxie', NOW(), NOW()),
+    ('20','安全座椅','anquanzuoyi', NOW(), NOW()),
+    ('21','妈妈用品','mamayongpin', NOW(), NOW());
+*/
     static $reservedTag = [
         '11'  => ['name' => '奶粉牛奶', 'slug' => 'naifenniunai'],
         '12'  => ['name' => '营养辅食', 'slug' => 'yingyangfushi'],
