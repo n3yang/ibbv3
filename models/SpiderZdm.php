@@ -14,6 +14,7 @@ use app\models\SpiderBase;
 class SpiderZdm extends SpiderBase
 {
 
+    const SYNC_CACHE_KEY = 'SPIDER_ZDM_SYNC_STATE'; 
     /**
      * Valid Category Ids
      * @var array
@@ -28,10 +29,35 @@ class SpiderZdm extends SpiderBase
     }
 
 
+    public function syncArticle()
+    {
+        Yii::info('Syncing Article...');
+
+        $last = Yii::$app->cache->get(self::SYNC_CACHE_KEY);
+        $list = $this->fetchList();
+        foreach ($list as $r) {
+            $maxId = $r['article_id'] > $maxId ? $r['article_id'] : $maxId;
+            if ($r['article_id'] <= $last['article_id']) {
+                continue;
+            }
+            $this->fetchArticle($r['article_id']);
+        }
+        $last['article_id'] = $maxId;
+        $last['action_time'] = date('Y-m-d H:i:s');
+
+        Yii::$app->cache->set(self::SYNC_CACHE_KEY, $last);
+        Yii::info('Syncing Finished.');
+
+        return true;
+    }
+
+
+
+
     public function fetchArticle($id)
     {
 
-        Yii::info('Fetch article: ' . $a['article_id']);
+        Yii::info('Fetch article: ' . $id);
 
         $this->switchUserAgentToMobile();
         // build request data & get result
@@ -88,44 +114,28 @@ class SpiderZdm extends SpiderBase
         $newOffer['content']    = $post_content;
         $newOffer['price']      = $a['article_price'];
         $newOffer['site']       = Offer::SITE_ZDM;
-        $newOffer['b2c']        = '';
-        $newOffer['status']     = Offer::STATUS_DRAFT;
+        $newOffer['b2c']        = self::convertMallId($a['article_mall_id']);
+        $newOffer['status']     = empty($newOffer['link_slug']) ? Offer::STATUS_DRAFT : Offer::STATUS_PUBLISHED;
 
         // fetch thumbnail
         $thumbnail = parent::addRemoteFile($a['article_pic'], 'http://www.smzdm.com', $a['article_title']);
         $newOffer['thumb_file_id'] = $thumbnail['id'];
 
-
-        if (!parent::addOffer($newOffer)) {
-            Yii::warning('Fail to save new offer. offer: ' . var_export($newOffer, 1) );
-            return false;
-        }
-
-
+        // create new offer
         $offerModel = new Offer;
         while ( list($key, $value) = each($newOffer) ) {
             $offerModel->{$key} = $value;
         }
-        
         $offerModel->save();
 
-
-
         // set category
-        if ($a['article_category']['ID'] == '93') {
-            $tagId = '17';
-        } else if ($a['article_category']['ID'] == '147'){
-            $tagId = '20';
-        } else {
-            $tagId = '';
-        }
 
+        $tagId = self::convertCategoryId($a['article_category']['ID']);
         if ($tagId) {
             $offerModel->link('tags', Tag::findOne($tagId));
         }
 
-        return ;
-
+        return true;
     }
 
     /**
@@ -273,7 +283,7 @@ class SpiderZdm extends SpiderBase
             // echo $js;
             // yiqifa CPS平台
             if (strpos($js, 'http://p.yiqifa.com')) {
-                preg_match('/&t=(http:\/\/.*)\';/', $js, $m);
+                preg_match('/&t=(https?:\/\/.*)\';/', $js, $m);
                 $real = $m[1];
                 // remove last '\'
                 if (strpos($real, '\\') == (strlen($real) - 1) ) {
@@ -282,7 +292,7 @@ class SpiderZdm extends SpiderBase
             }
             // yhd
             else if (strpos($js, 'yhd.com/')) {
-                preg_match('/(http:\/\/.*)\?/', $js, $m);
+                preg_match('/(https?:\/\/.*)\?/', $js, $m);
                 $real = $m[1];
             }
             // jd
@@ -311,7 +321,7 @@ class SpiderZdm extends SpiderBase
             }
             // amazon.cn
             else if (strpos($js, 'amazon')) {
-                preg_match('/(http:\/\/.*).\\\';/', $js, $m);
+                preg_match("/(https?:\/\/.*).\\\';/", $js, $m);
                 $replacement = [
                     '/t=joyo01y-23/'        => '',
                     '/tag=joyo01y-23/'      => '',
@@ -367,10 +377,33 @@ class SpiderZdm extends SpiderBase
         $this->requestUserAgent = self::USER_AGENT;
     }
 
-    public static function convertB2cId($id='')
+    public static function convertMallId($mallId='')
     {
-        return [
-            '153'   => Offer::B2C_DANGDANG
+        $mapping = [
+            '153'   => Offer::B2C_DANGDANG,
+            '269'   => Offer::B2C_AMAZONCN,
+            '183'   => Offer::B2C_JD,
         ];
+        if (!isset($mapping[$mallId])) {
+            Yii::warning('Fail to convert mall id: ' . $mallId);
+            return '';
+        } else {
+            return $mapping[$mallId];
+        }
+    }
+
+    public static function convertCategoryId($categoryId='')
+    {
+        $mapping = [
+            '93'    => '17',
+            '75'    => '12',
+            '147'   => '20',
+        ];
+        if (!isset($mapping[$categoryId])) {
+            Yii::warning('Fail to convert category id: ' . $categoryId);
+            return '';
+        } else {
+            return $mapping[$categoryId];
+        }
     }
 }
