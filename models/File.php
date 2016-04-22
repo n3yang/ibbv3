@@ -168,7 +168,7 @@ class File extends \yii\db\ActiveRecord
         }
     }
 
-    public static function findByMd5($hash)
+    public static function findOneByMd5($hash)
     {
         return static::findOne(['md5' => $hash]);
     }

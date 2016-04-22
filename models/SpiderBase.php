@@ -58,6 +58,7 @@ class SpiderBase extends \yii\base\Component
         // get file
         $curlopt = [CURLOPT_REFERER=>$referer];
         $content = $this->getHttpContent($url, '', $curlopt);
+        $contentHash = md5($content);
         if ( file_put_contents($tempfile, $content) < 1 ) {
             Yii::warning('Fail to save remote tempfile');
             return false;
@@ -78,7 +79,17 @@ class SpiderBase extends \yii\base\Component
         }
 
         // move to app upload dir and remove tempfile
-        $fileModel = new File;
+        $fileModel = File::findOneByMd5($contentHash);
+        if ( $fileModel && $fileModel->user_id=='' ) {
+            unlink($tempfile);
+            return [
+                'id'    => $fileModel->id,
+                'url'   => Yii::$aliases['@uploadUrl'] . '/' . $fileModel->path,
+                'name'  => $fileModel->name,
+            ];
+        }
+
+        
         if ( $fileModel->uploadByLocal($tempfile, true) && $fileModel->save() ) {
             return [
                 'id'  => $fileModel->id,
