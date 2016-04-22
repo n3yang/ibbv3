@@ -35,12 +35,13 @@ class SpiderZdm extends SpiderBase
 
         $last = Yii::$app->cache->get(self::SYNC_CACHE_KEY);
         $list = $this->fetchList();
+
         foreach ($list as $r) {
             $maxId = $r['article_id'] > $maxId ? $r['article_id'] : $maxId;
             if ($r['article_id'] <= $last['article_id']) {
                 continue;
             }
-            $this->fetchArticle($r['article_id']);
+            $this->fetchArticle($r['article_id'], $r['article_filter_content']);
         }
         $last['article_id'] = $maxId;
         $last['action_time'] = date('Y-m-d H:i:s');
@@ -54,7 +55,7 @@ class SpiderZdm extends SpiderBase
 
 
 
-    public function fetchArticle($id)
+    public function fetchArticle($id, $excerpt = '')
     {
 
         Yii::info('Fetch article: ' . $id);
@@ -116,6 +117,7 @@ class SpiderZdm extends SpiderBase
         $newOffer['site']       = Offer::SITE_ZDM;
         $newOffer['b2c']        = self::convertMallId($a['article_mall_id']);
         $newOffer['status']     = empty($newOffer['link_slug']) ? Offer::STATUS_DRAFT : Offer::STATUS_PUBLISHED;
+        $newOffer['excerpt']    = $excerpt;
 
         // fetch thumbnail
         $thumbnail = parent::addRemoteFile($a['article_pic'], 'http://www.smzdm.com', $a['article_title']);

@@ -39,13 +39,13 @@ class SpiderController extends Controller
         // $list = $spider->fetchList('75, 93, 147', 2);
         // var_dump($list);
         // $article = $spider->fetchArticle(6089338);
-        $article = $spider->fetchArticle(6100889);
+        // $article = $spider->fetchArticle(6100889);
         // var_dump($article);
 
         // $f = $spider->addRemoteFile('http://eimg.smzdm.com/201604/16/5712393eab6aa9184.png');
         // var_dump($f);
 
-        // $spider->syncArticle();
+        $spider->syncArticle();
         
     }
 
