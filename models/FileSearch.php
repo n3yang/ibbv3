@@ -41,7 +41,7 @@ class FileSearch extends File
      */
     public function search($params)
     {
-        $query = File::find();
+        $query = File::find()->orderBy('id DESC');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

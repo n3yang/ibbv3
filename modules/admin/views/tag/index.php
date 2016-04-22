@@ -19,14 +19,10 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Create Tag', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?echo Yii::getAlias('@upload');?>
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
             'id',
             'name',
             'slug',
