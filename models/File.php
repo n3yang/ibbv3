@@ -159,10 +159,18 @@ class File extends \yii\db\ActiveRecord
             $this->size = filesize($targetFile);
             $this->mime = FileHelper::getMimeType($file);
             $this->md5  = md5(file_get_contents($targetFile));
+            if ( $removeFile ) {
+                unlink($file);
+            }
             return true;
         } else {
             return false;
         }
+    }
+
+    public static function findByMd5($hash)
+    {
+        return static::findOne(['md5' => $hash]);
     }
 
     public static function getUrl()
