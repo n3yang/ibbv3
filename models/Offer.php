@@ -7,11 +7,14 @@ use yii\db\Expression;
 use yii\behaviors\TimestampBehavior;
 
 /**
+ * ALTER TABLE `ibaobr`.`offer` ADD COLUMN `excerpt` text AFTER `content`;
+ * 
  * This is the model class for table "offer".
  *
  * @property string $id
  * @property string $title
  * @property string $content
+ * @property string $excerpt
  * @property string $price
  * @property integer $thumb_file_id
  * @property string $link_slug
@@ -34,6 +37,7 @@ class Offer extends \yii\db\ActiveRecord
     const B2C_GOME = 4;
     const B2C_MIYA = 5;
     const B2C_DANGDANG = 6;
+    const B2C_AMAZONCN = 7;
 
     const SITE_ZDM = 1;
     const SITE_ZDMFX = 2;
@@ -71,6 +75,7 @@ class Offer extends \yii\db\ActiveRecord
             'id' => 'ID',
             'title' => '标题',
             'content' => '内容',
+            'excerpt'   => '摘要',
             'price' => '价格',
             'thumb_file_id' => 'File ID',
             'link_slug' => '链接地址',
@@ -123,6 +128,7 @@ class Offer extends \yii\db\ActiveRecord
             self::B2C_GOME => '国美',
             self::B2C_MIYA => '蜜牙',
             self::B2C_DANGDANG => '当当',
+            self::B2C_AMAZONCN => '亚马逊',
         ];
         return $b2c == '' ? $labels : $labels[$b2c];
     }
