@@ -22,6 +22,7 @@ use yii\data\ActiveDataProvider;
 class Link extends \yii\db\ActiveRecord
 {
 
+    const SCENARIO_SEARCH = 'search';
 
     public function __construct()
     {
@@ -47,7 +48,7 @@ class Link extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['url'], 'required'],
+            [['url'], 'required', 'on'=> self::SCENARIO_DEFAULT],
             [['url'], 'string'],
             [['click'], 'integer'],
             [['url'], 'url'],
@@ -84,6 +85,13 @@ class Link extends \yii\db\ActiveRecord
         ];
     }
 
+    public function scenarios()
+    {
+        return [
+            self::SCENARIO_SEARCH => ['id', 'name', 'slug', 'url', 'click'],
+        ];
+    }
+
     /**
      * Creates data provider instance with search query applied
      *
@@ -93,11 +101,14 @@ class Link extends \yii\db\ActiveRecord
      */
     public function search($params)
     {
+
         $query = Link::find()->orderBy('id DESC');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+        $this->scenario = self::SCENARIO_SEARCH;
 
         $this->load($params);
 
@@ -146,7 +157,7 @@ class Link extends \yii\db\ActiveRecord
      * @param  string $slug 
      * @return static|null
      */
-    public function findBySlug($slug)
+    public static function findOneBySlug($slug)
     {
         return static::findOne(['slug' => $slug]);
     }

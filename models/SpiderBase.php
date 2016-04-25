@@ -108,7 +108,7 @@ class SpiderBase extends \yii\base\Component
     {
         $slug = Link::generateSlug($url);
         
-        $link = Link::findBySlug($slug);
+        $link = Link::findOneBySlug($slug);
 
         if (!$link) {
             $link = new Link;
