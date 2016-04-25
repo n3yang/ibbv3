@@ -36,6 +36,7 @@ class Offer extends \yii\db\ActiveRecord
     const B2C_MIYA = 5;
     const B2C_DANGDANG = 6;
     const B2C_AMAZONCN = 7;
+    const B2C_AMAZONBB = 8;
 
     const SITE_ZDM = 1;
     const SITE_ZDMFX = 2;
@@ -79,6 +80,7 @@ class Offer extends \yii\db\ActiveRecord
             'link_slug' => '链接地址',
             'site' => '抓取网站',
             'b2c' => '商城',
+            'fetched_from'  => 'From',
             'created_at' => '添加时间',
             'updated_at' => '修改时间',
             'status' => '状态',
@@ -127,6 +129,7 @@ class Offer extends \yii\db\ActiveRecord
             self::B2C_MIYA => '蜜牙',
             self::B2C_DANGDANG => '当当',
             self::B2C_AMAZONCN => '亚马逊',
+            self::B2C_AMAZONBB => '亚马逊海外购',
         ];
         return $b2c == '' ? $labels : $labels[$b2c];
     }

@@ -16,6 +16,8 @@ use app\models\tag;
 
     <?= $form->field($model, 'title')->textInput() ?>
 
+    <?= $form->field($model, 'excerpt')->textarea(['rows' => 4]) ?>
+
     <?= $form->field($model, 'content')->textarea(['rows' => 6]) ?>
 
     <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
