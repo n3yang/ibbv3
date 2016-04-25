@@ -329,6 +329,7 @@ class SpiderZdm extends SpiderBase
                     '/tag=joyo01y-23/'      => '',
                     '/t=joyo01m0a-23/'      => '',
                     '/tag=joyo01m0a-23/'    => '',
+                    '/tag=joyo01y-2/'       => '',
                 ];
                 $real = preg_replace(array_keys($replacement), '', $m[1]);
             }
