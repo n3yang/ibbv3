@@ -159,7 +159,20 @@ class Link extends \yii\db\ActiveRecord
      */
     public static function findOneBySlug($slug)
     {
-        return static::findOne(['slug' => $slug]);
+        /*
+        return static::getDb()->cache(function ($db) use ($slug){
+            return static::findOne(['slug' => $slug]);
+        });
+        */
+        $key = __CLASS__ . __METHOD__ . $slug;
+
+        if ( !Yii::$app->cache->exists($key) ) {
+            $value = static::findOne(['slug' => $slug]);
+            Yii::$app->cache->set($key, $value, 3600);
+        } else {
+            $value = Yii::$app->cache->get($key);
+        }
+        return $value;
     }
 
     public static function getSiteShortUrl($url)
