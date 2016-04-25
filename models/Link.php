@@ -88,6 +88,7 @@ class Link extends \yii\db\ActiveRecord
     public function scenarios()
     {
         return [
+            self::SCENARIO_DEFAULT => array_keys(self::attributeLabels()),
             self::SCENARIO_SEARCH => ['id', 'name', 'slug', 'url', 'click'],
         ];
     }

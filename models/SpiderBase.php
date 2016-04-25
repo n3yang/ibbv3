@@ -36,13 +36,21 @@ class SpiderBase extends \yii\base\Component
      * @param array  $offer  
      * @param array  $tagIds [description]
      */
-    public function addOffer($data, $tagIds = [])
+    public function addOffer($newOffer, $tagIds = [])
     {
         $offer = new Offer;
-        foreach ($data as $k=>$v){
-            $offer->$k = $v;
+        while ( list($key, $value) = each($newOffer) ) {
+            $offer->{$key} = $value;
         }
-        return $offer->save();
+        
+        if ($offer->save()) {
+            foreach ($tagIds as $tagId) {
+                $offer->link('tags', Tag::findOne($tagId));
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function addFile()

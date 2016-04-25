@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\httpclient\Client;
+use yii\helpers\ArrayHelper;
 // use yii\httpclient\
 use app\models\SpiderBase;
 
@@ -22,6 +23,10 @@ class SpiderZdm extends SpiderBase
     public static $validCategoryIds = ['75', '93', '147'];
 
     public $urlReplaceCache = [];
+
+    public $dataList = [];
+    public $dataArticle = [];
+
 
     public function __construct()
     {
@@ -41,7 +46,7 @@ class SpiderZdm extends SpiderBase
             if ($r['article_id'] <= $last['article_id']) {
                 continue;
             }
-            $this->fetchArticle($r['article_id'], $r['article_filter_content']);
+            $this->fetchArticle($r['article_id']);
         }
         $last['article_id'] = $maxId;
         $last['action_time'] = date('Y-m-d H:i:s');
@@ -55,7 +60,7 @@ class SpiderZdm extends SpiderBase
 
 
 
-    public function fetchArticle($id, $excerpt = '')
+    public function fetchArticle($id)
     {
 
         Yii::info('Fetch article: ' . $id);
@@ -78,6 +83,7 @@ class SpiderZdm extends SpiderBase
             return array();
         } else {
             $a = $rdata['data'];
+            $this->dataArticle[$id] = $a;
             $newOffer['fetched_from'] = $url . '?' . http_build_query($reqData);
         }
 
@@ -110,32 +116,28 @@ class SpiderZdm extends SpiderBase
         // the content
         $post_content = $this->parseContent($a['article_filter_content'], '<p><a><br><span><h2><strong><b>');
 
+        // b2c id
+        $b2c = self::convertMallId($a['article_mall_id']);
+        if (!$b2c) {
+            Yii::warning('Fail to convert mall: ' . $a['article_mall']);
+        }
         // set property
         $newOffer['title']      = $a['article_title'];
         $newOffer['content']    = $post_content;
         $newOffer['price']      = $a['article_price'];
         $newOffer['site']       = Offer::SITE_ZDM;
-        $newOffer['b2c']        = self::convertMallId($a['article_mall_id']);
+        $newOffer['b2c']        = $b2c;
         $newOffer['status']     = empty($newOffer['link_slug']) ? Offer::STATUS_DRAFT : Offer::STATUS_PUBLISHED;
-        $newOffer['excerpt']    = $excerpt;
+        $newOffer['excerpt']    = !empty($this->dataList[$id]) ? $this->dataList[$id]['article_filter_content'] : '';
 
         // fetch thumbnail
-        $thumbnail = parent::addRemoteFile($a['article_pic'], 'http://www.smzdm.com', $a['article_title']);
+        $thumbnail = $this->addRemoteFile($a['article_pic'], 'http://www.smzdm.com', $a['article_title']);
         $newOffer['thumb_file_id'] = $thumbnail['id'];
 
-        // create new offer
-        $offerModel = new Offer;
-        while ( list($key, $value) = each($newOffer) ) {
-            $offerModel->{$key} = $value;
-        }
-        $offerModel->save();
-
-        // set category
-
+        // get category
         $tagId = self::convertCategoryId($a['article_category']['ID']);
-        if ($tagId) {
-            $offerModel->link('tags', Tag::findOne($tagId));
-        }
+
+        $this->addOffer($newOffer, [$tagId]);
 
         return true;
     }
@@ -193,7 +195,8 @@ class SpiderZdm extends SpiderBase
 
         if ($rdata['error_code'] == 0) {
             Yii::info('Fetch ' . count($rdata['data']['rows']) . ' rows');
-            return $rdata['data']['rows'];
+            $this->dataList = ArrayHelper::index($rdata['data']['rows'], 'article_id');
+            return $this->dataList;
         } else {
             // log warning
             Yii::warning('Fail to fetch list. API return: ' . var_export($rdata, 1));
@@ -330,6 +333,8 @@ class SpiderZdm extends SpiderBase
                     '/t=joyo01m0a-23/'      => '',
                     '/tag=joyo01m0a-23/'    => '',
                     '/tag=joyo01y-2/'       => '',
+                    '/tag=joyohwg23-2/'     => '',
+                    '/t=joyohwg23-23/'      => '',
                 ];
                 $real = preg_replace(array_keys($replacement), '', $m[1]);
             }
@@ -347,6 +352,11 @@ class SpiderZdm extends SpiderBase
             else if (strpos($js, 'm.dangdang.com')) {
                 preg_match("/smzdmhref=\\\\'(.*).\';/", $js, $m);
                 $real = str_replace('&unionid=p-326920m-ACYH93', '', $m[1]);
+            }
+            // taobao
+            else if (strpos($js, 's.click.taobao.com')) {
+                preg_match("/smzdmhref=\\\\'(.*).\';/", $js, $m);
+                $real = $m[1];
             }
             // default 
             else {
@@ -386,6 +396,8 @@ class SpiderZdm extends SpiderBase
             '153'   => Offer::B2C_DANGDANG,
             '269'   => Offer::B2C_AMAZONCN,
             '183'   => Offer::B2C_JD,
+            '247'   => Offer::B2C_TMALL,
+            '4033'  => Offer::B2C_AMAZONBB,
         ];
         if (!isset($mapping[$mallId])) {
             Yii::warning('Fail to convert mall id: ' . $mallId);
