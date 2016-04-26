@@ -41,10 +41,11 @@ class TagSearch extends Tag
      */
     public function search($params)
     {
-        $query = Tag::find()->orderBy('id DESC');;
+        $query = Tag::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'  => ['defaultOrder'=> ['id' => SORT_DESC]],
         ]);
 
         $this->load($params);

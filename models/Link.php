@@ -103,10 +103,11 @@ class Link extends \yii\db\ActiveRecord
     public function search($params)
     {
 
-        $query = Link::find()->orderBy('id DESC');
+        $query = Link::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'  => ['defaultOrder'=> ['id' => SORT_DESC]],
         ]);
 
         $this->scenario = self::SCENARIO_SEARCH;

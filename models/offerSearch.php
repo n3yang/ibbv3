@@ -41,10 +41,11 @@ class offerSearch extends offer
      */
     public function search($params)
     {
-        $query = offer::find()->orderBy('id DESC');
+        $query = offer::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'  => ['defaultOrder'=> ['id' => SORT_DESC]],
         ]);
 
         $this->load($params);
