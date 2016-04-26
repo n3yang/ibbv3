@@ -312,14 +312,15 @@ class SpiderZdm extends SpiderBase
                 if (!empty($mm[1])) {
                         $header = get_headers($mm[1], 1);
                         $redurl = is_array($header['Location']) ? $header['Location'][0] : $header['Location'];
-                        preg_match('/(http:\/\/.*).\?/', $redurl, $mmm);
-                        $replacement = [
-                            '/re./'             => '',
-                            '/\/cps\/item/'     => '',
-                            '/http:\/\/jd/'     => 'http://item.jd',
-                            '/.htm$/'           => '.html',
-                        ];
-                        $real = preg_replace(array_keys($replacement), array_values($replacement), $mmm[1]);
+                        if (preg_match("/re.jd.com\/cps\/item\/(.*)\?/", $redurl, $mmm)) {
+                            $real = 'http://item.jd.com/' . $mmm[1];
+                        } else if (preg_match("/(red.jd.com\/.*)\?/", $redurl, $mmm)) {
+                            $real = 'http://' . $mmm[1];
+                        } else {
+                            $real = '';
+                            Yii::warning('Fail to get jd real url: ' . $redurl);
+                        }
+
                 }
                 $this->requestUserAgent = $ua;
             } else if (strpos($js, 'http://item.jd.com/')) {
