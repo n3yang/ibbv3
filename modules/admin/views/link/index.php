@@ -23,7 +23,19 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             'id',
             'name',
-            'url:ntext',
+            [
+                'format' => 'html',
+                'value' => function($data){
+                    $link = $data->url;
+                    if (strlen($link)>50){
+                        $url = substr($link, 0, 50);
+                        $url .= ' [...]';
+                    } else {
+                        $url = $link;
+                    }
+                    return sprintf('<a href="%s">%s</a>', $link, $url);
+                }
+            ],
             'slug',
             'click',
             'created_at',
