@@ -396,8 +396,10 @@ class SpiderZdm extends SpiderBase
             '153'   => Offer::B2C_DANGDANG,
             '269'   => Offer::B2C_AMAZONCN,
             '183'   => Offer::B2C_JD,
+            '3949'  => Offer::B2C_JD,
             '247'   => Offer::B2C_TMALL,
             '4033'  => Offer::B2C_AMAZONBB,
+            '43'    => Offer::B2C_YHD,
         ];
         if (!isset($mapping[$mallId])) {
             Yii::warning('Fail to convert mall id: ' . $mallId);

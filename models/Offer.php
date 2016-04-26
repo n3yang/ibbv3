@@ -37,6 +37,7 @@ class Offer extends \yii\db\ActiveRecord
     const B2C_DANGDANG = 6;
     const B2C_AMAZONCN = 7;
     const B2C_AMAZONBB = 8;
+    const B2C_YHD = 9;
 
     const SITE_ZDM = 1;
     const SITE_ZDMFX = 2;
@@ -130,6 +131,7 @@ class Offer extends \yii\db\ActiveRecord
             self::B2C_DANGDANG => '当当',
             self::B2C_AMAZONCN => '亚马逊',
             self::B2C_AMAZONBB => '亚马逊海外购',
+            self::B2C_YHD => '一号店',
         ];
         return $b2c == '' ? $labels : $labels[$b2c];
     }
