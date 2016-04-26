@@ -27,6 +27,8 @@ class SpiderZdm extends SpiderBase
     public $dataList = [];
     public $dataArticle = [];
 
+    public $fetchListUrl = 'https://api.smzdm.com/v1/youhui/articles';
+    public $fetchArticleUrl = 'https://api.smzdm.com/v1/youhui/articles/';
 
     public function __construct()
     {
@@ -73,7 +75,7 @@ class SpiderZdm extends SpiderBase
             's'             => substr(uniqid().time(), 0, 19),
             'imgmode'       => 0
         );
-        $url = 'http://api.smzdm.com/v1/youhui/articles/' . $id;
+        $url = $this->fetchArticleUrl . $id;
         $rdata = $this->getHttpContent($url, $reqData);
         $rdata = json_decode($rdata, 1);
         
@@ -171,7 +173,7 @@ class SpiderZdm extends SpiderBase
      * @param  string  $date         开始时间，空为最新
      * @return array                 array
      */
-    public function fetchList($category = '', $limit = 20, $type = 'youhui', $date = '')
+    public function fetchList($category = '', $limit = 20, $date = '')
     {
         Yii::info('Fetch list... ');
 
@@ -189,7 +191,7 @@ class SpiderZdm extends SpiderBase
             $reqData['article_date'] = $date;
         }
 
-        $url = 'http://api.smzdm.com/v1/' . $type . '/articles';
+        $url = $this->fetchListUrl;
         $rdata = $this->getHttpContent($url, $reqData);
         $rdata = json_decode($rdata, 1);
 
