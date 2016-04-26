@@ -339,7 +339,7 @@ class SpiderZdm extends SpiderBase
                 $real = preg_replace(array_keys($replacement), '', $m[1]);
             }
             // suning.com
-            else if (strpos($js, 'union.suning.com')) {
+            else if (strpos($js, 'union.suning.com') || strpos($js, 'sucs.suning.com')) {
                 preg_match('/vistURL=(.*).\';/', $js, $m);
                 $real = $m[1];
             }
@@ -400,6 +400,7 @@ class SpiderZdm extends SpiderBase
             '247'   => Offer::B2C_TMALL,
             '4033'  => Offer::B2C_AMAZONBB,
             '43'    => Offer::B2C_YHD,
+            '239'   => Offer::B2C_SUNING,
         ];
         if (!isset($mapping[$mallId])) {
             Yii::warning('Fail to convert mall id: ' . $mallId);
