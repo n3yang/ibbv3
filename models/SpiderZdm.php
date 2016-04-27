@@ -90,6 +90,7 @@ class SpiderZdm extends SpiderBase
             $this->dataArticle[$id] = $a;
             $newOffer['fetched_from'] = $url . '?' . http_build_query($reqData);
         }
+        print_r($a);
 
         // pass invalid articles
         if ( !static::isValidArticle($a) ) {
@@ -351,7 +352,7 @@ class SpiderZdm extends SpiderBase
             // dangdang.com
             else if (strpos($js, 'union.dangdang.com')) {
                 preg_match('/backurl=(.*).\';/', $js, $m);
-                $real = urldecode($m[1]);
+                $real = urldecode($m[1]);   
             }
             // m.dangdang.com
             else if (strpos($js, 'm.dangdang.com')) {
@@ -367,6 +368,10 @@ class SpiderZdm extends SpiderBase
             else if (strpos($js, 'detail.ju.taobao.com')) {
                 preg_match("/smzdmhref=\\\\'(.*).\';/", $js, $m);
                 $real = $m[1];
+            }
+            else if (strpos($js, '111.com.cn')) {
+                preg_match("/smzdmhref=\\\\'(.*)url=(.*).\';/", $js, $m);
+                $real = $m[2];
             }
             // default 
             else {
