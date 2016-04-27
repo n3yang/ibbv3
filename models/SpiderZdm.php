@@ -30,6 +30,8 @@ class SpiderZdm extends SpiderBase
     public $fetchListUrl = 'https://api.smzdm.com/v1/youhui/articles';
     public $fetchArticleUrl = 'https://api.smzdm.com/v1/youhui/articles/';
 
+    public $fromSite = Offer::SITE_ZDM;
+
     public function __construct()
     {
         $this->requestUserAgent = self::USER_AGENT_MOBILE;
@@ -127,7 +129,7 @@ class SpiderZdm extends SpiderBase
         $newOffer['title']      = $a['article_title'];
         $newOffer['content']    = $post_content;
         $newOffer['price']      = $a['article_price'];
-        $newOffer['site']       = Offer::SITE_ZDM;
+        $newOffer['site']       = $this->fromSite;
         $newOffer['b2c']        = $b2c;
         $newOffer['status']     = empty($newOffer['link_slug']) ? Offer::STATUS_DRAFT : Offer::STATUS_PUBLISHED;
         $newOffer['excerpt']    = !empty($this->dataList[$id]) ? $this->dataList[$id]['article_filter_content'] : '';
