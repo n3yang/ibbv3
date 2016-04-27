@@ -18,9 +18,15 @@ class SpiderZdm extends SpiderBase
     protected $syncCacheKey = 'SPIDER_ZDM_SYNC_STATE'; 
     /**
      * Valid Category Ids
+     * 75   营养辅食
+     * 93   玩具乐器
+     * 147  安全座椅
+     * 57   服装鞋帽
+     * 95   食品保健 =========
+     * 
      * @var array
      */
-    public static $validCategoryIds = ['75', '93', '147'];
+    public static $validCategoryIds = ['75', '93', '147', '57'];
 
     public $urlReplaceCache = [];
 
@@ -90,11 +96,10 @@ class SpiderZdm extends SpiderBase
             $this->dataArticle[$id] = $a;
             $newOffer['fetched_from'] = $url . '?' . http_build_query($reqData);
         }
-        print_r($a);
 
         // pass invalid articles
         if ( !static::isValidArticle($a) ) {
-            Yii::info('Find: ' . $a['article_id'] . ', ignore...');
+            Yii::info('Find: ' . $a['article_id'] . ', ' . $a['article_title'] . ', ignore...');
             return array();
         }
 
@@ -157,10 +162,17 @@ class SpiderZdm extends SpiderBase
         if ( empty($article) ) {
             return false;
         }
-        if ( !in_array($article['article_category']['ID'], self::$validCategoryIds) ) {
+        $cateId = $article['article_category']['ID'];
+        if ( !in_array($categoryId, self::$validCategoryIds) ) {
             return false;
         }
-        if ( $article['article_category']['ID']=='147' && strpos($article['article_title'], '儿童')===false ) {
+        if ( in_array($categoryId, ['147', '57']) 
+            && strpos($article['article_title'], '儿童')===false ) {
+            return false;
+        }
+        // 食品保健
+        if ( in_array($cateId, ['95']) 
+            && strpos($article['article_title'], '酒')!==false ) {
             return false;
         }
 
@@ -417,6 +429,7 @@ class SpiderZdm extends SpiderBase
             '43'    => Offer::B2C_YHD,
             '239'   => Offer::B2C_SUNING,
             '241'   => Offer::B2C_TAOBAO_JHS,
+            '487'   => Offer::B2C_1IYAOWANG,
         ];
         if (!isset($mapping[$mallId])) {
             Yii::warning('Fail to convert mall id: ' . $mallId);
@@ -432,6 +445,8 @@ class SpiderZdm extends SpiderBase
             '93'    => '17',
             '75'    => '12',
             '147'   => '20',
+            '57'    => '19',
+            '95'    => '12',
         ];
         if (!isset($mapping[$categoryId])) {
             Yii::warning('Fail to convert category id: ' . $categoryId);
