@@ -24,16 +24,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'name',
             [
-                'format' => 'html',
+                'format' => 'raw',
                 'value' => function($data){
                     $link = $data->url;
-                    if (strlen($link)>50){
-                        $url = substr($link, 0, 50);
-                        $url .= ' [...]';
-                    } else {
-                        $url = $link;
-                    }
-                    return sprintf('<a href="%s">%s</a>', $link, $url);
+                    $url = strlen($link)>50 ? (substr($link, 0, 50) . ' [...]') : $link;
+                    return sprintf('<a target="_blank" href="%s">%s</a>', $link, $url);
                 }
             ],
             'slug',

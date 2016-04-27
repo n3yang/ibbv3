@@ -289,7 +289,7 @@ class SpiderZdm extends SpiderBase
             $js = self::decodeEval($m[1][0], $m[2][0]);
             // echo $js;
             // yiqifa CPS平台
-            if (strpos($js, 'http://p.yiqifa.com')) {
+            if (strpos($js, 'p.yiqifa.com')) {
                 preg_match('/&t=(https?:\/\/.*)\';/', $js, $m);
                 $real = $m[1];
                 // remove last '\'
@@ -304,7 +304,7 @@ class SpiderZdm extends SpiderBase
             }
             // jd
             else if (strpos($js, 'union.click.jd.com')) {
-                preg_match('/(http:\/\/union.click.jd.*).\\\';/', $js, $m);
+                preg_match('/(https?:\/\/union.click.jd.*).\\\';/', $js, $m);
                 $ua = $this->requestUserAgent;
                 $this->switchUserAgentToPc();
                 $jda = $this->getHttpContent($m[1]);
@@ -317,14 +317,14 @@ class SpiderZdm extends SpiderBase
                         } else if (preg_match("/(red.jd.com\/.*)\?/", $redurl, $mmm)) {
                             $real = 'http://' . $mmm[1];
                         } else {
-                            $real = '';
+                            preg_match("/(https?:\/\/.*)\?/", $redurl, $mmm);
+                            $real = $mmm[1];
                             Yii::warning('Fail to get jd real url: ' . $redurl);
                         }
-
                 }
                 $this->requestUserAgent = $ua;
-            } else if (strpos($js, 'http://item.jd.com/')) {
-                preg_match('/(http:\/\/item.jd.com.*).\\\';/', $js, $m);
+            } else if (strpos($js, 'item.jd.com')) {
+                preg_match('/(https?:\/\/item.jd.com.*).\\\';/', $js, $m);
                 $real = $m[1];
             }
             // amazon.cn
@@ -358,6 +358,11 @@ class SpiderZdm extends SpiderBase
             }
             // taobao
             else if (strpos($js, 's.click.taobao.com')) {
+                preg_match("/smzdmhref=\\\\'(.*).\';/", $js, $m);
+                $real = $m[1];
+            }
+            // taobao juhuasuan
+            else if (strpos($js, 'detail.ju.taobao.com')) {
                 preg_match("/smzdmhref=\\\\'(.*).\';/", $js, $m);
                 $real = $m[1];
             }

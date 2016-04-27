@@ -38,6 +38,7 @@ class Offer extends \yii\db\ActiveRecord
     const B2C_AMAZONCN = 7;
     const B2C_AMAZONBB = 8;
     const B2C_YHD = 9;
+    const B2c_TAOBAO_JHS = 10;
 
     const SITE_ZDM = 1;
     const SITE_ZDMFX = 2;
@@ -132,6 +133,7 @@ class Offer extends \yii\db\ActiveRecord
             self::B2C_AMAZONCN => '亚马逊',
             self::B2C_AMAZONBB => '亚马逊海外购',
             self::B2C_YHD => '一号店',
+            self::B2c_TAOBAO_JHS => '淘宝聚划算',
         ];
         return $b2c == '' ? $labels : $labels[$b2c];
     }
