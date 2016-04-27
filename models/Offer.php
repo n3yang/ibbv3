@@ -40,6 +40,7 @@ class Offer extends \yii\db\ActiveRecord
     const B2C_YHD = 9;
     const B2C_TAOBAO_JHS = 10;
     const B2C_TAOBAO = 11;
+    const B2C_1IYAOWANG = 12;
 
     const SITE_ZDM = 1;
     const SITE_ZDM_FX = 2;
@@ -114,9 +115,9 @@ class Offer extends \yii\db\ActiveRecord
     public static function getStatusLabel($status='')
     {
         $labels = [
-            self::STATUS_PUBLISHED => '已发布',
-            self::STATUS_DRAFT => '草稿',
-            self::STATUS_DELETED => '已删除',
+            self::STATUS_PUBLISHED  => '已发布',
+            self::STATUS_DRAFT      => '草稿',
+            self::STATUS_DELETED    => '已删除',
         ];
 
         return $status == '' ? $labels : $labels[$status];
@@ -125,17 +126,18 @@ class Offer extends \yii\db\ActiveRecord
     public static function getB2cLabel($b2c='')
     {
         $labels = [
-            self::B2C_JD => '京东',
-            self::B2C_TMALL => '天猫',
-            self::B2C_SUNING => '苏宁',
-            self::B2C_GOME => '国美',
-            self::B2C_MIYA => '蜜牙',
-            self::B2C_DANGDANG => '当当',
-            self::B2C_AMAZON_CN => '亚马逊',
-            self::B2C_AMAZON_BB => '亚马逊海外购',
-            self::B2C_YHD => '一号店',
-            self::B2C_TAOBAO_JHS => '淘宝聚划算',
-            self::B2C_TAOBAO => '淘宝',
+            self::B2C_JD            => '京东',
+            self::B2C_TMALL         => '天猫',
+            self::B2C_SUNING        => '苏宁',
+            self::B2C_GOME          => '国美',
+            self::B2C_MIYA          => '蜜牙',
+            self::B2C_DANGDANG      => '当当',
+            self::B2C_AMAZON_CN     => '亚马逊',
+            self::B2C_AMAZON_BB     => '亚马逊海外购',
+            self::B2C_YHD           => '一号店',
+            self::B2C_TAOBAO_JHS    => '淘宝聚划算',
+            self::B2C_TAOBAO        => '淘宝',
+            self::B2C_1IYAOWANG     => '1药网',
         ];
         return $b2c == '' ? $labels : $labels[$b2c];
     }
@@ -143,8 +145,8 @@ class Offer extends \yii\db\ActiveRecord
     public static function getSiteLabel($site='')
     {
         $labels = [
-            self::SITE_ZDM => '值买',
-            self::SITE_ZDMFX => '值发现',
+            self::SITE_ZDM      => '值买',
+            self::SITE_ZDMFX    => '值发现',
         ];
         return $site == '' ? $labels : $labels[$site];
     }
