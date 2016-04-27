@@ -15,7 +15,7 @@ use app\models\SpiderBase;
 class SpiderZdm extends SpiderBase
 {
 
-    const SYNC_CACHE_KEY = 'SPIDER_ZDM_SYNC_STATE'; 
+    protected $syncCacheKey = 'SPIDER_ZDM_SYNC_STATE'; 
     /**
      * Valid Category Ids
      * @var array
@@ -42,7 +42,7 @@ class SpiderZdm extends SpiderBase
     {
         Yii::info('Syncing Article...');
 
-        $last = Yii::$app->cache->get(self::SYNC_CACHE_KEY);
+        $last = Yii::$app->cache->get($this->syncCacheKey);
         $list = $this->fetchList();
 
         foreach ($list as $r) {
@@ -55,7 +55,7 @@ class SpiderZdm extends SpiderBase
         $last['article_id'] = $maxId;
         $last['action_time'] = date('Y-m-d H:i:s');
 
-        Yii::$app->cache->set(self::SYNC_CACHE_KEY, $last);
+        Yii::$app->cache->set($this->syncCacheKey, $last);
         Yii::info('Syncing Finished. ' . json_encode($last));
 
         return true;
@@ -404,13 +404,14 @@ class SpiderZdm extends SpiderBase
     {
         $mapping = [
             '153'   => Offer::B2C_DANGDANG,
-            '269'   => Offer::B2C_AMAZONCN,
+            '269'   => Offer::B2C_AMAZON_CN,
+            '4033'  => Offer::B2C_AMAZON_BB,
             '183'   => Offer::B2C_JD,
             '3949'  => Offer::B2C_JD,
             '247'   => Offer::B2C_TMALL,
-            '4033'  => Offer::B2C_AMAZONBB,
             '43'    => Offer::B2C_YHD,
             '239'   => Offer::B2C_SUNING,
+            '241'   => Offer::B2C_TAOBAO_JHS,
         ];
         if (!isset($mapping[$mallId])) {
             Yii::warning('Fail to convert mall id: ' . $mallId);

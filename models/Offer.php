@@ -35,13 +35,14 @@ class Offer extends \yii\db\ActiveRecord
     const B2C_GOME = 4;
     const B2C_MIYA = 5;
     const B2C_DANGDANG = 6;
-    const B2C_AMAZONCN = 7;
-    const B2C_AMAZONBB = 8;
+    const B2C_AMAZON_CN = 7;
+    const B2C_AMAZON_BB = 8; //海外购
     const B2C_YHD = 9;
-    const B2c_TAOBAO_JHS = 10;
+    const B2C_TAOBAO_JHS = 10;
+    const B2C_TAOBAO = 11;
 
     const SITE_ZDM = 1;
-    const SITE_ZDMFX = 2;
+    const SITE_ZDM_FX = 2;
 
 
     /**
@@ -130,10 +131,11 @@ class Offer extends \yii\db\ActiveRecord
             self::B2C_GOME => '国美',
             self::B2C_MIYA => '蜜牙',
             self::B2C_DANGDANG => '当当',
-            self::B2C_AMAZONCN => '亚马逊',
-            self::B2C_AMAZONBB => '亚马逊海外购',
+            self::B2C_AMAZON_CN => '亚马逊',
+            self::B2C_AMAZON_BB => '亚马逊海外购',
             self::B2C_YHD => '一号店',
-            self::B2c_TAOBAO_JHS => '淘宝聚划算',
+            self::B2C_TAOBAO_JHS => '淘宝聚划算',
+            self::B2C_TAOBAO => '淘宝',
         ];
         return $b2c == '' ? $labels : $labels[$b2c];
     }
