@@ -181,7 +181,7 @@ class SpiderBase extends \yii\base\Component
      */
     public static function replaceToCps($url)
     {
-        if (strpos($url, 'amazon.cn')) {
+        if (strpos($url, 'amazon')) {
             return $url .= '&t=ibaobr-23&tag=ibaobr-23';
         }
         // 检测商品所属商城，并转换对应的CPS平台的连接

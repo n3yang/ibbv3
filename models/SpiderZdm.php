@@ -165,9 +165,12 @@ class SpiderZdm extends SpiderBase
         }
 
         // valid by keywords
-        if ( strpos($article['article_title'], '儿童')!==false ) {
-            return true;
+        $keywords = ['儿童', '幼儿', '婴儿'];
+        foreach ($keywords as $word) {
+            if (strpos($article['article_title'], $word)!==false) 
+                return true;
         }
+
         // valid by category id
         $categoryId = $article['article_category']['ID'];
         if ( !in_array($categoryId, self::$validCategoryIds) ) {
@@ -373,7 +376,7 @@ class SpiderZdm extends SpiderBase
                 $real = str_replace('&unionid=p-326920m-ACYH93', '', $m[1]);
             }
             // taobao
-            else if (strpos($js, 's.click.taobao.com')) {
+            else if (strpos($js, 's.click.taobao.com') || strpos($js, 's.taobao.com')) {
                 preg_match("/smzdmhref=\\\\'(.*).\';/", $js, $m);
                 $real = $m[1];
             }
