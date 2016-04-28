@@ -349,19 +349,13 @@ class SpiderZdm extends SpiderBase
                 preg_match('/(https?:\/\/item.jd.com.*).\\\';/', $js, $m);
                 $real = $m[1];
             }
-            // amazon.cn
+            // amazon.cn, amazon.com, and so on..
             else if (strpos($js, 'amazon')) {
                 preg_match("/(https?:\/\/.*).\\\';/", $js, $m);
-                $replacement = [
-                    '/t=joyo01y-23/'        => '',
-                    '/tag=joyo01y-23/'      => '',
-                    '/t=joyo01m0a-23/'      => '',
-                    '/tag=joyo01m0a-23/'    => '',
-                    '/tag=joyo01y-2/'       => '',
-                    '/tag=joyohwg23-2/'     => '',
-                    '/t=joyohwg23-23/'      => '',
-                ];
-                $real = preg_replace(array_keys($replacement), '', $m[1]);
+                $info = parse_url($m[1]);
+                parse_str($info['query'], $params);
+                unset($params['t'], $params['tag']);
+                $real = $info['scheme'] . '://' . $info['host'] . $info['path'] . http_build_query($params);
             }
             // suning.com
             else if (strpos($js, 'union.suning.com') || strpos($js, 'sucs.suning.com')) {
@@ -437,6 +431,7 @@ class SpiderZdm extends SpiderBase
             '239'   => Offer::B2C_SUNING,
             '241'   => Offer::B2C_TAOBAO_JHS,
             '487'   => Offer::B2C_1IYAOWANG,
+            '219'   => Offer::B2C_MUYINGZHIJIA,
         ];
         if (!isset($mapping[$mallId])) {
             Yii::warning('Fail to convert mall id: ' . $mallId);
