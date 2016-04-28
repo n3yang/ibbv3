@@ -148,9 +148,9 @@ class SpiderZdm extends SpiderBase
         // get category
         $tagId = self::convertCategoryId($a['article_category']['ID']);
         if ($tagId) {
-            Yii::warning('Fail to convert category id: ' . $categoryId . ', name: ' . $a['article_category']['title']);
-        } else {
             $this->addOffer($newOffer, [$tagId]);
+        } else {
+            Yii::warning('Fail to convert category id: ' . $a['article_category']['ID'] . ', name: ' . $a['article_category']['title']);
         }
 
         return true;
