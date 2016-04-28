@@ -41,9 +41,13 @@ class Offer extends \yii\db\ActiveRecord
     const B2C_TAOBAO_JHS = 10;
     const B2C_TAOBAO = 11;
     const B2C_1IYAOWANG = 12;
+    const B2C_MUYINGZHIJIA = 13;
+    const B2C_AMAZON_JP = 14;
+
 
     const SITE_ZDM = 1;
     const SITE_ZDM_FX = 2;
+    const SITE_MGPYH = 3;
 
 
     /**
@@ -138,6 +142,8 @@ class Offer extends \yii\db\ActiveRecord
             self::B2C_TAOBAO_JHS    => '淘宝聚划算',
             self::B2C_TAOBAO        => '淘宝',
             self::B2C_1IYAOWANG     => '1药网',
+            self::B2C_MUYINGZHIJIA  => '母婴之家',
+            self::B2C_AMAZON_JP     => '日本亚马逊',
         ];
         return $b2c == '' ? $labels : $labels[$b2c];
     }

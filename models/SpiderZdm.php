@@ -97,7 +97,7 @@ class SpiderZdm extends SpiderBase
             $newOffer['fetched_from'] = $url . '?' . http_build_query($reqData);
         }
 
-        print_r($a);
+        // print_r($a);
         // pass invalid articles
         if ( !static::isValidArticle($a) ) {
             Yii::info('Find: ' . $a['article_id'] . ', ' . $a['article_title'] . ', ignore...');
@@ -424,6 +424,7 @@ class SpiderZdm extends SpiderBase
             '153'   => Offer::B2C_DANGDANG,
             '269'   => Offer::B2C_AMAZON_CN,
             '4033'  => Offer::B2C_AMAZON_BB,
+            '271'   => Offer::B2C_AMAZON_JP,
             '183'   => Offer::B2C_JD,
             '3949'  => Offer::B2C_JD,
             '247'   => Offer::B2C_TMALL,
