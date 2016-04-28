@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use app\models\File;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\offerSearch */
@@ -26,12 +27,30 @@ $this->params['breadcrumbs'][] = $this->title;
             // ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'title:ntext',
+            'title',
             'price',
-            'thumb_file_id',
-            'link_slug',
-            'site',
-            'b2c',
+            [
+                'format' => 'html',
+                'value'=>function($model){
+                    $src = File::getImageUrlById($model->thumb_file_id);
+                    return sprintf('<img src="%s" width="40">', $src);
+                }
+            ],
+            // 'link_slug',
+            [
+                'attribute' => 'site', 
+                'value' => function($model){
+                    $b = $model->getSiteLabel($model->site);
+                    return is_string($b) ? $b : null ;
+                }
+            ],
+            [
+                'attribute' => 'b2c', 
+                'value' => function($model){
+                    $b = $model->getB2cLabel($model->b2c);
+                    return is_string($b) ? $b : null ;
+                }
+            ],
             'created_at',
             ['attribute'=>'status', 'value'=>function($model){return $model->getStatusLabel($model->status);}],
 

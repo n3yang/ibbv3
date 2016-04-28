@@ -173,7 +173,7 @@ class File extends \yii\db\ActiveRecord
         return static::findOne(['md5' => $hash]);
     }
 
-    public static function getUrlById($id, $imageOnly = false)
+    public static function getUrlById($id)
     {
         // doesnt work ?
         // $file = static::getDb()->cache(function($db) use($id){
@@ -182,7 +182,16 @@ class File extends \yii\db\ActiveRecord
         // return Yii::getAlias('@uploadUrl') . '/' . $file->path;
         
         $file = static::findOne($id)->toArray();
-        if ($imageOnly && !preg_grep("/^image/", $file['mime'])) {
+        return Yii::getAlias('@uploadUrl') . '/' . $file['path'];
+    }
+
+    public static function getImageUrlById($id)
+    {
+        if (!$id){
+            return '';
+        }
+        $file = static::findOne($id)->toArray();
+        if (!preg_match("/^image/", $file['mime'])) {
             return '';
         }
         return Yii::getAlias('@uploadUrl') . '/' . $file['path'];
