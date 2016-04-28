@@ -213,6 +213,9 @@ class SpiderBase extends \yii\base\Component
             'kjt.com'               =>  '1884'  ,
             'jgb.cn'                =>  '1872'  ,
             '111.com.cn'            =>  '256'   ,
+            'fengqu.com'            =>  '2058'  ,
+            'm.fengqu.com'          =>  '2307'  ,
+            'haituncun.com'         =>  '2862'  ,
         ];
         foreach ($matches as $k => $v) {
             if (strpos($url, $k)) {

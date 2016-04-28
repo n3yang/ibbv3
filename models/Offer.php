@@ -43,6 +43,9 @@ class Offer extends \yii\db\ActiveRecord
     const B2C_1IYAOWANG = 12;
     const B2C_MUYINGZHIJIA = 13;
     const B2C_AMAZON_JP = 14;
+    const B2C_FENGQUHAITAO = 15;
+    const B2C_KAOLA = 16;
+    const B2C_HAITUNCUN = 17;
 
 
     const SITE_ZDM = 1;
@@ -144,6 +147,9 @@ class Offer extends \yii\db\ActiveRecord
             self::B2C_1IYAOWANG     => '1药网',
             self::B2C_MUYINGZHIJIA  => '母婴之家',
             self::B2C_AMAZON_JP     => '日本亚马逊',
+            self::B2C_FENGQUHAITAO  => '丰趣海淘',
+            self::B2C_KAOLA         => '考拉海淘',
+            self::B2C_HAITUNCUN     => '海豚村',
         ];
         return $b2c == '' ? $labels : $labels[$b2c];
     }
@@ -153,6 +159,7 @@ class Offer extends \yii\db\ActiveRecord
         $labels = [
             self::SITE_ZDM      => '值买',
             self::SITE_ZDMFX    => '值发现',
+            self::SITE_MGPYH    => '',
         ];
         return $site == '' ? $labels : $labels[$site];
     }

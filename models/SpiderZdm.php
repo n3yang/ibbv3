@@ -147,8 +147,11 @@ class SpiderZdm extends SpiderBase
 
         // get category
         $tagId = self::convertCategoryId($a['article_category']['ID']);
-
-        $this->addOffer($newOffer, [$tagId]);
+        if ($tagId) {
+            Yii::warning('Fail to convert category id: ' . $categoryId . ', name: ' . $a['article_category']['title']);
+        } else {
+            $this->addOffer($newOffer, [$tagId]);
+        }
 
         return true;
     }
@@ -341,6 +344,8 @@ class SpiderZdm extends SpiderBase
                             $real = 'http://item.jd.com/' . $mmm[1];
                         } else if (preg_match("/(red.jd.com\/.*)\?/", $redurl, $mmm)) {
                             $real = 'http://' . $mmm[1];
+                        } else if (preg_match("/re.m.jd.com\/cps\/item\/(.*)\?/", $redurl, $mmm)) {
+                            $real = 'http://item.m.jd.com/product/' . $mmm[1];
                         } else {
                             preg_match("/(https?:\/\/.*)\?/", $redurl, $mmm);
                             $real = $mmm[1];
@@ -389,6 +394,25 @@ class SpiderZdm extends SpiderBase
                 preg_match("/smzdmhref=\\\\'(.*)url=(.*).\';/", $js, $m);
                 $real = $m[2];
             }
+            // fengyu.com
+            else if (strpos($js, 'fengyu.com')) {
+                preg_match("/smzdmhref=\\\\'(.*).\';/", $js, $m);
+                $real = str_replace('_src=smzdm5148', '', $m[1]);
+            }
+            // kaola.com
+            else if (strpos($js, 'cps.kaola.com')) {
+                preg_match("/smzdmhref=\\\\'(.*).\';/", $js, $m);
+                $info = parse_url($m[1]);
+                parse_str($info['query'], $params);
+                $real = $params['targetUrl'];
+            }
+            // haituncun.com
+            else if (strpos($js, 'associates.haituncun.com')) {
+                preg_match("/smzdmhref=\\\\'(.*).\';/", $js, $m);
+                $info = parse_url($m[1]);
+                parse_str($info['query'], $params);
+                $real = $params['url'];
+            }
             // default 
             else {
                 Yii::warning('Fail to get real url, JS: ' . $js);
@@ -436,6 +460,9 @@ class SpiderZdm extends SpiderBase
             '241'   => Offer::B2C_TAOBAO_JHS,
             '487'   => Offer::B2C_1IYAOWANG,
             '219'   => Offer::B2C_MUYINGZHIJIA,
+            '3467'  => Offer::B2C_FENGQUHAITAO,
+            '3981'  => Offer::B2C_KAOLA,
+
         ];
         if (!isset($mapping[$mallId])) {
             Yii::warning('Fail to convert mall id: ' . $mallId);
@@ -453,9 +480,9 @@ class SpiderZdm extends SpiderBase
             '147'   => '20',
             '57'    => '19',
             '95'    => '12',
+            '1515'  => '14', // 日用百货
         ];
         if (!isset($mapping[$categoryId])) {
-            Yii::warning('Fail to convert category id: ' . $categoryId);
             return '';
         } else {
             return $mapping[$categoryId];
