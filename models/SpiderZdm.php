@@ -97,6 +97,7 @@ class SpiderZdm extends SpiderBase
             $newOffer['fetched_from'] = $url . '?' . http_build_query($reqData);
         }
 
+        print_r($a);
         // pass invalid articles
         if ( !static::isValidArticle($a) ) {
             Yii::info('Find: ' . $a['article_id'] . ', ' . $a['article_title'] . ', ignore...');
@@ -162,7 +163,13 @@ class SpiderZdm extends SpiderBase
         if ( empty($article) ) {
             return false;
         }
-        $cateId = $article['article_category']['ID'];
+
+        // valid by keywords
+        if ( strpos($article['article_title'], '儿童')!==false ) {
+            return true;
+        }
+        // valid by category id
+        $categoryId = $article['article_category']['ID'];
         if ( !in_array($categoryId, self::$validCategoryIds) ) {
             return false;
         }
@@ -171,7 +178,7 @@ class SpiderZdm extends SpiderBase
             return false;
         }
         // 食品保健
-        if ( in_array($cateId, ['95']) 
+        if ( in_array($categoryId, ['95']) 
             && strpos($article['article_title'], '酒')!==false ) {
             return false;
         }
