@@ -386,7 +386,7 @@ class SpiderZdm extends SpiderBase
                 $real = $m[1];
             }
             // taobao juhuasuan
-            else if (strpos($js, 'detail.ju.taobao.com')) {
+            else if (strpos($js, 'detail.ju.taobao.com') || strpos($js, 'tmall.com')) {
                 preg_match("/smzdmhref=\\\\'(.*).\';/", $js, $m);
                 $real = $m[1];
             }
