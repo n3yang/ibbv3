@@ -256,7 +256,7 @@ class SpiderZdm extends SpiderBase
             if (empty($url)) {
                 continue;
             }
-            if (strpos($url, 'http://www.smzdm.com/p/')===0){
+            if (strpos($url, 'smzdm.com/p/')===0){
                 $detail = str_replace($url, '#', $detail);
             } else {
                 // find the real url
