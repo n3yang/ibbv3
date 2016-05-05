@@ -451,6 +451,7 @@ class SpiderZdm extends SpiderBase
             '153'   => Offer::B2C_DANGDANG,
             '269'   => Offer::B2C_AMAZON_CN,
             '4033'  => Offer::B2C_AMAZON_BB,
+            '41'    => Offer::B2C_AMAZON_US,
             '271'   => Offer::B2C_AMAZON_JP,
             '183'   => Offer::B2C_JD,
             '3949'  => Offer::B2C_JD,
@@ -481,6 +482,7 @@ class SpiderZdm extends SpiderBase
             '57'    => '19',
             '95'    => '12',
             '1515'  => '14', // 日用百货
+            '7'     => '22', // 图书影音
         ];
         if (!isset($mapping[$categoryId])) {
             return '';

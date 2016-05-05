@@ -45,6 +45,7 @@ insert into tag values
         '19'  => ['name' => '童装童鞋', 'slug' => 'tongzhuangtongxie'],
         '20'  => ['name' => '安全座椅', 'slug' => 'anquanzuoyi'],
         '21'  => ['name' => '妈妈用品', 'slug' => 'mamayongpin'],
+        '22'  => ['name' => '图书影音', 'slug' => 'tushuyingyin'],
     ];
 
     /**

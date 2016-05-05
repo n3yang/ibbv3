@@ -46,6 +46,7 @@ class Offer extends \yii\db\ActiveRecord
     const B2C_FENGQUHAITAO = 15;
     const B2C_KAOLA = 16;
     const B2C_HAITUNCUN = 17;
+    const B2C_AMAZON_US = 18;
 
 
     const SITE_ZDM = 1;
@@ -141,6 +142,7 @@ class Offer extends \yii\db\ActiveRecord
             self::B2C_DANGDANG      => '当当',
             self::B2C_AMAZON_CN     => '亚马逊',
             self::B2C_AMAZON_BB     => '亚马逊海外购',
+            self::B2C_AMAZON_US     => '美国亚马逊',
             self::B2C_YHD           => '一号店',
             self::B2C_TAOBAO_JHS    => '淘宝聚划算',
             self::B2C_TAOBAO        => '淘宝',
