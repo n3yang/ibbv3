@@ -31,7 +31,8 @@ insert into tag values
     ('18','童车童床','tongchetongchuang', NOW(), NOW()),
     ('19','童装童鞋','tongzhuangtongxie', NOW(), NOW()),
     ('20','安全座椅','anquanzuoyi', NOW(), NOW()),
-    ('21','妈妈用品','mamayongpin', NOW(), NOW());
+    ('21','妈妈用品','mamayongpin', NOW(), NOW()),
+    ('22','图书影音','tushuyingyin', NOW(), NOW()),;
 */
     static $reservedTag = [
         '11'  => ['name' => '奶粉牛奶', 'slug' => 'naifenniunai'],
