@@ -338,19 +338,19 @@ class SpiderZdm extends SpiderBase
                 $jda = $this->getHttpContent($m[1]);
                 preg_match('/hrl=\'(.*).\' ;/', $jda, $mm);
                 if (!empty($mm[1])) {
-                        $header = get_headers($mm[1], 1);
-                        $redurl = is_array($header['Location']) ? $header['Location'][0] : $header['Location'];
-                        if (preg_match("/re.jd.com\/cps\/item\/(.*)\?/", $redurl, $mmm)) {
-                            $real = 'http://item.jd.com/' . $mmm[1];
-                        } else if (preg_match("/(red.jd.com\/.*)\?/", $redurl, $mmm)) {
-                            $real = 'http://' . $mmm[1];
-                        } else if (preg_match("/re.m.jd.com\/cps\/item\/(.*)\?/", $redurl, $mmm)) {
-                            $real = 'http://item.m.jd.com/product/' . $mmm[1];
-                        } else {
-                            preg_match("/(https?:\/\/.*)\?/", $redurl, $mmm);
-                            $real = $mmm[1];
-                            Yii::warning('Fail to get jd real url: ' . $redurl);
-                        }
+                    $header = get_headers($mm[1], 1);
+                    $redurl = is_array($header['Location']) ? $header['Location'][0] : $header['Location'];
+                    if (preg_match("/re.jd.com\/cps\/item\/(.*)\?/", $redurl, $mmm)) {
+                        $real = 'http://item.jd.com/' . $mmm[1];
+                    } else if (preg_match("/(red.jd.com\/.*)\?/", $redurl, $mmm)) {
+                        $real = 'http://' . $mmm[1];
+                    } else if (preg_match("/re.m.jd.com\/cps\/item\/(.*)\?/", $redurl, $mmm)) {
+                        $real = 'http://item.m.jd.com/product/' . $mmm[1];
+                    } else {
+                        preg_match("/(https?:\/\/.*)\?/", $redurl, $mmm);
+                        $real = $mmm[1];
+                        Yii::warning('Fail to get jd real url: ' . $redurl);
+                    }
                 }
                 $this->requestUserAgent = $ua;
             } else if (strpos($js, 'item.jd.com')) {
