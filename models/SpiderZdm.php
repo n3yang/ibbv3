@@ -380,13 +380,14 @@ class SpiderZdm extends SpiderBase
                 preg_match("/smzdmhref=\\\\'(.*).\';/", $js, $m);
                 $real = str_replace('&unionid=p-326920m-ACYH93', '', $m[1]);
             }
+            // taobao alimama
+            // else if (strpos($js, 's.click.taobao.com') || strpos($js, 's.taobao.com')) {
+            //     preg_match("/smzdmhref=\\\\'(.*).\';/", $js, $m);
+            //     $real = $m[1];
+            // }
             // taobao
-            else if (strpos($js, 's.click.taobao.com') || strpos($js, 's.taobao.com')) {
-                preg_match("/smzdmhref=\\\\'(.*).\';/", $js, $m);
-                $real = $m[1];
-            }
-            // taobao juhuasuan
-            else if (strpos($js, 'detail.ju.taobao.com') || strpos($js, 'tmall.com')) {
+            // 
+            else if (strpos($js, 'taobao.com') || strpos($js, 'tmall.com')) {
                 preg_match("/smzdmhref=\\\\'(.*).\';/", $js, $m);
                 $real = $m[1];
             }
