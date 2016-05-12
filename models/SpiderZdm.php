@@ -170,7 +170,9 @@ class SpiderZdm extends SpiderBase
         // valid by keywords
         $keywords = ['儿童', '幼儿', '婴儿'];
         foreach ($keywords as $word) {
-            if (strpos($article['article_title'], $word)!==false) 
+            if (strpos($article['article_title'], $word)!==false
+                AND strpos($article['link_title']!='白菜党'))
+                
                 return true;
         }
 
