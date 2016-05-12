@@ -106,6 +106,7 @@ class SpiderZdm extends SpiderBase
 
         // add images
         // nothing in new API, reomove it ?
+        /*
         foreach($a['article_content_img_list'] as $k => $image_url) {
             $image_url = str_replace('_e600.jpg', '', $image_url);
 
@@ -118,6 +119,7 @@ class SpiderZdm extends SpiderBase
                 break;
             }
         }
+        */
 
         // set quick link
         $quickLink = $this->replaceUrl($a['article_link'], $a['article_title']);
