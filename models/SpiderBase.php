@@ -99,7 +99,8 @@ class SpiderBase extends \yii\base\Component
         } else {
             $fileModel = new File;
         }
-        
+        // yii::info('file model ->'. gettype($fileModel));
+
         if ( $fileModel->uploadByLocal($tempfile, true) && $fileModel->save() ) {
             return [
                 'id'  => $fileModel->id,
@@ -207,6 +208,7 @@ class SpiderBase extends \yii\base\Component
             'm.suning.com'          =>  '501'   ,
             'm.gome.com.cn'         =>  '618'   ,
             'gome.com.cn'           =>  '236'   ,
+            'womai.com'             =>  '334'   ,
             'moximoxi.net'          =>  '1728'  ,
             'xiji.com'              =>  '1752'  ,
             'ikjtao.com'            =>  '723'   ,

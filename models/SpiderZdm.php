@@ -173,7 +173,7 @@ class SpiderZdm extends SpiderBase
         $keywords = ['儿童', '幼儿', '婴儿'];
         foreach ($keywords as $word) {
             if (strpos($article['article_title'], $word)!==false
-                AND strpos($article['link_title']!='白菜党'))
+                AND $article['link_title']!='白菜党')
                 
                 return true;
         }
@@ -322,12 +322,8 @@ class SpiderZdm extends SpiderBase
             // echo $js;
             // yiqifa CPS平台
             if (strpos($js, 'p.yiqifa.com')) {
-                preg_match('/&t=(https?:\/\/.*)\';/', $js, $m);
+                preg_match("/&t=(https?:\/\/.*)\\\\';/", $js, $m);
                 $real = $m[1];
-                // remove last '\'
-                if (strpos($real, '\\') == (strlen($real) - 1) ) {
-                    $real = substr($real, 0, strlen($real) -1);
-                }
             }
             // yhd
             else if (strpos($js, 'yhd.com/')) {
@@ -418,6 +414,7 @@ class SpiderZdm extends SpiderBase
                 parse_str($info['query'], $params);
                 $real = $params['url'];
             }
+            // womai.com
             // default 
             else {
                 Yii::warning('Fail to get real url, JS: ' . $js);
@@ -468,7 +465,7 @@ class SpiderZdm extends SpiderBase
             '219'   => Offer::B2C_MUYINGZHIJIA,
             '3467'  => Offer::B2C_FENGQUHAITAO,
             '3981'  => Offer::B2C_KAOLA,
-
+            '261'   => Offer::B2C_WOMAI,
         ];
         if (!isset($mapping[$mallId])) {
             Yii::warning('Fail to convert mall id: ' . $mallId);
