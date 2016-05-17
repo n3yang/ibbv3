@@ -6,39 +6,14 @@ body {
     font-family: "Helvetica","Hiragino Sans GB", "PingFang SC", "Microsoft YaHei UI","Microsoft YaHei","宋体";
 }
 
-.spo-row .thumb img{
-    width: 150px;
-    height: 150px;
-    padding: 0 10px;
+.spo-row .thumb{
+    padding-right: 0px;
 }
-.spo-row .info{}
-@media (max-width: 767px) {
-    .spo-row .thumb img{
-        width: 120px;
-        height: 120px;
-        padding: 0 10px;
-    }
+.spo-row .thumb {
+    /*width: 120px;*/
+    /*height: 120px;*/
+    /*padding: 0px;*/
 }
-
-/*.spo-row .thumb{
-    width: 150px;
-    height: 150px;
-    float: left;
-}
-@media (max-width: 767px) {
-    .spo-row .thumb{
-        width: 120px;
-        height: 120px;
-        padding: 0 10px;
-    }
-}
-.spo-row .info{
-    width: auto;
-    display: block;
-    width: 400px;
-    float: left;
-}*/
-
 .spo-row .title{
     font-weight: bolder;
     line-height: 120%;
@@ -62,6 +37,59 @@ body {
 .index .pagebar{
     margin: 40px 0 0 0;
 }
+
+@media (max-width: 500px) {
+    .spo-row .thumb {
+        /*width: 90px;*/
+        /*height: 90px;*/
+        padding-left: 10px;
+    }
+    .spo-row .img-thumbnail{
+        padding: 0px;
+        line-height: 0;
+        border: 0;
+    }
+    .spo-row .info{
+        /*padding: 0 0 0 5px;*/
+    }
+    .index{
+        padding: 0px;
+    }
+    .spo-row{
+        margin: 0px;
+    }
+    .spo-row .title{
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 150%;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+    .index .separator{
+        margin: 10px 0;
+    }
+
+}
+
+/*.spo-row .thumb{
+    width: 150px;
+    height: 150px;
+    float: left;
+}
+@media (max-width: 767px) {
+    .spo-row .thumb{
+        width: 120px;
+        height: 120px;
+        padding: 0 10px;
+    }
+}
+.spo-row .info{
+    width: auto;
+    display: block;
+    width: 400px;
+    float: left;
+}*/
+
 
 /**********************************
 * bootstrap theme overwrite
