@@ -48,7 +48,6 @@ body {
     margin-top: 10px;
 }
 
-
 @media (max-width: 500px) {
     .index{
         padding: 0px;
@@ -88,7 +87,6 @@ body {
 /**
  * spo
  */
-
 .spo .spo-info {
     width: 90%;
     margin: 10px auto auto auto;
@@ -97,7 +95,6 @@ body {
 .spo .title {
     line-height: 150%;
 }
-
 .spo .price {
     margin-left: 10px;
     padding: 0 10px;
@@ -110,34 +107,46 @@ body {
     font-weight: normal;
 }
 .spo .link {
-    text-align: right;
+    /*text-align: right;*/
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 .spo .detail {
     margin: 20px 0 0 0;
     line-height: 150%;
     font-size: 14px;
 }
+.spo .detail .lead, .spo .related .lead {
+    border-bottom: 1px solid #eee;
+}
 .spo .pnlink {
     margin-top: 20px;
 }
-.spo .pnlink .previous a{
-    margin-left: 40px;
+.spo .pager{
+    padding-left: 15px;
+    overflow: hidden;
 }
 .spo .pnlink .next a{
-    margin-right: 20px;
+}
+.spo .related {
+    margin-top: 40px;
+    margin-bottom: 20px;
 }
 @media (max-width: 500px) {
-
     .spo .spo-info {
         width: 100%;
         margin: 5px auto auto auto;
         padding-top: 5px;
     }
-
     .spo .detail {
-        margin: 0px 0 0 0;
+        margin: 10px 0 0 0;
         line-height: 150%;
         font-size: 14px;
+    }
+    .spo .meta .link {
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
     }
 }
 /**********************************
