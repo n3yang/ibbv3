@@ -307,6 +307,11 @@ class SpiderZdm extends SpiderBase
 
     public function getRealUrl($url='')
     {
+        // pass all posts;
+        if (preg_match('/zdm.com\/p\/\d+/', $url)) {
+            return $url;
+        }
+
         $this->switchUserAgentToPc();
         $rpage = $this->getHttpContent($url);
         $mtimes = preg_match_all('/return p}\(\'(.*)\',\d+,\d+,\'(.*)\'\.split/', $rpage, $m);
