@@ -33,14 +33,16 @@ class SpiderZdm extends SpiderBase
     public $dataList = [];
     public $dataArticle = [];
 
-    public $fetchListUrl = 'https://api.smzdm.com/v1/youhui/articles';
-    public $fetchArticleUrl = 'https://api.smzdm.com/v1/youhui/articles/';
+    public $fetchListUrl = 'aHR0cHM6Ly9hcGkuc216ZG0uY29tL3YxL3lvdWh1aS9hcnRpY2xlcw==';
+    public $fetchArticleUrl = 'aHR0cHM6Ly9hcGkuc216ZG0uY29tL3YxL3lvdWh1aS9hcnRpY2xlcy8=';
 
     public $fromSite = Offer::SITE_ZDM;
 
     public function __construct()
     {
         $this->requestUserAgent = self::USER_AGENT_MOBILE;
+        $this->fetchListUrl = base64_decode($this->fetchListUrl);
+        $this->fetchArticleUrl = base64_decode($this->fetchArticleUrl);
     }
 
 
@@ -155,7 +157,7 @@ class SpiderZdm extends SpiderBase
             Yii::warning('Fail to convert category id: ' . $a['article_category']['ID'] . ', name: ' . $a['article_category']['title']);
         }
 
-        return true;
+        return $a;
     }
 
     /**
@@ -260,7 +262,7 @@ class SpiderZdm extends SpiderBase
             if (empty($url)) {
                 continue;
             }
-            if (strpos($url, 'smzdm.com/p/')===0){
+            if (strpos($url, 'mzdm.com/p/')===0){
                 $detail = str_replace($url, '#', $detail);
             } else {
                 // find the real url
