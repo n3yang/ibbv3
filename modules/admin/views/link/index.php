@@ -24,14 +24,22 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'name',
             [
+                'attribute' => '原始链接',
                 'format' => 'raw',
                 'value' => function($data){
-                    $link = $data->url;
-                    $url = strlen($link)>50 ? (substr($link, 0, 50) . ' [...]') : $link;
-                    return sprintf('<a target="_blank" href="%s">%s</a>', $link, $url);
+                    $href = $data->url;
+                    $url = strlen($href)>50 ? (substr($href, 0, 50) . ' [...]') : $href;
+                    return sprintf('<a target="_blank" href="%s">%s</a>', $href, $url);
                 }
             ],
-            'slug',
+            [
+                'attribute' => '跳转链接',
+                'format' => 'raw',
+                'value'  => function($data) {
+                    $href = $data::REDIRECT_SLUG_PREFIX . '/' . $data->slug;
+                    return sprintf('<a target="_blank" href="%s">%s</a>', $href, $data->slug);
+                }
+            ],
             'click',
             'created_at',
 

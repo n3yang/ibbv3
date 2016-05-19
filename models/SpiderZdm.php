@@ -289,9 +289,8 @@ class SpiderZdm extends SpiderBase
         $logstr.= ' -> ' . $real;
         // yes, we found the real url, let's replace it to own.
         if ($real != $url) {
-            $cps = parent::replaceToCps($real);
             // create new short url
-            $link = parent::addLinkUniq($cps, $title);
+            $link = parent::addLinkUniq($real, $title);
             $shortUrl = $link['shortUrl'];
         } else {
             $shortUrl = '';
