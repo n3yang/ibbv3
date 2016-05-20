@@ -200,7 +200,12 @@ class Link extends \yii\db\ActiveRecord
     public static function replaceToCps($url)
     {
         if (strpos($url, 'amazon')) {
-            return $url .= '&t=ibaobr-23&tag=ibaobr-23';
+            $info = parse_url($url);
+            parse_str($info['query'], $params);
+            $params['t'] = 'ibaobr-23';
+            $params['tag'] = 'ibaobr-23';
+            $url = $info['scheme'] . '://' . $info['host'] . $info['path'] . http_build_query($params);
+            return $url;
         }
         // 检测商品所属商城，并转换对应的CPS平台的连接
         $matches = [
