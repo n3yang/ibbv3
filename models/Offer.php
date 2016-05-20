@@ -52,7 +52,7 @@ class Offer extends \yii\db\ActiveRecord
 
     const SITE_ZDM = 1;
     const SITE_ZDM_FX = 2;
-    const SITE_MGPYH = 3;
+    const SITE_PYH = 3;
 
 
     /**
@@ -163,7 +163,7 @@ class Offer extends \yii\db\ActiveRecord
         $labels = [
             self::SITE_ZDM      => '值买',
             self::SITE_ZDM_FX   => '值发现',
-            self::SITE_MGPYH    => '买个便宜货',
+            self::SITE_PYH      => '买个便宜货',
         ];
         return $site == '' ? $labels : $labels[$site];
     }
