@@ -34,7 +34,7 @@ class OfferController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new offerSearch();
+        $searchModel = new OfferSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

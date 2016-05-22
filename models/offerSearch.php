@@ -10,7 +10,7 @@ use app\models\offer;
 /**
  * offerSearch represents the model behind the search form about `app\models\offer`.
  */
-class offerSearch extends offer
+class OfferSearch extends offer
 {
     /**
      * @inheritdoc
