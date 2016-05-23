@@ -185,13 +185,17 @@ class SpiderBase extends \yii\base\Component
     {
         // yiqifa CPS平台
         if (strpos($url, 'p.yiqifa.com')) {
-            preg_match("/&t=(https?:\/\/.*)/", $url, $m);
-            $real = $m[1];
+            $real = static::getQueryValueFromUrl('t', $url);
+            // TODO: encoded url
+        }
+        // duomai CPS
+        if (strpos($url, 'c.duomai.com/track.php')) {
+            $real = static::getQueryValueFromUrl('t', $url);
             // TODO: encoded url
         }
         // yhd
         else if (strpos($url, 'click.yhd.com/')) {
-            $header = get_headers($url);
+            $header = get_headers($url, 1);
             $real = is_array($header['Location']) ? $header['Location'][0] : $header['Location'];
         }
         // jd
@@ -230,15 +234,11 @@ class SpiderBase extends \yii\base\Component
         }
         // suning.com
         else if (strpos($url, 'union.suning.com') || strpos($url, 'sucs.suning.com')) {
-            $info = parse_url($url);
-            parse_str($info['query'], $params);
-            $real = urldecode($params['vistURL']);
+            $real = static::getQueryValueFromUrl('vistURL', $url);
         }
         // dangdang.com
         else if (strpos($url, 'union.dangdang.com')) {
-            $info = parse_url($url);
-            parse_str($info['query'], $params);
-            $real = urldecode($params['backurl']);
+            $real = static::getQueryValueFromUrl('backurl', $url);
         }
         // m.dangdang.com
         else if (strpos($url, 'm.dangdang.com')) {
@@ -255,9 +255,7 @@ class SpiderBase extends \yii\base\Component
             $real = $url;
         }
         else if (strpos($url, '111.com.cn')) {
-            $info = parse_url($url);
-            parse_str($info['query'], $params);
-            $real = $params['url'];
+            $real = static::getQueryValueFromUrl('url', $url);
         }
         // fengyu.com
         else if (strpos($url, 'fengyu.com')) {
@@ -265,15 +263,11 @@ class SpiderBase extends \yii\base\Component
         }
         // kaola.com
         else if (strpos($url, 'cps.kaola.com')) {
-            $info = parse_url($url);
-            parse_str($info['query'], $params);
-            $real = $params['targetUrl'];
+            $real = static::getQueryValueFromUrl('targetUrl', $url);
         }
         // haituncun.com
         else if (strpos($url, 'associates.haituncun.com')) {
-            $info = parse_url($url);
-            parse_str($info['query'], $params);
-            $real = $params['url'];
+            $real = static::getQueryValueFromUrl('url', $url);
         }
         // womai.com
         // default 
@@ -283,5 +277,11 @@ class SpiderBase extends \yii\base\Component
         }
 
         return $real;
+    }
+
+    public static function getQueryValueFromUrl($queryKey, $url)
+    {
+        parse_str(parse_url($url, PHP_URL_QUERY), $query);
+        return $query[$queryKey];
     }
 }
