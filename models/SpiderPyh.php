@@ -16,28 +16,42 @@ class SpiderPyh extends SpiderBase
 {
 
     protected $syncCacheKey = 'SPIDER_PYH_SYNC_STATE'; 
-    /**
-     * Valid Category Ids
-     * 
-     * @var array
-     */
-    public static $validCategoryIds = [];
 
     public $urlReplaceCache = [];
 
     public $dataList = [];
     public $dataArticle = [];
 
-    // public $fetchListUrl = 'aHR0cDovL3d3dy5tZ3B5aC5jb20vY2F0ZWdvcnkvJUU3JThFJUE5JUU1JTg1JUI3JUU2JUFGJThEJUU1JUE5JUI0Lw==';
-    public $babyListUrl = 'http://www.mgpyh.com/category/%E7%8E%A9%E5%85%B7%E6%AF%8D%E5%A9%B4/';
-    public $foodListUrl = 'http://www.mgpyh.com/category/%E9%A3%9F%E5%93%81%E9%A5%AE%E6%96%99%E3%80%81%E9%85%92%E6%B0%B4%E3%80%81%E7%94%9F%E9%B2%9C/';
+    public $newestListApiUrl = '';
+    public $babyListAPiUrl = '';
+    public $foodListApiUrl = '';
 
     public $fromSite = Offer::SITE_PYH;
 
     public function __construct()
     {
-        $this->requestUserAgent = self::USER_AGENT_MOBILE;
-        // $this->fetchListUrl = base64_decode($this->fetchListUrl);
+        $this->requestUserAgent = 'mgpyh/1.1.9 CFNetwork/758.4.3 Darwin/15.5';
+
+        $this->newestListApiUrl = 'http://www.mgpyh.com/api/v1/get_more/';
+        $params = [
+            'productid' => 'I1',
+            'channel' => 'App Store',
+            'osv' => '9.3.2',
+            'request_key' => 'newest',
+            'requesttime' => time(),
+            'os' => 'iPhone OS',
+            'clientversion' => '1.1.2',
+            'platform' => 'ios',
+            'imei' => md5('f**k api'),
+            'signature' => md5('f**k'),
+            'appkey' => 'pumpkin',
+            'page' => '1',
+            'resolution' => '375*667',
+            'device' => 'iPhone8,1',
+            'access_token' => '',
+        ];
+        $this->newestListApiUrl .= '?' . http_build_query($params);
+
     }
 
 
@@ -65,11 +79,18 @@ class SpiderPyh extends SpiderBase
     }
 
 
-    public function fetchList($url)
+    public function fetchList($url='')
     {
-        $doc = new \DOMDocument();
-        @$doc->loadHTML($detail);
-        // $doc->getElementsByTagNameNS()
+
+        $rs = $this->getHttpContent($this->listUrl);
+        // $rs = $this->getHttpContent('http://www.mgpyh.com/api/v1/get_recommend/');
+        $rs = json_decode($rs, 1);
+        foreach ($rs['items'] as $r) {
+            echo $r['category']."\n";
+        }
+
+        print_r($rs);
+
     }
 
     public function getArticleFromHtml()
