@@ -175,5 +175,113 @@ class SpiderBase extends \yii\base\Component
     }
 
 
+    /**
+     * get the real url from cps url
+     * 
+     * @param  string $url cps url
+     * @return string      return the real url, if cant, return input
+     */
+    public function getRealUrl($url)
+    {
+        // yiqifa CPS平台
+        if (strpos($url, 'p.yiqifa.com')) {
+            preg_match("/&t=(https?:\/\/.*)/", $url, $m);
+            $real = $m[1];
+            // TODO: encoded url
+        }
+        // yhd
+        else if (strpos($url, 'click.yhd.com/')) {
+            $header = get_headers($url);
+            $real = is_array($header['Location']) ? $header['Location'][0] : $header['Location'];
+        }
+        // jd
+        else if (strpos($url, 'union.click.jd.com')) {
+            preg_match('/(https?:\/\/union.click.jd.*)/', $url, $m);
+            $ua = $this->requestUserAgent;
+            $this->switchUserAgentToPc();
+            $jda = $this->getHttpContent($m[1]);
+            preg_match('/hrl=\'(.*).\' ;/', $jda, $mm);
+            if (!empty($mm[1])) {
+                $header = get_headers($mm[1], 1);
+                $redurl = is_array($header['Location']) ? $header['Location'][0] : $header['Location'];
+                if (preg_match("/re.jd.com\/cps\/item\/(.*)\?/", $redurl, $mmm)) {
+                    $real = 'http://item.jd.com/' . $mmm[1];
+                } else if (preg_match("/(red.jd.com\/.*)\?/", $redurl, $mmm)) {
+                    $real = 'http://' . $mmm[1];
+                } else if (preg_match("/re.m.jd.com\/cps\/item\/(.*)\?/", $redurl, $mmm)) {
+                    $real = 'http://item.m.jd.com/product/' . $mmm[1];
+                } else {
+                    preg_match("/(https?:\/\/.*)\?/", $redurl, $mmm);
+                    $real = $mmm[1];
+                    Yii::warning('Fail to get jd real url: ' . $redurl);
+                }
+            }
+            $this->requestUserAgent = $ua;
+        } else if (strpos($url, 'item.jd.com')) {
+            // preg_match('/(https?:\/\/item.jd.com.*)/', $url, $m);
+            $real = $url;
+        }
+        // amazon.cn, amazon.com, and so on..
+        else if (strpos($url, 'amazon')) {
+            $info = parse_url($url);
+            parse_str($info['query'], $params);
+            unset($params['t'], $params['tag']);
+            $real = $info['scheme'] . '://' . $info['host'] . $info['path'] . http_build_query($params);
+        }
+        // suning.com
+        else if (strpos($url, 'union.suning.com') || strpos($url, 'sucs.suning.com')) {
+            $info = parse_url($url);
+            parse_str($info['query'], $params);
+            $real = urldecode($params['vistURL']);
+        }
+        // dangdang.com
+        else if (strpos($url, 'union.dangdang.com')) {
+            $info = parse_url($url);
+            parse_str($info['query'], $params);
+            $real = urldecode($params['backurl']);
+        }
+        // m.dangdang.com
+        else if (strpos($url, 'm.dangdang.com')) {
+            $real = str_replace('&unionid=p-326920m-ACYH93', '', $url);
+        }
+        // taobao alimama
+        // else if (strpos($js, 's.click.taobao.com') || strpos($js, 's.taobao.com')) {
+        //     preg_match("/smzdmhref=\\\\'(.*).\';/", $js, $m);
+        //     $real = $m[1];
+        // }
+        // taobao
+        // 
+        else if (strpos($url, 'taobao.com') || strpos($url, 'tmall.com')) {
+            $real = $url;
+        }
+        else if (strpos($url, '111.com.cn')) {
+            $info = parse_url($url);
+            parse_str($info['query'], $params);
+            $real = $params['url'];
+        }
+        // fengyu.com
+        else if (strpos($url, 'fengyu.com')) {
+            $real = str_replace('_src=smzdm5148', '', $url);
+        }
+        // kaola.com
+        else if (strpos($url, 'cps.kaola.com')) {
+            $info = parse_url($url);
+            parse_str($info['query'], $params);
+            $real = $params['targetUrl'];
+        }
+        // haituncun.com
+        else if (strpos($url, 'associates.haituncun.com')) {
+            $info = parse_url($url);
+            parse_str($info['query'], $params);
+            $real = $params['url'];
+        }
+        // womai.com
+        // default 
+        else {
+            Yii::warning('Fail to get real url, URL: ' . $url);
+            $real = $url;
+        }
 
+        return $real;
+    }
 }

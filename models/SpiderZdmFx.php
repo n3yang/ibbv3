@@ -12,8 +12,8 @@ class SpiderZdmFx extends SpiderZdm
 
     protected $syncCacheKey = 'SPIDER_ZDM_FX_SYNC_STATE';
 
-    public $fetchListUrl = 'https://api.smzdm.com/v1/faxian/articles';
-    public $fetchArticleUrl = 'https://api.smzdm.com/v1/faxian/articles/';
+    public $fetchListUrl = 'aHR0cHM6Ly9hcGkuc216ZG0uY29tL3YxL2ZheGlhbi9hcnRpY2xlcw==';
+    public $fetchArticleUrl = 'aHR0cHM6Ly9hcGkuc216ZG0uY29tL3YxL2ZheGlhbi9hcnRpY2xlcy8=';
 
     public $fromSite = Offer::SITE_ZDM_FX;
 

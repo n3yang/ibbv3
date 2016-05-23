@@ -326,103 +326,11 @@ class SpiderZdm extends SpiderBase
         } else {
             $js = self::decodeEval($m[1][0], $m[2][0]);
             // echo $js;
-            // yiqifa CPS平台
-            if (strpos($js, 'p.yiqifa.com')) {
-                preg_match("/&t=(https?:\/\/.*)\\\\';/", $js, $m);
-                $real = $m[1];
-            }
-            // yhd
-            else if (strpos($js, 'yhd.com/')) {
-                preg_match('/(https?:\/\/.*)\?/', $js, $m);
-                $real = $m[1];
-            }
-            // jd
-            else if (strpos($js, 'union.click.jd.com')) {
-                preg_match('/(https?:\/\/union.click.jd.*).\\\';/', $js, $m);
-                $ua = $this->requestUserAgent;
-                $this->switchUserAgentToPc();
-                $jda = $this->getHttpContent($m[1]);
-                preg_match('/hrl=\'(.*).\' ;/', $jda, $mm);
-                if (!empty($mm[1])) {
-                    $header = get_headers($mm[1], 1);
-                    $redurl = is_array($header['Location']) ? $header['Location'][0] : $header['Location'];
-                    if (preg_match("/re.jd.com\/cps\/item\/(.*)\?/", $redurl, $mmm)) {
-                        $real = 'http://item.jd.com/' . $mmm[1];
-                    } else if (preg_match("/(red.jd.com\/.*)\?/", $redurl, $mmm)) {
-                        $real = 'http://' . $mmm[1];
-                    } else if (preg_match("/re.m.jd.com\/cps\/item\/(.*)\?/", $redurl, $mmm)) {
-                        $real = 'http://item.m.jd.com/product/' . $mmm[1];
-                    } else {
-                        preg_match("/(https?:\/\/.*)\?/", $redurl, $mmm);
-                        $real = $mmm[1];
-                        Yii::warning('Fail to get jd real url: ' . $redurl);
-                    }
-                }
-                $this->requestUserAgent = $ua;
-            } else if (strpos($js, 'item.jd.com')) {
-                preg_match('/(https?:\/\/item.jd.com.*).\\\';/', $js, $m);
-                $real = $m[1];
-            }
-            // amazon.cn, amazon.com, and so on..
-            else if (strpos($js, 'amazon')) {
-                preg_match("/(https?:\/\/.*).\\\';/", $js, $m);
-                $info = parse_url($m[1]);
-                parse_str($info['query'], $params);
-                unset($params['t'], $params['tag']);
-                $real = $info['scheme'] . '://' . $info['host'] . $info['path'] . http_build_query($params);
-            }
-            // suning.com
-            else if (strpos($js, 'union.suning.com') || strpos($js, 'sucs.suning.com')) {
-                preg_match('/vistURL=(.*).\';/', $js, $m);
-                $real = $m[1];
-            }
-            // dangdang.com
-            else if (strpos($js, 'union.dangdang.com')) {
-                preg_match('/backurl=(.*).\';/', $js, $m);
-                $real = urldecode($m[1]);   
-            }
-            // m.dangdang.com
-            else if (strpos($js, 'm.dangdang.com')) {
-                preg_match("/smzdmhref=\\\\'(.*).\';/", $js, $m);
-                $real = str_replace('&unionid=p-326920m-ACYH93', '', $m[1]);
-            }
-            // taobao alimama
-            // else if (strpos($js, 's.click.taobao.com') || strpos($js, 's.taobao.com')) {
-            //     preg_match("/smzdmhref=\\\\'(.*).\';/", $js, $m);
-            //     $real = $m[1];
-            // }
-            // taobao
-            // 
-            else if (strpos($js, 'taobao.com') || strpos($js, 'tmall.com')) {
-                preg_match("/smzdmhref=\\\\'(.*).\';/", $js, $m);
-                $real = $m[1];
-            }
-            else if (strpos($js, '111.com.cn')) {
-                preg_match("/smzdmhref=\\\\'(.*)url=(.*).\';/", $js, $m);
-                $real = $m[2];
-            }
-            // fengyu.com
-            else if (strpos($js, 'fengyu.com')) {
-                preg_match("/smzdmhref=\\\\'(.*).\';/", $js, $m);
-                $real = str_replace('_src=smzdm5148', '', $m[1]);
-            }
-            // kaola.com
-            else if (strpos($js, 'cps.kaola.com')) {
-                preg_match("/smzdmhref=\\\\'(.*).\';/", $js, $m);
-                $info = parse_url($m[1]);
-                parse_str($info['query'], $params);
-                $real = $params['targetUrl'];
-            }
-            // haituncun.com
-            else if (strpos($js, 'associates.haituncun.com')) {
-                preg_match("/smzdmhref=\\\\'(.*).\';/", $js, $m);
-                $info = parse_url($m[1]);
-                parse_str($info['query'], $params);
-                $real = $params['url'];
-            }
-            // womai.com
-            // default 
-            else {
+            $pattern = "/zdmhref=\\\'(.*)\\\';ga/";
+            if (preg_match($pattern, $js, $matches)) {
+                print_r($matches);
+                $real = parent::getRealUrl($matches[1]);
+            } else {
                 Yii::warning('Fail to get real url, JS: ' . $js);
                 $real = $url;
             }
