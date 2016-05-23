@@ -13,6 +13,7 @@ use app\models\File;
 use app\models\Offer;
 use app\models\SpiderZdm;
 use app\models\SpiderZdmFx;
+use app\models\SpiderPyh;
 use app\models\Link;
 
 /**
@@ -104,6 +105,12 @@ class SpiderController extends Controller
             break;
         }
 
+    }
+
+    public function actionSyncPyh()
+    {
+        $spider = new SpiderPyh;
+        $spider->fetchBabyList();
     }
 
 }

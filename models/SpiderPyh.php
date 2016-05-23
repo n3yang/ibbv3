@@ -22,18 +22,18 @@ class SpiderPyh extends SpiderBase
     public $dataList = [];
     public $dataArticle = [];
 
-    public $newestListApiUrl = '';
-    public $babyListAPiUrl = '';
-    public $foodListApiUrl = '';
+    public $newListApiUrl = 'http://dpapi.mgpyh.com/api/v1/get_more/';
+    public $babyListAPiUrl = 'http://dpapi.mgpyh.com/api/v1/category/';
+    public $foodListApiUrl = 'http://dpapi.mgpyh.com/api/v1/category/';
 
     public $fromSite = Offer::SITE_PYH;
 
     public function __construct()
     {
-        $this->requestUserAgent = 'mgpyh/1.1.9 CFNetwork/758.4.3 Darwin/15.5';
-
-        $this->newestListApiUrl = 'http://www.mgpyh.com/api/v1/get_more/';
-        $params = [
+        // special UA
+        $this->requestUserAgent = 'mgpyh/1.1.9 CFNetwork/758.4.3 Darwin/15.5.0';
+        // basic query
+        $query = [
             'productid' => 'I1',
             'channel' => 'App Store',
             'osv' => '9.3.2',
@@ -42,16 +42,21 @@ class SpiderPyh extends SpiderBase
             'os' => 'iPhone OS',
             'clientversion' => '1.1.2',
             'platform' => 'ios',
-            'imei' => md5('f**k api'),
-            'signature' => md5('f**k'),
+            'imei' => md5('happy api'),
+            'signature' => md5('happy'),
             'appkey' => 'pumpkin',
             'page' => '1',
             'resolution' => '375*667',
             'device' => 'iPhone8,1',
             'access_token' => '',
         ];
-        $this->newestListApiUrl .= '?' . http_build_query($params);
-
+        $this->newListApiUrl .= '?' . http_build_query($query);
+        // generate category url
+        unset($query['request_key']);
+        $query['cat_id'] = 55;
+        $this->babyListAPiUrl .= '?' . http_build_query($query);
+        $query['cat_id'] = 57;
+        $this->foodListApiUrl .= '?' . http_build_query($query);
     }
 
 
@@ -81,25 +86,41 @@ class SpiderPyh extends SpiderBase
 
     public function fetchList($url='')
     {
-
-        $rs = $this->getHttpContent($this->listUrl);
-        // $rs = $this->getHttpContent('http://www.mgpyh.com/api/v1/get_recommend/');
+        $rs = $this->getHttpContent($url);
         $rs = json_decode($rs, 1);
-        foreach ($rs['items'] as $r) {
-            echo $r['category']."\n";
+        if ($rs['status'] != '1') {
+            Yii::warning('Fail to fetch list. API return: ' . var_export($rs, 1));
+            return [];
         }
+        foreach ($rs['items'] as $r) {
+            if ($r['is_top']) {
+                continue;
+            }
 
-        print_r($rs);
-
+            // echo $r['category']."\n";
+        }
+        // print_r($rs);
     }
 
-    public function getArticleFromHtml()
+    public function fetchBabyList()
     {
-        
+        return $this->fetchList($this->babyListAPiUrl);
     }
 
-    public function fetchArticle($url)
+    public function fetchFoodList()
     {
-        # code...
+        return $this->fetchList($this->foodListApiUrl);
+    }
+
+    public function getRealUrl($url='')
+    {
+        stream_context_set_default([
+            'http' => [
+                'header' => 'User-agent: ' . SpiderBase::USER_AGENT
+            ]
+        ]);
+        $header = get_headers($url, 1);
+        $target = is_array($header['Location']) ? $header['Location'][0] : $header['Location'];
+        return parent::getRealUrl($target);
     }
 }
