@@ -372,6 +372,7 @@ class SpiderZdm extends SpiderBase
             '183'   => Offer::B2C_JD,
             '3949'  => Offer::B2C_JD,
             '247'   => Offer::B2C_TMALL,
+            '2537'  => Offer::B2C_TMALL_CS,
             '43'    => Offer::B2C_YHD,
             '239'   => Offer::B2C_SUNING,
             '241'   => Offer::B2C_TAOBAO_JHS,

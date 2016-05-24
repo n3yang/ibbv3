@@ -214,6 +214,8 @@ class SpiderBase extends \yii\base\Component
                     $real = 'http://' . $mmm[1];
                 } else if (preg_match("/re.m.jd.com\/cps\/item\/(.*)\?/", $redurl, $mmm)) {
                     $real = 'http://item.m.jd.com/product/' . $mmm[1];
+                } else if (preg_match("/coupon.jd.com/", $redurl, $mmm)) {
+                    $real = 'http://' . static::getQueryValueFromUrl('to', $redurl);
                 } else {
                     preg_match("/(https?:\/\/.*)\?/", $redurl, $mmm);
                     $real = $mmm[1];

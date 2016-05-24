@@ -48,6 +48,7 @@ class Offer extends \yii\db\ActiveRecord
     const B2C_HAITUNCUN = 17;
     const B2C_AMAZON_US = 18;
     const B2C_WOMAI = 19;
+    const B2C_TMALL_CS = 20;
 
 
     const SITE_ZDM = 1;
@@ -154,6 +155,7 @@ class Offer extends \yii\db\ActiveRecord
             self::B2C_KAOLA         => '考拉海淘',
             self::B2C_HAITUNCUN     => '海豚村',
             self::B2C_WOMAI         => '中粮我买网',
+            self::B2C_TMALL_CS      => '天猫超市',
         ];
         return $b2c == '' ? $labels : $labels[$b2c];
     }
