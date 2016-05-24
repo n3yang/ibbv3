@@ -257,16 +257,17 @@ class SpiderZdm extends SpiderBase
         $doc = new \DOMDocument();
         @$doc->loadHTML($detail);
         $tags = $doc->getElementsByTagName('a');
-        foreach ($tags as $tag) {
-            $url = $tag->getAttribute('href');
+        for ( $i=0; $i<$tags->length; $i++ ) {
+            $url = $tags[$i]->getAttribute('href');
             if (empty($url)) {
                 continue;
             }
-            if (strpos($url, 'mzdm.com/p/')===0){
+            if (strpos($url, 'mzdm.com/p/')){
                 $detail = str_replace($url, '#', $detail);
             } else {
                 // find the real url
-                $myurl = self::replaceUrl($url);
+                $title = utf8_decode($tags->item($i)->nodeValue);
+                $myurl = self::replaceUrl($url, $title);
                 // in content
                 $detail = str_replace($url, $myurl, $detail);
             }
@@ -328,7 +329,7 @@ class SpiderZdm extends SpiderBase
             // echo $js;
             $pattern = "/zdmhref=\\\'(.*)\\\';ga/";
             if (preg_match($pattern, $js, $matches)) {
-                print_r($matches);
+                // print_r($matches);
                 $real = parent::getRealUrl($matches[1]);
             } else {
                 Yii::warning('Fail to get real url, JS: ' . $js);
