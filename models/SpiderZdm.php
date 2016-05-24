@@ -143,7 +143,9 @@ class SpiderZdm extends SpiderBase
         $newOffer['site']       = $this->fromSite;
         $newOffer['b2c']        = $b2c;
         $newOffer['status']     = empty($newOffer['link_slug']) ? Offer::STATUS_DRAFT : Offer::STATUS_PUBLISHED;
-        $newOffer['excerpt']    = !empty($this->dataList[$id]) ? $this->dataList[$id]['article_filter_content'] : '';
+        $newOffer['excerpt']    = !empty($this->dataList[$id])
+                                    ? $this->parseContent($this->dataList[$id]['article_filter_content'])
+                                    : '';
 
         // fetch thumbnail
         $thumbnail = $this->addRemoteFile($a['article_pic'], 'http://www.smzdm.com', $a['article_title']);
