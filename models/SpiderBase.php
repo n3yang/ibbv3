@@ -7,7 +7,9 @@ use yii\base\Model;
 use yii\httpclient\Client;
 use yii\helpers\Url;
 use yii\helpers\FileHelper;
-
+use Imagine\Gd\Imagine;
+use Imagine\Image\Box;
+use Imagine\Image\Point;
 
 use app\models\Offer;
 use app\models\File;
@@ -85,6 +87,8 @@ class SpiderBase extends \yii\base\Component
             Yii::warning('Error file mimetype: ' . $mimetype);
             return false;
         }
+
+        // TODO: reisize image
 
         // move to app upload dir and remove tempfile
         // if the file had been uploaded by spider, just read from DB
@@ -193,6 +197,9 @@ class SpiderBase extends \yii\base\Component
             $real = static::getQueryValueFromUrl('t', $url);
             // TODO: encoded url
         }
+        else if (strpos($url, 'count.chanet.com.cn/click.cgi')) {
+            $real = static::getQueryValueFromUrl('url', $url);
+        }
         // yhd
         else if (strpos($url, 'click.yhd.com/')) {
             $header = get_headers($url, 1);
@@ -243,8 +250,9 @@ class SpiderBase extends \yii\base\Component
             $real = static::getQueryValueFromUrl('backurl', $url);
         }
         // m.dangdang.com
-        else if (strpos($url, 'm.dangdang.com')) {
-            $real = str_replace('&unionid=p-326920m-ACYH93', '', $url);
+        else if (strpos($url, 'm.dangdang.com') || strpos($url, 't.dangdang.com')) {
+            $real = str_replace('unionid=p-326920m-ACYH93', '', $url);
+            $real = str_replace('unionid=p-326920m-ACFX75', '', $url);
         }
         // taobao alimama
         // else if (strpos($js, 's.click.taobao.com') || strpos($js, 's.taobao.com')) {
@@ -285,5 +293,15 @@ class SpiderBase extends \yii\base\Component
     {
         parse_str(parse_url($url, PHP_URL_QUERY), $query);
         return $query[$queryKey];
+    }
+
+    public static function getB2cIdByName($name)
+    {
+        $b2c = Offer::getB2cLabel();
+        foreach ($b2c as $k => $v){
+            if ( strpos($name, $v) !== false ) {
+                return $k;
+            }
+        }
     }
 }
