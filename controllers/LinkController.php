@@ -14,11 +14,13 @@ class LinkController extends \yii\web\Controller
         $slug = Yii::$app->request->get('slug');
         if (!$slug) {
             $this->goHome();
+            return;
         }
         $link = Link::findOneBySlug($slug);
         if (!$link) {
             Yii::warning('Link::goto faild! slug: ' . $slug);
             $this->goHome();
+            return;
         }
         $link->updateCounters(['click' => 1]);
         $cps = Link::replaceToCps($link->url);

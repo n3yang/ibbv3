@@ -204,7 +204,7 @@ class Link extends \yii\db\ActiveRecord
             parse_str($info['query'], $params);
             $params['t'] = 'ibaobr-23';
             $params['tag'] = 'ibaobr-23';
-            $url = $info['scheme'] . '://' . $info['host'] . $info['path'] . http_build_query($params);
+            $url = $info['scheme'] . '://' . $info['host'] . $info['path'] . '?' . http_build_query($params);
             return $url;
         }
         // 检测商品所属商城，并转换对应的CPS平台的连接

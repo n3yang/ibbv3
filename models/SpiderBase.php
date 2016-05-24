@@ -130,7 +130,7 @@ class SpiderBase extends \yii\base\Component
         return [
             'url'      => $link->url,
             'slug'     => $link->slug,
-            'shortUrl' => Link::getSiteShortUrl($link->slug)
+            'shortUrl' => Link::REDIRECT_SLUG_PREFIX . '/' . $link->slug,
         ];
     }
 
@@ -189,7 +189,7 @@ class SpiderBase extends \yii\base\Component
             // TODO: encoded url
         }
         // duomai CPS
-        if (strpos($url, 'c.duomai.com/track.php')) {
+        else if (strpos($url, 'c.duomai.com/track.php')) {
             $real = static::getQueryValueFromUrl('t', $url);
             // TODO: encoded url
         }
