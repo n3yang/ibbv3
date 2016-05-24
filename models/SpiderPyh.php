@@ -88,7 +88,8 @@ class SpiderPyh extends SpiderBase
 
     public function fetchList($url='')
     {
-        $rs = $this->getHttpContent($url);
+        $opt = [CURLOPT_USERAGENT=>$this->requestUserAgent];
+        $rs = $this->getHttpContent($url, '', $opt);
         $rs = json_decode($rs, 1);
         if ($rs['status'] != '1') {
             Yii::warning('Fail to fetch list. API return: ' . var_export($rs, 1));
@@ -100,8 +101,7 @@ class SpiderPyh extends SpiderBase
                 continue;
             }
             echo $r['category'] .'-'. static::getTagIdByCategoryName($r['category']) ."\n";
-            // echo $this->fetchArticle($r);
-            break;
+            $this->fetchArticle($r);
         }
         return $rs['items'];
     }
@@ -170,9 +170,11 @@ class SpiderPyh extends SpiderBase
         $doc = new \DOMDocument();
         @$doc->loadHTML($content);
         $tags = $doc->getElementsByTagName('a');
-        for ( $i=0; $i<$tags->length; $i++ ) {
-            $url = $tags[$i]->getAttribute('href');
+        $i = 0;
+        foreach ($tags as $tag) {
+            $url = $tag->getAttribute('href');
             if (empty($url)) {
+                $i++;
                 continue;
             }
             if (!preg_match('/goods\/\w+/', $url)){
@@ -184,6 +186,7 @@ class SpiderPyh extends SpiderBase
                 // in content
                 $content = str_replace($url, $myurl, $content);
             }
+            $i++;
         }
 
         return $content;
@@ -249,7 +252,7 @@ class SpiderPyh extends SpiderBase
             20 => ['安全座椅'],
             18 => ['婴儿推车'],
             17 => ['LEGO积木拼插', '健身玩具', '益智玩具', '毛绒布艺', '模型玩具', '乐器发声'],
-            14 => ['护肤', '洗护', '清洁'],
+            14 => ['护肤', '洗护', '清洁', '洗浴'],
             11 => ['1段', '2段', '3段', '4段'],
             13 => ['布尿裤', 'M', 'L', 'S'],
             15 => ['奶瓶奶嘴', '餐具'],
