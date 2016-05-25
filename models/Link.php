@@ -145,14 +145,9 @@ class Link extends \yii\db\ActiveRecord
      */
     public static function generateSlug($url)
     {
-        $a = md5($url, 1);
-        $s = '0123456789abcdefghijklmnopqrstuvwxyz';
-        $d = '';
-        for ($f = 0;  $f < 8;  $f++){
-            $g = ord( $a[ $f ] );
-            $d .= $s[ ( $g ^ ord( $a[ $f + 8 ] ) ) - $g & 0x1F ];
-        }
-        return $d;
+        $salt = 'ibbv3';
+        $str = substr( md5( $salt . $url ), 0, 12 );
+        return gmp_strval( gmp_init( $str, 16), 62 );
     }
     
     /**
