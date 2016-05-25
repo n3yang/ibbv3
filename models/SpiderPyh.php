@@ -20,9 +20,6 @@ class SpiderPyh extends SpiderBase
 
     public $urlReplaceCache = [];
 
-    public $dataList = [];
-    public $dataArticle = [];
-
     public $siteUrl = 'http://www.mgpyh.com';
     public $newListApiUrl = 'http://dpapi.mgpyh.com/api/v1/get_more/';
     public $babyListAPiUrl = 'http://dpapi.mgpyh.com/api/v1/category/';
@@ -34,6 +31,8 @@ class SpiderPyh extends SpiderBase
     {
         // special UA
         $this->requestUserAgent = 'mgpyh/1.1.9 CFNetwork/758.4.3 Darwin/15.5.0';
+        $this->requestReferer = 'www.mgpyh.com';
+
         // basic query
         $query = [
             'productid' => 'I1',
@@ -136,7 +135,7 @@ class SpiderPyh extends SpiderBase
         // content
         $content = $this->parseContent($a['post']);
         // thumbnail
-        $thumbnail = $this->addRemoteFile($a['thumbnail']);
+        $thumbnail = $this->addRemoteFile($a['thumbnail'], $a['item_name']);
         $thumb_file_id = $thumbnail['id'];
         // b2c
         $b2c = static::getB2cIdByName($a['shop']['name']);
@@ -186,6 +185,8 @@ class SpiderPyh extends SpiderBase
                 $content = str_replace($url, $myurl, $content);
             }
         }
+
+
 
         return $content;
     }
@@ -242,11 +243,10 @@ class SpiderPyh extends SpiderBase
         return parent::getRealUrl($target);
     }
 
-    public function addRemoteFile($src, $name = '')
+    public function addRemoteFile($src, $name = '', $size = [])
     {
-        $src = str_replace('!focus', '', $src);
         $src = str_replace('!show', '', $src);
-        return parent::addRemoteFile($src, $this->siteUrl, $name);
+        return parent::addRemoteFile($src, $name, $size);
     }
 
     public static function getTagIdByCategoryName($name)
@@ -257,7 +257,7 @@ class SpiderPyh extends SpiderBase
             17 => ['LEGO积木拼插', '健身玩具', '益智玩具', '毛绒布艺', '模型玩具', '乐器发声', '动漫相关'],
             14 => ['护肤', '洗护', '清洁', '洗浴'],
             11 => ['1段', '2段', '3段', '4段'],
-            13 => ['布尿裤', 'M', 'L', 'S'],
+            13 => ['布尿裤', 'M', 'L', 'S', 'NB/S'],
             15 => ['奶瓶奶嘴', '餐具'],
             12 => ['辅食'],
         ];

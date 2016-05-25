@@ -41,6 +41,7 @@ class SpiderZdm extends SpiderBase
     public function __construct()
     {
         $this->requestUserAgent = self::USER_AGENT_MOBILE;
+        $this->requestReferer = 'www.smzdm.com';
         $this->fetchListUrl = base64_decode($this->fetchListUrl);
         $this->fetchArticleUrl = base64_decode($this->fetchArticleUrl);
     }
@@ -112,7 +113,7 @@ class SpiderZdm extends SpiderBase
         foreach($a['article_content_img_list'] as $k => $image_url) {
             $image_url = str_replace('_e600.jpg', '', $image_url);
 
-            $post_image = parent::addRemoteFile($image_url, 'http://www.smzdm.com', $a['article_title']);
+            $post_image = parent::addRemoteFile($image_url, $a['article_title']);
             Yii::info('Fetch image: ' . $post_image['id']);
 
             $post_images[] = $post_image;
@@ -148,7 +149,7 @@ class SpiderZdm extends SpiderBase
                                     : '';
 
         // fetch thumbnail
-        $thumbnail = $this->addRemoteFile($a['article_pic'], 'http://www.smzdm.com', $a['article_title']);
+        $thumbnail = $this->addRemoteFile($a['article_pic'], $a['article_title']);
         $newOffer['thumb_file_id'] = $thumbnail['id'];
 
         // get category

@@ -24,7 +24,9 @@ class SpiderBase extends \yii\base\Component
     const USER_AGENT_MOBILE = '5.4 rv:11 (iPhone; iPhone OS 6.1.2; zh_CN)';
 
     public $requestUserAgent = '';
+    public $requestReferer = '';
 
+    public $fileTempDir = '/tmp';
     public static $fileExtension = ['jpg', 'jpeg', 'gif', 'png'];
     public static $fileType = ['image/jpeg', 'image/gif', 'image/png'];
 
@@ -47,7 +49,9 @@ class SpiderBase extends \yii\base\Component
         
         if ($offer->save()) {
             foreach ($tagIds as $tagId) {
-                $offer->link('tags', Tag::findOne($tagId));
+                if ($tagId) {
+                    $offer->link('tags', Tag::findOne($tagId));
+                }
             }
             return true;
         } else {
@@ -61,14 +65,14 @@ class SpiderBase extends \yii\base\Component
     }
 
 
-    public function addRemoteFile($url, $referer = '', $name = '' )
+    public function addRemoteFile($url, $name = '', $widthHeight = [])
     {
 
-        $tempfile = '/tmp/' . basename($url);
+        $tempfile = $this->fileTempDir . '/' . basename($url);
         // get file
-        $curlopt = [CURLOPT_REFERER=>$referer];
+        $curlopt = [ CURLOPT_REFERER => $this->requestReferer ];
         $content = $this->getHttpContent($url, '', $curlopt);
-        $contentHash = md5($content);
+        
         if ( file_put_contents($tempfile, $content) < 1 ) {
             Yii::warning('Fail to save remote tempfile');
             return false;
@@ -88,13 +92,22 @@ class SpiderBase extends \yii\base\Component
             return false;
         }
 
-        // TODO: reisize image
+        // reisize image
+        $width = empty($widthHeight[0]) ? Yii::$app->params['thumbnailSize']['width'] : $widthHeight[0];
+        $height = empty($widthHeight[1]) ? Yii::$app->params['thumbnailSize']['height'] : $widthHeight[1];
+        $newFileName = base_convert(uniqid(), 16, 32) . '.jpg';
+        $newFile = $this->fileTempDir . '/' . $newFileName;
+        $imagine = new Imagine;
+        $imagine->open($tempfile)
+                ->thumbnail(new Box($width, $height))
+                ->save($newFile, ['quality' => 90]);
+        unlink($tempfile);
 
         // move to app upload dir and remove tempfile
         // if the file had been uploaded by spider, just read from DB
-        $fileModel = File::findOneByMd5($contentHash);
+        $fileHash = md5_file($newFile);
+        $fileModel = File::findOneByMd5($fileHash);
         if ( $fileModel && $fileModel->user_id=='' ) {
-            unlink($tempfile);
             return [
                 'id'    => $fileModel->id,
                 'url'   => Yii::$aliases['@uploadUrl'] . '/' . $fileModel->path,
@@ -105,7 +118,7 @@ class SpiderBase extends \yii\base\Component
         }
         // yii::info('file model ->'. gettype($fileModel));
 
-        if ( $fileModel->uploadByLocal($tempfile, true) && $fileModel->save() ) {
+        if ( $fileModel->uploadByLocal($newFile, true, $name) && $fileModel->save() ) {
             return [
                 'id'  => $fileModel->id,
                 'url' => Yii::$aliases['@uploadUrl'] . '/' . $fileModel->path,
@@ -223,6 +236,8 @@ class SpiderBase extends \yii\base\Component
                     $real = 'http://item.m.jd.com/product/' . $mmm[1];
                 } else if (preg_match("/coupon.jd.com/", $redurl, $mmm)) {
                     $real = 'http://' . static::getQueryValueFromUrl('to', $redurl);
+                } else if (preg_match("/(https?:\/\/sale.jd.com\/act\/.*)\?/", $redurl, $mmm)) {
+                    $real = $mmm[1];
                 } else {
                     preg_match("/(https?:\/\/.*)\?/", $redurl, $mmm);
                     $real = $mmm[1];
