@@ -147,7 +147,7 @@ class Link extends \yii\db\ActiveRecord
     {
         $salt = 'ibbv3';
         $str = substr( md5( $salt . $url ), 0, 12 );
-        return gmp_strval( gmp_init( $str, 16), 62 );
+        return gmp_strval( gmp_init( $str, 16 ), 62 );
     }
     
     /**

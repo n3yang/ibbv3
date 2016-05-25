@@ -2,6 +2,7 @@
     "name": "ibbv3",
     "type": "project",
     "minimum-stability": "stable",
+    "description": "php modules: gmp,gd",
     "require": {
         "php": ">=5.4.0",
         "yiisoft/yii2": ">=2.0.5",
