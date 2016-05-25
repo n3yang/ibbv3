@@ -239,7 +239,7 @@ class SpiderBase extends \yii\base\Component
             $info = parse_url($url);
             parse_str($info['query'], $params);
             unset($params['t'], $params['tag']);
-            $real = $info['scheme'] . '://' . $info['host'] . $info['path'] . http_build_query($params);
+            $real = $info['scheme'] . '://' . $info['host'] . $info['path'] . '?' . http_build_query($params);
         }
         // suning.com
         else if (strpos($url, 'union.suning.com') || strpos($url, 'sucs.suning.com')) {
