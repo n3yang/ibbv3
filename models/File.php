@@ -140,7 +140,7 @@ class File extends \yii\db\ActiveRecord
      * @param  boolean $removeFile remove the source file after uploading
      * @return boolean             true or false
      */
-    public function uploadByLocal($file, $removeFile = false)
+    public function uploadByLocal($file, $removeFile = false, $name = '')
     {
         if ( !file_exists($file) )
             return false;
@@ -155,7 +155,7 @@ class File extends \yii\db\ActiveRecord
 
         if ( copy($file, $targetFile) ) {
             $this->path = date('Y') . '/' . date('m') . '/' . basename($targetFile);
-            $this->name = $info['filename'];
+            $this->name = empty($name) ? $info['filename'] : $name;
             $this->size = filesize($targetFile);
             $this->mime = FileHelper::getMimeType($file);
             $this->md5  = md5(file_get_contents($targetFile));
