@@ -172,7 +172,6 @@ class SpiderPyh extends SpiderBase
         foreach ($tags as $i => $tag) {
             $url = $tag->getAttribute('href');
             if (empty($url)) {
-                $i++;
                 continue;
             }
             if (!preg_match('/goods\/\w+/', $url)){

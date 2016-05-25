@@ -260,11 +260,9 @@ class SpiderZdm extends SpiderBase
         $doc = new \DOMDocument();
         @$doc->loadHTML($detail);
         $tags = $doc->getElementsByTagName('a');
-        $i = 0;
-        foreach ($tags as $tag) {
+        foreach ($tags as $i => $tag) {
             $url = $tags[$i]->getAttribute('href');
             if (empty($url)) {
-                $i++;
                 continue;
             }
             if (strpos($url, 'mzdm.com/p/')){
@@ -276,7 +274,6 @@ class SpiderZdm extends SpiderBase
                 // in content
                 $detail = str_replace($url, $myurl, $detail);
             }
-            $i++;
         }
 
         // replace some text
