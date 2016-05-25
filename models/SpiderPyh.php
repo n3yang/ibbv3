@@ -150,7 +150,7 @@ class SpiderPyh extends SpiderBase
             'price'         => $price,
             'site'          => $this->fromSite,
             'b2c'           => $b2c,
-            'status'        => $linkSlug ? Offer::STATUS_DRAFT : Offer::STATUS_PUBLISHED,
+            'status'        => empty($linkSlug) ? Offer::STATUS_DRAFT : Offer::STATUS_PUBLISHED,
             'excerpt'       => $excerpt,
             'thumb_file_id' => $thumb_file_id,
         ];
@@ -170,8 +170,7 @@ class SpiderPyh extends SpiderBase
         $doc = new \DOMDocument();
         @$doc->loadHTML($content);
         $tags = $doc->getElementsByTagName('a');
-        $i = 0;
-        foreach ($tags as $tag) {
+        foreach ($tags as $i => $tag) {
             $url = $tag->getAttribute('href');
             if (empty($url)) {
                 $i++;
@@ -186,7 +185,6 @@ class SpiderPyh extends SpiderBase
                 // in content
                 $content = str_replace($url, $myurl, $content);
             }
-            $i++;
         }
 
         return $content;
@@ -233,7 +231,12 @@ class SpiderPyh extends SpiderBase
         @$header = get_headers($url, 1);
         if ($header === false) {
             Yii::warning('Fail to get headers: ' . $url);
-            return parent::getRealUrl($url);
+            // waiting 5 seconds... retry
+            sleep(5);
+            @$header = get_headers($url, 1);
+            if ($header === false) {
+                return '';
+            }
         }
         $target = is_array($header['Location']) ? $header['Location'][0] : $header['Location'];
         return parent::getRealUrl($target);
