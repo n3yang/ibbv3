@@ -47,8 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'b2c', 
                 'value' => function($model){
-                    $b = $model->getB2cLabel($model->b2c);
-                    return is_string($b) ? $b : null ;
+                    return $model->getB2cLabel();
                 }
             ],
             'created_at',

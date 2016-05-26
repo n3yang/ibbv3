@@ -6,7 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\httpclient\Client;
 use yii\helpers\ArrayHelper;
-// use yii\httpclient\
+use PHPHtmlParser\Dom;
 use app\models\SpiderBase;
 
 /**
@@ -257,29 +257,28 @@ class SpiderZdm extends SpiderBase
         $content = preg_replace('/<head>(.*)<\/head>/is', '', $content);
         // remove not allowed tags
         $detail = trim(strip_tags($content, $allowedTags));
+        // replace some text
+        $detail = str_replace('值友', '网友', $detail);
 
         // get all tag A (link), and replace it to my short link (cps link)
-        $doc = new \DOMDocument();
-        @$doc->loadHTML($detail);
-        $tags = $doc->getElementsByTagName('a');
-        foreach ($tags as $i => $tag) {
-            $url = $tags[$i]->getAttribute('href');
+        $dom = new Dom;
+        $dom->load($detail);
+        $aTags = $dom->find('a');
+        foreach ($aTags as $a) {
+            $url = $a->getAttribute('href');
             if (empty($url)) {
                 continue;
             }
-            if (strpos($url, 'mzdm.com/p/')){
-                $detail = str_replace($url, '#', $detail);
+            if (strpos($url, 'zdm.com/p/')){
+                $a->setAttribute('href', '#');
             } else {
-                // find the real url
-                $title = utf8_decode($tags->item($i)->nodeValue);
+                $title = strip_tags($a->innerHtml());
                 $myurl = self::replaceUrl($url, $title);
-                // in content
-                $detail = str_replace($url, $myurl, $detail);
+                $a->setAttribute('href', $myurl);
             }
         }
 
-        // replace some text
-        $detail = str_replace('值友', '网友', $detail);
+        $detail = $dom->outerHtml;
 
         return $detail;
     }

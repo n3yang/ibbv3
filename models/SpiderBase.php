@@ -316,7 +316,7 @@ class SpiderBase extends \yii\base\Component
 
     public static function getB2cIdByName($name)
     {
-        $b2c = Offer::getB2cLabel();
+        $b2c = Offer::getB2cLabels();
         foreach ($b2c as $k => $v){
             if ( strpos($name, $v) !== false ) {
                 return $k;

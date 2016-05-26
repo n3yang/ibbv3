@@ -139,9 +139,15 @@ class Offer extends \yii\db\ActiveRecord
         return $status == '' ? $labels : $labels[$status];
     }
 
-    public static function getB2cLabel($b2c='')
+    public function getB2cLabel()
     {
-        $labels = [
+        $labels = $this->getB2cLabels();
+        return $labels[$this->b2c] ?: '';
+    }
+
+    public static function getB2cLabels()
+    {
+        return [
             self::B2C_JD            => '京东',
             self::B2C_TMALL         => '天猫',
             self::B2C_SUNING        => '苏宁',
@@ -164,7 +170,6 @@ class Offer extends \yii\db\ActiveRecord
             self::B2C_WOMAI         => '中粮我买网',
             self::B2C_TMALL_CS      => '天猫超市',
         ];
-        return $b2c == '' ? $labels : $labels[$b2c];
     }
 
     public static function getSiteLabel($site='')

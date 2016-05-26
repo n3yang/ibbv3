@@ -28,7 +28,7 @@ use app\models\tag;
 
     <?= $form->field($model, 'site')->dropDownList($model->getSiteLabel()) ?>
 
-    <?= $form->field($model, 'b2c')->dropDownList($model->getB2cLabel()) ?>
+    <?= $form->field($model, 'b2c')->dropDownList($model->getB2cLabels()) ?>
 
     <?= $form->field($model, 'created_at')->textInput() ?>
 
