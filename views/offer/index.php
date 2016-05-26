@@ -1,8 +1,10 @@
 <?php
 
 /* @var $this yii\web\View */
+/* @var $o app\model\Offer */
 
 use yii\widgets\LinkPager;
+use yii\helpers\Html;
 
 $this->title = '';
 ?>
@@ -11,11 +13,12 @@ $this->title = '';
 
             <div class="index col-sm-12 col-md-9">
 
+                <? foreach ($offers as $o) { ?>
                 <div class="spo-row row">
-                    <div class="thumb col-xs-3 col-sm-2"><img src="image/example.jpg" class="img-thumbnail img-responsive"></div>
+                    <div class="thumb col-xs-3 col-sm-2"><img src="<?=$o->thumb->getImageUrl()?>" class="img-thumbnail img-responsive"></div>
                     <div class="info col-xs-9 col-sm-10">
-                        <a href="#"><h4 class="title">便有上面给出的四组栅格class，你也不免会碰到一些问题，例的四组栅格class，你<span class="price">3095 USD</span></h4></a>
-                        <div class="detail hidden-xs">即便有上面给出的四组栅格class，你也不免会碰到一些问也不免会碰到一些问题，例如，在某些阈值时，某些列可能会出现比别的列高的情况。为了克服这一问题，建议联合使用</div>
+                        <a href="#"><h4 class="title"><?=$o->title?><span class="price">3095 USD</span></h4></a>
+                        <div class="detail hidden-xs"><?= ($o->excerpt); ?></div>
                         <div class="meta row text-muted">
                             <span class="mall col-xs-3">123</span>
                             <span class="time col-xs-3">4444</span>
@@ -23,6 +26,7 @@ $this->title = '';
                         </div>
                     </div>
                 </div>
+                <? } // end foreach ?>
 
                 <div class="pagebar text-center">
                     <nav>

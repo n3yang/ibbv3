@@ -20,13 +20,14 @@ class OfferController extends \yii\web\Controller
         $pagination = new pagination(['totalCount'=>$total]);
         
         // limit the query using the pagination and retrieve the offer
-        $offer = $query->offset($pagination->offset)
+        $offers = $query->offset($pagination->offset)
             ->limit($pagination->limit)
             ->with('thumb')
+            ->orderBy('id DESC')
             ->all();
 
         return $this->render('index',[
-            'offer' => $offer,
+            'offers' => $offers,
             'pagination' => $pagination
         ]);
     }
