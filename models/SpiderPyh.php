@@ -7,7 +7,7 @@ use yii\base\Model;
 use yii\httpclient\Client;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
-// use yii\httpclient\
+use PHPHtmlParser\Dom;
 use app\models\SpiderBase;
 
 /**
@@ -63,23 +63,11 @@ class SpiderPyh extends SpiderBase
 
     public function syncArticle()
     {
-        Yii::info('Syncing Article...');
+        Yii::info('Syncing Article...' . __CLASS__);
 
-        $last = Yii::$app->cache->get($this->syncCacheKey);
-        $list = $this->fetchList();
+        $rs = $this->fetchBabyList();
 
-        foreach ($list as $r) {
-            $maxId = $r['article_id'] > $maxId ? $r['article_id'] : $maxId;
-            if ($r['article_id'] <= $last['article_id']) {
-                continue;
-            }
-            $this->fetchArticle($r['article_id']);
-        }
-        $last['article_id'] = $maxId;
-        $last['action_time'] = date('Y-m-d H:i:s');
-
-        Yii::$app->cache->set($this->syncCacheKey, $last);
-        Yii::info('Syncing Finished. ' . json_encode($last));
+        Yii::info('Syncing Finished. ' . __CLASS__);
 
         return true;
     }
@@ -94,20 +82,31 @@ class SpiderPyh extends SpiderBase
             Yii::warning('Fail to fetch list. API return: ' . var_export($rs, 1));
             return [];
         }
-        foreach ($rs['items'] as &$r) {
-            if ($r['is_top']) {
-                unset($r);
-                continue;
-            }
-            echo $r['category'] .'-'. static::getTagIdByCategoryName($r['category']) ."\n";
-            $this->fetchArticle($r);
-        }
         return $rs['items'];
     }
 
     public function fetchBabyList()
     {
-        return $this->fetchList($this->babyListAPiUrl);
+        Yii::info('Fetch list from: ' . $this->babyListAPiUrl);
+        $items = $this->fetchList($this->babyListAPiUrl);
+        if (empty($items)) {
+            return false;
+        }
+
+        $last = Yii::$app->cache->get($this->syncCacheKey.__FUNCTION__);
+        foreach ($items as &$r) {
+            if ($r['is_top']) {
+                unset($r);
+                continue;
+            }
+            // echo $r['category'] .'-'. static::getTagIdByCategoryName($r['category']) ."\n";
+            if ($r['id'] > $last['maxId']) {
+                $this->fetchArticle($r);
+            }
+            $last['maxId'] = max($last['maxId'], $r['id']);
+        }
+        Yii::$app->cache->set($this->syncCacheKey.__FUNCTION__, $last);
+        Yii::info('Fetch finished. ' . json_encode($last));
     }
 
     public function fetchFoodList()
@@ -118,6 +117,7 @@ class SpiderPyh extends SpiderBase
 
     public function fetchArticle($a)
     {
+        Yii::info('Fetch article: ' . $a['post_title']);
         // title
         if (preg_match("/(^.*)\s(.*)$/", $a['post_title'], $matches)) {
             $title = $matches[1];
@@ -133,7 +133,7 @@ class SpiderPyh extends SpiderBase
         // excerpt
         $excerpt = mb_substr(strip_tags($a['post']), 0, 80);
         // content
-        $content = $this->parseContent($a['post']);
+        $content = $this->parseContent($a['post'], $a['item_name']);
         // thumbnail
         $thumbnail = $this->addRemoteFile($a['thumbnail'], $a['item_name']);
         $thumb_file_id = $thumbnail['id'];
@@ -141,6 +141,8 @@ class SpiderPyh extends SpiderBase
         $b2c = static::getB2cIdByName($a['shop']['name']);
         // site
         $fromSite = $this->fromSite;
+        // fetch from
+        $fetchedFrom = $this->siteUrl . '/' . $a['post_url'];
 
         $offerDs = [
             'title'         => $title,
@@ -152,41 +154,58 @@ class SpiderPyh extends SpiderBase
             'status'        => empty($linkSlug) ? Offer::STATUS_DRAFT : Offer::STATUS_PUBLISHED,
             'excerpt'       => $excerpt,
             'thumb_file_id' => $thumb_file_id,
+            'fetched_from'  => $fetchedFrom,
         ];
 
         $tagId = static::getTagIdByCategoryName($a['category']);
 
-        $this->addOffer($offerDs, [$tagId]);
+        $offerId = $this->addOffer($offerDs, [$tagId]);
+
+        if ($offerId) {
+            Yii::info('Fetch article is finished... id: ' . $offerId. ' title: ' . $title);
+            return true;
+        } else {
+            return false;
+        }
 
     }
 
-    public function parseContent($content)
+    public function parseContent($content, $articleTitle)
     {
         Yii::info('Parsing content...');
 
         $content = strip_tags($content, '<p><a><br /><span><h2><strong><b><img>');
-
-        $doc = new \DOMDocument();
-        @$doc->loadHTML($content);
-        $tags = $doc->getElementsByTagName('a');
-        foreach ($tags as $i => $tag) {
-            $url = $tag->getAttribute('href');
-            if (empty($url)) {
-                $i++;
-                continue;
-            }
+        $dom = new Dom;
+        $dom->load($content);
+        $aTags = $dom->find('a');
+        foreach ($aTags as $a) {
+            $url = $a->getAttribute('href');
             if (!preg_match('/goods\/\w+/', $url)){
-                $content = str_replace($url, '#', $content);
+                $a->setAttribute('href', '#');
             } else {
-                // find the real url
-                $title = utf8_decode($tags->item($i)->nodeValue);
+                $title = strip_tags($a->innerHtml());
                 $myurl = self::replaceUrl($url, $title);
-                // in content
-                $content = str_replace($url, $myurl, $content);
+                $a->setAttribute('href', $myurl);
             }
         }
-
-
+        $imgTags = $dom->find('img');
+        foreach ($imgTags as $i => $img) {
+            if ($i>1) {
+                $img->delete();
+            }
+            $src = $img->getAttribute('src');
+            // fetch and replace
+            if (!Url::isRelative($src)) {
+                $rs = $this->addRemoteFile($src, $articleTitle, [600, 400]);
+                if (!empty($rs['url'])) {
+                    $img->setAttribute('src', $rs['url']);
+                    $img->setAttribute('alt', $articleTitle);
+                    $img->removeAttribute('width');
+                    $img->removeAttribute('height');
+                }
+            }
+        }
+        $content = $dom->outerHtml;
 
         return $content;
     }
@@ -245,6 +264,7 @@ class SpiderPyh extends SpiderBase
 
     public function addRemoteFile($src, $name = '', $size = [])
     {
+        $src = str_replace('!focus', '', $src);
         $src = str_replace('!show', '', $src);
         return parent::addRemoteFile($src, $name, $size);
     }
@@ -252,26 +272,28 @@ class SpiderPyh extends SpiderBase
     public static function getTagIdByCategoryName($name)
     {
         $matches = [
+            22 => ['图书'],
+            21 => ['儿童监护', '吸乳器'],
             20 => ['安全座椅'],
+            19 => ['童鞋', '童装'],
             18 => ['婴儿推车', '餐椅摇椅'],
             17 => ['LEGO积木拼插', '健身玩具', '益智玩具', '毛绒布艺', '模型玩具', '乐器发声', '动漫相关'],
             14 => ['护肤', '洗护', '清洁', '洗浴'],
             11 => ['1段', '2段', '3段', '4段'],
             13 => ['布尿裤', 'M', 'L', 'S', 'NB/S'],
             15 => ['奶瓶奶嘴', '餐具'],
-            12 => ['辅食'],
+            12 => ['辅食', '肉松', '孕产奶粉', '成人奶粉'],
         ];
 
         foreach ($matches as $k => $v) {
             if (in_array($name, $v)) {
                 return $k;
             }
-            // else {
-            //     echo 'Fail to get tagId by category name! category name: ' . $name;
-            //     Yii::warning('Fail to get tagId by category name! category name: ' . $name);
-            // }
         }
+        // not found
+        Yii::warning('Fail to get tagId by category name! category name: ' . $name);
 
-        return '';
+        // not category
+        return 10;
     }
 }
