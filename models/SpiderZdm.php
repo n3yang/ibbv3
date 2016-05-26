@@ -103,9 +103,10 @@ class SpiderZdm extends SpiderBase
         // print_r($a);
         // pass invalid articles
         if ( !static::isValidArticle($a) ) {
-            Yii::info('Find: ' . $a['article_id'] . ', ' . $a['article_title'] . ', ignore...');
+            Yii::info('Find invalid article: ' . $a['article_id'] . ', ' . $a['article_title']);
             return array();
         }
+        Yii::info('Find: ' . $a['article_id'] . ', ' . $a['article_title']);
 
         // add images
         // nothing in new API, reomove it ?
@@ -155,7 +156,8 @@ class SpiderZdm extends SpiderBase
         // get category
         $tagId = self::convertCategoryId($a['article_category']['ID']);
         if ($tagId) {
-            $this->addOffer($newOffer, [$tagId]);
+            $offerId = $this->addOffer($newOffer, [$tagId]);
+            Yii::info('Fetch article is finished... id: ' . $offerId. ' title: ' . $a['article_title']);
         } else {
             Yii::warning('Fail to convert category id: ' . $a['article_category']['ID'] . ', name: ' . $a['article_category']['title']);
         }
@@ -373,6 +375,7 @@ class SpiderZdm extends SpiderBase
             '4033'  => Offer::B2C_AMAZON_BB,
             '41'    => Offer::B2C_AMAZON_US,
             '271'   => Offer::B2C_AMAZON_JP,
+            '279'   => Offer::B2C_AMAZON_UK,
             '183'   => Offer::B2C_JD,
             '3949'  => Offer::B2C_JD,
             '247'   => Offer::B2C_TMALL,

@@ -53,10 +53,9 @@ class SpiderBase extends \yii\base\Component
                     $offer->link('tags', Tag::findOne($tagId));
                 }
             }
-            return true;
-        } else {
-            return false;
         }
+        
+        return $offer->id;
     }
 
     public function addFile()
@@ -65,7 +64,7 @@ class SpiderBase extends \yii\base\Component
     }
 
 
-    public function addRemoteFile($url, $name = '', $widthHeight = [])
+    public function addRemoteFile($url, $name = '', $widthHeight = [0, 0])
     {
 
         $tempfile = $this->fileTempDir . '/' . basename($url);
@@ -93,8 +92,13 @@ class SpiderBase extends \yii\base\Component
         }
 
         // reisize image
-        $width = empty($widthHeight[0]) ? Yii::$app->params['thumbnailSize']['width'] : $widthHeight[0];
-        $height = empty($widthHeight[1]) ? Yii::$app->params['thumbnailSize']['height'] : $widthHeight[1];
+        if (empty($widthHeight[0]) && empty($widthHeight[1])) {
+            $width = Yii::$app->params['thumbnailSize']['width'];
+            $height = Yii::$app->params['thumbnailSize']['height'];
+        } else {
+            $width = $widthHeight[0];
+            $height = $widthHeight[1];
+        }
         $newFileName = base_convert(uniqid(), 16, 32) . '.jpg';
         $newFile = $this->fileTempDir . '/' . $newFileName;
         $imagine = new Imagine;

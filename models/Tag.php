@@ -21,6 +21,7 @@ class Tag extends \yii\db\ActiveRecord
 
 /*
 insert into tag values
+    ('10','未分类','none', NOW(), NOW()),
     ('11','奶粉牛奶','naifenniunai', NOW(), NOW()),
     ('12','营养辅食','yingyangfushi', NOW(), NOW()),
     ('13','尿裤湿巾','niaokushijin', NOW(), NOW()),
@@ -32,9 +33,11 @@ insert into tag values
     ('19','童装童鞋','tongzhuangtongxie', NOW(), NOW()),
     ('20','安全座椅','anquanzuoyi', NOW(), NOW()),
     ('21','妈妈用品','mamayongpin', NOW(), NOW()),
-    ('22','图书影音','tushuyingyin', NOW(), NOW()),;
+    ('22','图书影音','tushuyingyin', NOW(), NOW()),
+    ('23','美食生鲜','meishishengxian', NOW(), NOW()),;
 */
     static $reservedTag = [
+        '10'  => ['name' => '未分类',   'slug' => 'none'],
         '11'  => ['name' => '奶粉牛奶', 'slug' => 'naifenniunai'],
         '12'  => ['name' => '营养辅食', 'slug' => 'yingyangfushi'],
         '13'  => ['name' => '尿裤湿巾', 'slug' => 'niaokushijin'],
@@ -47,6 +50,7 @@ insert into tag values
         '20'  => ['name' => '安全座椅', 'slug' => 'anquanzuoyi'],
         '21'  => ['name' => '妈妈用品', 'slug' => 'mamayongpin'],
         '22'  => ['name' => '图书影音', 'slug' => 'tushuyingyin'],
+        '23'  => ['name' => '美食生鲜', 'slug' => 'meishishengxian'],
     ];
 
     /**

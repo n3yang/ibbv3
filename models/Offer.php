@@ -49,6 +49,7 @@ class Offer extends \yii\db\ActiveRecord
     const B2C_AMAZON_US = 18;
     const B2C_WOMAI = 19;
     const B2C_TMALL_CS = 20;
+    const B2C_AMAZON_UK = 21;
 
 
     const SITE_ZDM = 1;
@@ -117,6 +118,11 @@ class Offer extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getThumb()
+    {
+        return $this->hasOne(File::className(), ['id'=>'thumb_file_id']);
+    }
+
     public function getTags()
     {
         return $this->hasMany(Tag::className(), ['id' => 'tag_id'])->viaTable('tag_offer', ['offer_id' => 'id']);
@@ -145,6 +151,7 @@ class Offer extends \yii\db\ActiveRecord
             self::B2C_AMAZON_CN     => '亚马逊',
             self::B2C_AMAZON_BB     => '亚马逊海外购',
             self::B2C_AMAZON_US     => '美国亚马逊',
+            self::B2C_AMAZON_UK     => '英国亚马逊',
             self::B2C_YHD           => '一号店',
             self::B2C_TAOBAO_JHS    => '淘宝聚划算',
             self::B2C_TAOBAO        => '淘宝',
