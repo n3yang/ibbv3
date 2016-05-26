@@ -118,6 +118,11 @@ class Offer extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getThumb()
+    {
+        return $this->hasOne(File::className(), ['id'=>'thumb_file_id']);
+    }
+
     public function getTags()
     {
         return $this->hasMany(Tag::className(), ['id' => 'tag_id'])->viaTable('tag_offer', ['offer_id' => 'id']);
