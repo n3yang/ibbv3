@@ -138,13 +138,20 @@ class SpiderZdm extends SpiderBase
         if (!$b2c) {
             Yii::warning('Fail to convert mall: ' . $a['article_mall']);
         }
+        
+        // set status
+        if (!$b2c || !$newOffer['link_slug']) {
+            $status = Offer::STATUS_DRAFT;
+        } else {
+            $status = Offer::STATUS_PUBLISHED;
+        }
         // set property
         $newOffer['title']      = $a['article_title'];
         $newOffer['content']    = $post_content;
         $newOffer['price']      = $a['article_price'];
         $newOffer['site']       = $this->fromSite;
         $newOffer['b2c']        = $b2c;
-        $newOffer['status']     = empty($newOffer['link_slug']) ? Offer::STATUS_DRAFT : Offer::STATUS_PUBLISHED;
+        $newOffer['status']     = $status;
         $newOffer['excerpt']    = !empty($this->dataList[$id])
                                     ? $this->parseContent($this->dataList[$id]['article_filter_content'])
                                     : '';
@@ -387,6 +394,7 @@ class SpiderZdm extends SpiderBase
             '3467'  => Offer::B2C_FENGQUHAITAO,
             '3981'  => Offer::B2C_KAOLA,
             '261'   => Offer::B2C_WOMAI,
+            '691'   => Offer::B2C_SUPUY,
         ];
         if (!isset($mapping[$mallId])) {
             Yii::warning('Fail to convert mall id: ' . $mallId);

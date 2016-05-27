@@ -314,13 +314,43 @@ class SpiderBase extends \yii\base\Component
         return $query[$queryKey];
     }
 
-    public static function getB2cIdByName($name)
+    public static function getB2cIdByShopName($name)
     {
-        $b2c = Offer::getB2cLabels();
-        foreach ($b2c as $k => $v){
-            if ( strpos($name, $v) !== false ) {
+
+        $matches = [
+            Offer::B2C_JD            => ['京东', '京东全球购'],
+            Offer::B2C_TMALL         => ['天猫'],
+            Offer::B2C_SUNING        => ['苏宁'],
+            Offer::B2C_GOME          => ['国美'],
+            Offer::B2C_MIYA          => ['蜜牙'],
+            Offer::B2C_DANGDANG      => ['当当'],
+            Offer::B2C_AMAZON_CN     => ['亚马逊', '亚马逊中国'],
+            Offer::B2C_AMAZON_BB     => ['亚马逊海外购'],
+            Offer::B2C_AMAZON_US     => ['美国亚马逊'],
+            Offer::B2C_AMAZON_UK     => ['英国亚马逊'],
+            Offer::B2C_YHD           => ['一号店', '1号店'],
+            Offer::B2C_TAOBAO_JHS    => ['淘宝聚划算'],
+            Offer::B2C_TAOBAO        => ['淘宝'],
+            Offer::B2C_1IYAOWANG     => ['1药网'],
+            Offer::B2C_MUYINGZHIJIA  => ['母婴之家'],
+            Offer::B2C_AMAZON_JP     => ['日本亚马逊'],
+            Offer::B2C_FENGQUHAITAO  => ['丰趣海淘'],
+            Offer::B2C_KAOLA         => ['考拉海淘', '网易考拉海购'],
+            Offer::B2C_HAITUNCUN     => ['海豚村'],
+            Offer::B2C_WOMAI         => ['中粮我买网'],
+            Offer::B2C_TMALL_CS      => ['天猫超市'],
+            Offer::B2C_SUPUY         => ['速普母婴'],
+        ];
+        foreach ($matches as $k => $v) {
+            if (in_array($name, $v)) {
                 return $k;
             }
         }
+
+        // not found
+        Yii::warning('Fail to get B2cId by shop name! shop name: ' . $name);
+
+        // not category
+        return 0;
     }
 }

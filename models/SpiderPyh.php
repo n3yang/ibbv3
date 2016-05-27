@@ -100,6 +100,7 @@ class SpiderPyh extends SpiderBase
                 continue;
             }
             // echo $r['category'] .'-'. static::getTagIdByCategoryName($r['category']) ."\n";
+            echo $r['shop']['name'] .'-'. static::getB2cIdByShopName($r['shop']['name']) ."\n";
             if ($r['id'] > $last['maxId']) {
                 $this->fetchArticle($r);
             }
@@ -131,18 +132,25 @@ class SpiderPyh extends SpiderBase
         preg_match("/([\w]+)$/", $linkSlug, $matches);
         $linkSlug = $matches[1];
         // excerpt
-        $excerpt = mb_substr(strip_tags($a['post']), 0, 80);
+        $excerpt = mb_substr(strip_tags($a['post']), 0, 150);
         // content
         $content = $this->parseContent($a['post'], $a['item_name']);
         // thumbnail
         $thumbnail = $this->addRemoteFile($a['thumbnail'], $a['item_name']);
         $thumb_file_id = $thumbnail['id'];
         // b2c
-        $b2c = static::getB2cIdByName($a['shop']['name']);
+        $b2c = static::getB2cIdByShopName($a['shop']['name']);
         // site
         $fromSite = $this->fromSite;
         // fetch from
         $fetchedFrom = $this->siteUrl . '/' . $a['post_url'];
+        
+        // set status
+        if (!$b2c || !$linkSlug) {
+            $status = Offer::STATUS_DRAFT;
+        } else {
+            $status = Offer::STATUS_PUBLISHED;
+        }
 
         $offerDs = [
             'title'         => $title,
@@ -151,7 +159,7 @@ class SpiderPyh extends SpiderBase
             'price'         => $price,
             'site'          => $this->fromSite,
             'b2c'           => $b2c,
-            'status'        => empty($linkSlug) ? Offer::STATUS_DRAFT : Offer::STATUS_PUBLISHED,
+            'status'        => $status,
             'excerpt'       => $excerpt,
             'thumb_file_id' => $thumb_file_id,
             'fetched_from'  => $fetchedFrom,
