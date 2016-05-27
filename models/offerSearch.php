@@ -67,7 +67,8 @@ class OfferSearch extends offer
         $query->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'content', $this->content])
             ->andFilterWhere(['like', 'price', $this->price])
-            ->andFilterWhere(['like', 'link_slug', $this->link_slug]);
+            ->andFilterWhere(['like', 'link_slug', $this->link_slug])
+            ->with('thumb');
 
         return $dataProvider;
     }

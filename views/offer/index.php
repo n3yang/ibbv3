@@ -6,7 +6,7 @@
 use yii\widgets\LinkPager;
 use yii\helpers\Html;
 use yii\helpers\StringHelper;
-use yii\i18n\Formatter;
+use yii\helpers\Url;
 
 $this->title = '';
 ?>
@@ -18,15 +18,15 @@ $this->title = '';
                 <? foreach ($offers as $o) { ?>
                 <div class="spo-row row">
                     <div class="thumb col-xs-3 col-sm-2">
-                        <img src="<?=empty($o->thumb)?'':$o->thumb->getImageUrl();?>" class="img-thumbnail img-responsive">
+                        <a href="<?=$o->getLinkSlugUrl()?>" target="_blank"><img src="<?=empty($o->thumb)?'':$o->thumb->getImageUrl();?>" class="img-thumbnail img-responsive"></a>
                     </div>
                     <div class="info col-xs-9 col-sm-10">
-                        <a href="#"><h4 class="title"><?=$o->title?><span class="price"><?=$o->price?></span></h4></a>
-                        <div class="detail hidden-xs"><?=StringHelper::truncate($o->excerpt, 120)?></div>
+                        <a href="<?=Url::to(['offer/view', 'id'=>$o->id])?>"><h4 class="title"><?=$o->title?><span class="price"><?=$o->price?></span></h4></a>
+                        <div class="detail hidden-xs"><?=StringHelper::truncate($o->excerpt, 90)?></div>
                         <div class="meta row text-muted">
                             <span class="mall col-xs-3"><?=$o->getB2cLabel()?></span>
                             <span class="time col-xs-3"><?=$o->created_at?></span>
-                            <span class="link col-xs-6 text-right"><a href="#" class="btn btn-primary" rel="nofollow">在某些阈</a> </span>
+                            <span class="link col-xs-6 text-right"><a href="<?=$o->getLinkSlugUrl()?>" target="_blank" class="btn btn-primary" rel="nofollow">去看看</a></span>
                         </div>
                     </div>
                 </div>
@@ -37,6 +37,7 @@ $this->title = '';
 <?
 echo LinkPager::widget([
     'pagination' => $pagination,
+    'maxButtonCount' => 5,
 ]);
 ?>
                     </nav>

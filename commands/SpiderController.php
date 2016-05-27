@@ -5,6 +5,7 @@
  */
 
 namespace app\commands;
+
 use yii;
 use yii\console\Controller;
 use yii\helpers\Console;
@@ -67,50 +68,19 @@ class SpiderController extends Controller
         // var_dump(Link::findOneBySlug('gska1cgf'));
         // $spider->replaceUrl('http://www.smzdm.com/gourl/5D8916EA9AA5AC64/AA_YH_75');
 
-        $spider = new SpiderZdmFx;
-        $spider->syncArticle();
+        // $spider = new SpiderZdmFx;
+        // $spider->syncArticle();
     }
 
     public function actionTest()
     {
-
-        // /api/v1/get_more/?productid=I1&channel=App%20Store&osv=9.3.2&request_key=newest&requesttime=1463930416&os=iPhone%20OS&clientversion=1.1.2&platform=ios&imei=d0e7fd71117943e18a3c00c38bbd4a29&signature=b247687e18570ebb75d61a3e686017b2&appkey=pumpkin&page=1&resolution=375%2A667&device=iPhone8%2C1&access_token=
-        // User-Agent: mgpyh/1.1.9 CFNetwork/758.4.3 Darwin/15.5
-        $spider = new SpiderZdm();
-        $html = $spider->getHttpContent('http://www.mgpyh.com/api/v1/get_more/?productid=I1&channel=App%20Store&osv=9.3.2&request_key=newest&requesttime=1463930416&os=iPhone%20OS&clientversion=1.1.2&platform=ios&imei=d0e7fd71117943e18a3c00c38bbd4a29&signature=b247687e18570ebb75d61a3e686017b2&appkey=pumpkin&page=1&resolution=375%2A667&device=iPhone8%2C1&access_token=');
-        print_r( json_decode($html) );
-        return;
-        $spider = new SpiderZdm();
-        $listUrl = 'http://www.mgpyh.com/post/zone/';
-        $html = $spider->getHttpContent($listUrl);
-
-        $dom = new Dom;
-        $dom->load($html);
-
-        $contents = $dom->find('.content-item');
-        foreach ($contents as $content ){
-            $timestamp = $content->getAttribute('data-timestamp');
-
-            // TODO: add some cache testing
-            $excerpt = $content->find('.post-thumb')->text();
-            $link = 'http://www.mgpyh.com' . $content->find('.readmore')->getAttribute('href');
-
-
-            // get article info
-            $html = $spider->getHttpContent($link, '', [CURLOPT_REFERER=>$listUrl]);
-            $rdom = new Dom;
-            $rdom->load($html);
-            echo $title = $rdom->find('.recommend .title')->text();
-
-            break;
-        }
 
     }
 
     public function actionSyncPyh()
     {
         $spider = new SpiderPyh;
-        $spider->fetchBabyList();
+        $spider->syncArticle();
     }
 
 }

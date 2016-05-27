@@ -50,6 +50,7 @@ class Offer extends \yii\db\ActiveRecord
     const B2C_WOMAI = 19;
     const B2C_TMALL_CS = 20;
     const B2C_AMAZON_UK = 21;
+    const B2C_SUPUY = 22;
 
 
     const SITE_ZDM = 1;
@@ -128,6 +129,11 @@ class Offer extends \yii\db\ActiveRecord
         return $this->hasMany(Tag::className(), ['id' => 'tag_id'])->viaTable('tag_offer', ['offer_id' => 'id']);
     }
 
+    public function getLinkSlugUrl()
+    {
+        return Link::REDIRECT_SLUG_PREFIX . '/' . $this->link_slug;
+    }
+
     public static function getStatusLabel($status='')
     {
         $labels = [
@@ -169,6 +175,7 @@ class Offer extends \yii\db\ActiveRecord
             self::B2C_HAITUNCUN     => '海豚村',
             self::B2C_WOMAI         => '中粮我买网',
             self::B2C_TMALL_CS      => '天猫超市',
+            self::B2C_SUPUY         => '速普母婴',
         ];
     }
 

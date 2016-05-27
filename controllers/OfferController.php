@@ -17,7 +17,7 @@ class OfferController extends \yii\web\Controller
         $total = $query->count();
         
         // create a pagination object with the total count
-        $pagination = new pagination(['totalCount'=>$total]);
+        $pagination = new pagination(['totalCount'=>$total, 'defaultPageSize'=>20]);
         
         // limit the query using the pagination and retrieve the offer
         $offers = $query->offset($pagination->offset)
