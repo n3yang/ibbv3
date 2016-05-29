@@ -82,6 +82,14 @@ body {
         line-height: 1.5;
         border-radius: 3p
     }
+    .spo-row .meta .mall{
+        padding-right: 0px;
+        font-size: 11px;
+    }
+    .spo-row .meta .time{
+        padding: 0 5px;
+        font-size: 11px;
+    }
 }
 
 

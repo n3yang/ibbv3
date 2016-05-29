@@ -24,9 +24,9 @@ $this->title = '';
                         <a href="<?=Url::to(['offer/view', 'id'=>$o->id])?>"><h4 class="title"><?=$o->title?><span class="price"><?=$o->price?></span></h4></a>
                         <div class="detail hidden-xs"><?=StringHelper::truncate($o->excerpt, 90)?></div>
                         <div class="meta row text-muted">
-                            <span class="mall col-xs-3"><?=$o->getB2cLabel()?></span>
-                            <span class="time col-xs-3"><?=$o->created_at?></span>
-                            <span class="link col-xs-6 text-right"><a href="<?=$o->getLinkSlugUrl()?>" target="_blank" class="btn btn-primary" rel="nofollow">去看看</a></span>
+                            <span class="mall col-xs-4"><?=$o->getB2cLabel()?></span>
+                            <span class="time col-xs-3"><?=Yii::$app->formatter->asRelativeTime($o->created_at)?></span>
+                            <span class="link col-xs-5 text-right"><a href="<?=$o->getLinkSlugUrl()?>" target="_blank" class="btn btn-primary" rel="nofollow">去看看</a></span>
                         </div>
                     </div>
                 </div>
