@@ -5,6 +5,7 @@ namespace app\controllers;
 use yii;
 use yii\data\Pagination;
 use app\models\Offer;
+use app\models\Tag;
 
 class OfferController extends \yii\web\Controller
 {
@@ -39,29 +40,45 @@ class OfferController extends \yii\web\Controller
             'id'        => $id,
             'status'    => Offer::STATUS_PUBLISHED,
         ]);
-        $tags = $offer->tags;
+        $tagId = $offer->tags[0]->id;
 
         // not found
         if (!$offer) {
             throw new yii\web\NotFoundHttpException;
         }
-        // find next and pre
-        $nextOffer = Offer::findOne([
-            '>'         => ['id', $id],
-            'status'    => Offer::STATUS_PUBLISHED,
-        ]);
-        $preOffer = Offer::findOne([
-            '<'        => ['id', $id],
-            'status'    => Offer::STATUS_PUBLISHED,
-        ]);
 
         // same category
-        $similarOffer = Offer::find()
-            ->where(['status'=>Offer::STATUS_PUBLISHED])
+        // $tag = Tag::findOne($tagId);
+        // $similarOffers = $tag->getOffers()
+        //     ->where(['status'=>Offer::STATUS_PUBLISHED])
+        //     ->andWhere(['<>', 'id', $id])
+        //     ->limit(5)
+        //     ->orderBy('id DESC')
+        //     ->all();
+        $similarOffers = Offer::find()
+            ->select('offer.*')
+            ->leftJoin('tag_offer', 'offer.id=tag_offer.offer_id')
+            ->where(['offer.status'=>Offer::STATUS_PUBLISHED])
+            ->andWhere(['<>', 'id', $id])
+            ->orderBy('offer.id DESC')
             ->limit(5)
-            ->orderBy('id DESC')
             ->all();
+        foreach ($similarOffers as $key => $value) {
+            var_dump($value->id);
+        }
 
+        // find next and pre
+        $nextOffer = Offer::find()
+            ->where(['status' => Offer::STATUS_PUBLISHED])
+            ->andWhere(['>', 'id', $id])
+            ->limit(1)
+            ->one();
+
+        $preOffer = Offer::find()
+            ->where(['status' => Offer::STATUS_PUBLISHED])
+            ->andWhere(['<', 'id', $id])
+            ->limit(1)
+            ->one();
         return $this->render('view', [
             'offer'     => $offer,
             'nextOffer' => $nextOffer,
