@@ -32,4 +32,42 @@ class OfferController extends \yii\web\Controller
         ]);
     }
 
+    public function actionView()
+    {
+        $id = Yii::$app->request->get('id');
+        $offer = Offer::findOne([
+            'id'        => $id,
+            'status'    => Offer::STATUS_PUBLISHED,
+        ]);
+        $tags = $offer->tags;
+
+        // not found
+        if (!$offer) {
+            throw new yii\web\NotFoundHttpException;
+        }
+        // find next and pre
+        $nextOffer = Offer::findOne([
+            '>'         => ['id', $id],
+            'status'    => Offer::STATUS_PUBLISHED,
+        ]);
+        $preOffer = Offer::findOne([
+            '<'        => ['id', $id],
+            'status'    => Offer::STATUS_PUBLISHED,
+        ]);
+
+        // same category
+        $similarOffer = Offer::find()
+            ->where(['status'=>Offer::STATUS_PUBLISHED])
+            ->limit(5)
+            ->orderBy('id DESC')
+            ->all();
+
+        return $this->render('view', [
+            'offer'     => $offer,
+            'nextOffer' => $nextOffer,
+            'preOffer'  => $preOffer,
+
+        ]);
+    }
+
 }
