@@ -119,6 +119,30 @@ class Offer extends \yii\db\ActiveRecord
         ];
     }
 
+    public function findByTagId($tagId, $limit = 20, $offset = 0, $status = self::STATUS_PUBLISHED)
+    {
+        return static::find()
+            ->select('offer.*')
+            ->leftJoin('tag_offer', 'offer.id=tag_offer.offer_id')
+            ->where(['offer.status'=>$status])
+            ->andWhere(['tag_offer.tag_id'=>$tagId])
+            ->orderBy('offer.id DESC')
+            ->offset($offset)
+            ->limit($limit)
+            ->all();
+    }
+
+    public function findHot()
+    {
+        return Offer::find()
+            ->select('offer.*, link.click AS click')
+            ->leftJoin('link', 'offer.link_slug=link.slug')
+            ->where(['>', 'link.created_at', date('Y-m-d 00:00:00')])
+            ->orderBy('link.click DESC')
+            ->limit(10)
+            ->all();
+    }
+
     public function getThumb()
     {
         return $this->hasOne(File::className(), ['id'=>'thumb_file_id']);

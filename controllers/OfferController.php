@@ -40,12 +40,14 @@ class OfferController extends \yii\web\Controller
             'id'        => $id,
             'status'    => Offer::STATUS_PUBLISHED,
         ]);
+        $offer->getThumb();
         $tagId = $offer->tags[0]->id;
 
         // not found
         if (!$offer) {
             throw new yii\web\NotFoundHttpException;
         }
+
 
         // same category
         // $tag = Tag::findOne($tagId);
@@ -55,35 +57,39 @@ class OfferController extends \yii\web\Controller
         //     ->limit(5)
         //     ->orderBy('id DESC')
         //     ->all();
+
         $similarOffers = Offer::find()
             ->select('offer.*')
             ->leftJoin('tag_offer', 'offer.id=tag_offer.offer_id')
             ->where(['offer.status'=>Offer::STATUS_PUBLISHED])
-            ->andWhere(['<>', 'id', $id])
+            ->andWhere(['<', 'id', $id])
+            ->andWhere(['tag_offer.tag_id'=>$tagId])
+            ->with('thumb')
             ->orderBy('offer.id DESC')
-            ->limit(5)
+            ->limit(4)
             ->all();
-        foreach ($similarOffers as $key => $value) {
-            var_dump($value->id);
-        }
 
         // find next and pre
         $nextOffer = Offer::find()
             ->where(['status' => Offer::STATUS_PUBLISHED])
             ->andWhere(['>', 'id', $id])
+            ->orderBy('id DESC')
             ->limit(1)
+            ->asArray()
             ->one();
-
-        $preOffer = Offer::find()
+        $prevOffer = Offer::find()
             ->where(['status' => Offer::STATUS_PUBLISHED])
             ->andWhere(['<', 'id', $id])
+            ->orderBy('id DESC')
             ->limit(1)
+            ->asArray()
             ->one();
-        return $this->render('view', [
-            'offer'     => $offer,
-            'nextOffer' => $nextOffer,
-            'preOffer'  => $preOffer,
 
+        return $this->render('view', [
+            'offer'         => $offer,
+            'nextOffer'     => $nextOffer,
+            'prevOffer'     => $prevOffer,
+            'similarOffers' => $similarOffers,
         ]);
     }
 
