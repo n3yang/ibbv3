@@ -34,6 +34,8 @@ use app\models\tag;
 
     <?= $form->field($model, 'status')->dropDownList($model->getStatusLabel()) ?>
 
+    <?= $form->field($model, 'category_id')->dropDownList($categories) ?>
+
     <?= $form->field($model, 'tags')->checkboxList($tags) ?>
 
     <div class="form-group">

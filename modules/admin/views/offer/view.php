@@ -30,6 +30,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'title:text',
+            [
+                'attribute' => 'category_id',
+                'value' => $model->category->name,
+            ],
             'excerpt',
             'content:html',
             'price',

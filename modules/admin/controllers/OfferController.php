@@ -6,6 +6,7 @@ use Yii;
 use app\models\offer;
 use app\models\offerSearch;
 use app\models\tag;
+use app\models\Category;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -80,9 +81,17 @@ class OfferController extends Controller
             $tags = Tag::find()->asArray()->all();
             $tags = ArrayHelper::map($tags, 'id', 'name');
 
+            // all category
+            $categories = Category::find()
+                ->where(['type'=>Category::TYPE_OFFER])
+                ->asArray()
+                ->all();
+            $categories = ArrayHelper::map($categories, 'id', 'name');
+
             return $this->render('create', [
                 'model' => $model,
                 'tags'  => $tags,
+                'categories' => $categories,
             ]);
         }
     }
@@ -117,9 +126,17 @@ class OfferController extends Controller
 
             $selectedTags = $model->tags;
 
+            // all category
+            $categories = Category::find()
+                ->where(['type'=>Category::TYPE_OFFER])
+                ->asArray()
+                ->all();
+            $categories = ArrayHelper::map($categories, 'id', 'name');
+            
             return $this->render('update', [
                 'model' => $model,
                 'tags' => $tags,
+                'categories' => $categories,
             ]);
         }
     }

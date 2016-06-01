@@ -99,7 +99,7 @@ class SpiderPyh extends SpiderBase
                 unset($r);
                 continue;
             }
-            // echo $r['category'] .'-'. static::getTagIdByCategoryName($r['category']) ."\n";
+            // echo $r['category'] .'-'. static::getCategoryIdByCategoryName($r['category']) ."\n";
             echo $r['shop']['name'] .'-'. static::getB2cIdByShopName($r['shop']['name']) ."\n";
             if ($r['id'] > $last['maxId']) {
                 $this->fetchArticle($r);
@@ -164,11 +164,13 @@ class SpiderPyh extends SpiderBase
             'excerpt'       => $excerpt,
             'thumb_file_id' => $thumb_file_id,
             'fetched_from'  => $fetchedFrom,
+            'category_id'   => static::getCategoryIdByCategoryName($a['category']),
         ];
 
-        $tagId = static::getTagIdByCategoryName($a['category']);
+        // TODO
+        $tagId = [];
 
-        $offerId = $this->addOffer($offerDs, [$tagId]);
+        $offerId = $this->addOffer($offerDs, $tagId);
 
         if ($offerId) {
             Yii::info('Fetch article is finished... id: ' . $offerId. ' title: ' . $title);
@@ -279,7 +281,7 @@ class SpiderPyh extends SpiderBase
         return parent::addRemoteFile($src, $name, $size);
     }
 
-    public static function getTagIdByCategoryName($name)
+    public static function getCategoryIdByCategoryName($name)
     {
         $matches = [
             22 => ['图书'],

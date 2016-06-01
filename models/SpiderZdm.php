@@ -161,13 +161,17 @@ class SpiderZdm extends SpiderBase
         $newOffer['thumb_file_id'] = $thumbnail['id'];
 
         // get category
-        $tagId = self::convertCategoryId($a['article_category']['ID']);
-        if ($tagId) {
-            $offerId = $this->addOffer($newOffer, [$tagId]);
-            Yii::info('Fetch article is finished... id: ' . $offerId. ' title: ' . $a['article_title']);
-        } else {
+        $categoryId = self::convertCategoryId($a['article_category']['ID']);
+        $newOffer['category_id'] = $categoryId;
+        if (!$categoryId) {
             Yii::warning('Fail to convert category id: ' . $a['article_category']['ID'] . ', name: ' . $a['article_category']['title']);
         }
+
+        // TODO
+        $tagID = [];
+
+        $offerId = $this->addOffer($newOffer, $tagId);
+        Yii::info('Fetch article is finished... id: ' . $offerId. ' title: ' . $a['article_title']); 
 
         return $a;
     }

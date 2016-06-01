@@ -86,6 +86,10 @@ $navItems = [
             'url' => Url::toRoute('/admin/link'),
         ],
         [
+            'label' => 'Category',
+            'url' => Url::toRoute('/admin/category'),
+        ],
+        [
             'label' => 'Tag',
             'url' => Url::toRoute('/admin/tag'),
         ],

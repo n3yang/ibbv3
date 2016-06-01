@@ -101,6 +101,7 @@ class Offer extends \yii\db\ActiveRecord
             'updated_at' => '修改时间',
             'status' => '状态',
             'tags' => '标签',
+            'category_id' => '目录',
         ];
     }
 
@@ -151,6 +152,11 @@ class Offer extends \yii\db\ActiveRecord
     public function getTags()
     {
         return $this->hasMany(Tag::className(), ['id' => 'tag_id'])->viaTable('tag_offer', ['offer_id' => 'id']);
+    }
+
+    public function getCategory()
+    {
+        return $this->hasOne(Category::className(), ['id'=>'category_id']);
     }
 
     public function getLinkSlugUrl()
