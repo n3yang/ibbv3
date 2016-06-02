@@ -197,8 +197,14 @@ class Link extends \yii\db\ActiveRecord
         if (strpos($url, 'amazon')) {
             $info = parse_url($url);
             parse_str($info['query'], $params);
-            $params['t'] = 'ibaobr-23';
-            $params['tag'] = 'ibaobr-23';
+            if (strpos($url, 'amazon.cn')) {
+                $tag = 'ibaobr-23';
+            } else if (strpos($url, 'amazon.co.jp')) {
+                $tag = 'ibaobr0d-22';
+            } else if (strpos($url, 'amazon.com')) {
+                $tag = 'ibaobr-20';
+            }
+            $params['t'] = $params['tag'] = $tag;
             $url = $info['scheme'] . '://' . $info['host'] . $info['path'] . '?' . http_build_query($params);
             return $url;
         }

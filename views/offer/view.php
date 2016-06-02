@@ -14,6 +14,7 @@ $this->title = '';
 
                 <ul class="breadcrumb hidden-xs">
                     <li><a href="/">首页</a></li>
+                    <li class="active breadcrumb-title"><?=$offer->category->name?></li>
                     <li class="active breadcrumb-title"><?=$offer->title?></li>
                 </ul>
                 <ul class="breadcrumb visible-xs">
@@ -29,7 +30,7 @@ $this->title = '';
                             <span class="col-xs-12"><h4 class="title"><?=$offer->title?><span class="price"><?=$offer->price?></span></h4></span>
                             <span class="time col-sm-6 text-muted"><label>时间：</label><?=$offer->created_at?></span>
                             <span class="mall col-sm-6 text-muted"><label>商城：</label><?=$offer->getB2cLabel()?></span>
-                            <span class="tag col-sm-6 text-muted"><label>分类：</label><?=$offer->tags[0]->name?></span>
+                            <span class="tag col-sm-6 text-muted"><label>分类：</label><a href="<?=Url::toRoute(['offer/index', 'category'=>$offer->category->slug])?>"><?=$offer->category->name?></a></span>
                             <span class="link col-sm-12 col-sm-offset-10"><a href="<?=$offer->getLinkSlugUrl()?>" class="btn btn-primary" rel="nofollow">去看看</a> </span>
                         </div>
 
@@ -45,7 +46,7 @@ $this->title = '';
                             <a href="<?=$offer->getLinkSlugUrl()?>" class="link btn btn-primary text-center col-xs-8 col-xs-offset-2" rel="nofollow">去看看</a>
                             <div class="time text-muted col-xs-6"><label>时间：</label><?=Yii::$app->formatter->asRelativeTime($o->created_at)?></div>
                             <div class="mall text-muted col-xs-6"><label>商城：</label><?=$offer->getB2cLabel()?></div>
-                            <div class="tag text-muted col-xs-12"> <label>分类：</label><?=$offer->tags[0]->name?></div>
+                            <div class="tag text-muted col-xs-12"> <label>分类：</label><?=$offer->category->name?></div>
                         </div>
 
                         <ul class="pager col-sm-6 col-xs-12">
@@ -72,7 +73,7 @@ $this->title = '';
                         <div class="col-xs-6 col-sm-3">
                             <a href="<?=Url::to(['offer/view', 'id'=>$o->id])?>" class="">
                                 <img class="img-responsive img-thumbnail" src="<?=$o->thumb->getImageUrl()?>">
-                                <div class="caption"><h6><?=StringHelper::truncate($o->title, 40)?></h4></div>
+                                <div class="caption"><h6><?=StringHelper::truncate($o->title, 30)?></h4></div>
                             </a>
                         </div>
                         <? } // end foreach ?>

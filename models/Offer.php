@@ -138,7 +138,8 @@ class Offer extends \yii\db\ActiveRecord
         return Offer::find()
             ->select('offer.*, link.click AS click')
             ->leftJoin('link', 'offer.link_slug=link.slug')
-            ->where(['>', 'link.created_at', date('Y-m-d 00:00:00')])
+            ->where(['>', 'offer.created_at', date('Y-m-d 00:00:00')])
+            ->andWhere(['offer.status'=>Offer::STATUS_PUBLISHED])
             ->orderBy('link.click DESC')
             ->limit(10)
             ->all();

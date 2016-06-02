@@ -168,7 +168,7 @@ class SpiderZdm extends SpiderBase
         }
 
         // TODO
-        $tagID = [];
+        $tagId = [];
 
         $offerId = $this->addOffer($newOffer, $tagId);
         Yii::info('Fetch article is finished... id: ' . $offerId. ' title: ' . $a['article_title']); 
