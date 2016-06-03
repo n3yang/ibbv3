@@ -104,3 +104,9 @@ body {
   display: inline-block;
   border-radius: 50%;
 }
+
+
+.offer-view table tr td img {
+  display: block;
+  margin: auto;
+}
