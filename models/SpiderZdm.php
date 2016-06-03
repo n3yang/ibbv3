@@ -100,7 +100,7 @@ class SpiderZdm extends SpiderBase
             $newOffer['fetched_from'] = $url . '?' . http_build_query($reqData);
         }
 
-        // print_r($a);
+        print_r($a);
         // pass invalid articles
         if ( !static::isValidArticle($a) ) {
             Yii::info('Find invalid article: ' . $a['article_id'] . ', ' . $a['article_title']);
@@ -161,10 +161,11 @@ class SpiderZdm extends SpiderBase
         $newOffer['thumb_file_id'] = $thumbnail['id'];
 
         // get category
-        $categoryId = self::convertCategoryId($a['article_category']['ID']);
+        $categoryId = self::convertCategoryId($a['article_category_list'][1]['ID']);
         $newOffer['category_id'] = $categoryId;
         if (!$categoryId) {
             Yii::warning('Fail to convert category id: ' . $a['article_category']['ID'] . ', name: ' . $a['article_category']['title']);
+            Yii::warning('Fail to convert category list: ' . var_export($a['article_category_list'], 1));
         }
 
         // TODO
@@ -412,13 +413,21 @@ class SpiderZdm extends SpiderBase
     public static function convertCategoryId($categoryId='')
     {
         $mapping = [
-            '93'    => '17',
+            '77'    => '11', // 奶粉
+            '81'    => '13', // 尿裤湿巾
+            '83'    => '15', // 喂养用品
+            '93'    => '17', 
             '75'    => '12',
             '147'   => '20',
             '57'    => '19',
             '95'    => '12',
             '1515'  => '14', // 日用百货
             '7'     => '22', // 图书影音
+            '111'   => '23', // 生鲜食品
+            // 981 玩具
+            // 2067 婴儿玩具
+            // '97' 保健品
+            // 105粮油调味
         ];
         if (!isset($mapping[$categoryId])) {
             return '';
