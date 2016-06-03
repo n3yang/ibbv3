@@ -14,7 +14,7 @@ $this->title = '';
 
                 <ul class="breadcrumb hidden-xs">
                     <li><a href="/">首页</a></li>
-                    <li class="active breadcrumb-title"><?=$offer->category->name?></li>
+                    <li class="active breadcrumb-title"><a href="<?=Url::toRoute(['offer/index', 'category'=>$offer->category->slug])?>"><?=$offer->category->name?></a></li>
                     <li class="active breadcrumb-title"><?=$offer->title?></li>
                 </ul>
                 <ul class="breadcrumb visible-xs">
@@ -31,6 +31,7 @@ $this->title = '';
                             <span class="time col-sm-6 text-muted"><label>时间：</label><?=$offer->created_at?></span>
                             <span class="mall col-sm-6 text-muted"><label>商城：</label><?=$offer->getB2cLabel()?></span>
                             <span class="tag col-sm-6 text-muted"><label>分类：</label><a href="<?=Url::toRoute(['offer/index', 'category'=>$offer->category->slug])?>"><?=$offer->category->name?></a></span>
+                            <span class="tag col-sm-6 text-muted"><label>来自：</label><?=$offer->getSiteLabel()?></span>
                             <span class="link col-sm-12 col-sm-offset-10"><a href="<?=$offer->getLinkSlugUrl()?>" class="btn btn-primary" rel="nofollow">去看看</a> </span>
                         </div>
 
@@ -84,25 +85,5 @@ $this->title = '';
 
             </div><!--/.sidebar-offcanvas-->
 
-            <div class="col-sm-12 col-md-3 sidebar-offcanvas" id="sidebar">
-
-                <div class="list-group">
-                    <a href="#" class="list-group-item active">GOnggao</a>
-                    <p class="list-group-item">即便有上面给出的四组栅格class，你也不免会碰到一些问即便有上面给出的四组栅格class，你也不免会碰到一些问即便有上面给出的四组栅格class，你也不免会碰到一些问即便有上面给出的四组栅格class，你也不免会碰到一些问即便有上面给出的四组栅格class，你也不免会碰到一些问即便有上面给出的四组栅格class，你也不免会碰到一些问即便有上面给出的四组栅格class，你也不免会碰到一些问即便有上面给出的四组栅格class，你也不免会碰到一些
-                    <p>
-                </div>
-
-                <div class="list-group">
-                    <a href="#" class="list-group-item active">今日热门</a>
-                    <a href="#" class="list-group-item">Link</a>
-                    <a href="#" class="list-group-item">Link</a>
-                    <a href="#" class="list-group-item">Link</a>
-                    <a href="#" class="list-group-item">Link</a>
-                    <a href="#" class="list-group-item">Link</a>
-                    <a href="#" class="list-group-item">Link</a>
-                    <a href="#" class="list-group-item">Link</a>
-                    <a href="#" class="list-group-item">Link</a>
-                    <a href="#" class="list-group-item">Link</a>
-                </div>
-            </div><!--/.sidebar-offcanvas-->
+            <?=$this->render('/public/sidebar');?>
 

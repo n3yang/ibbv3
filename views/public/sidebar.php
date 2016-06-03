@@ -1,3 +1,9 @@
+<?
+use app\models\Offer;
+use yii\helpers\Url;
+
+$hots = Offer::findHot();
+?>
 
             <div class="col-sm-12 col-md-3 sidebar-offcanvas" id="sidebar">
 
@@ -9,14 +15,10 @@
 
                 <div class="list-group">
                     <a href="#" class="list-group-item active">今日热门</a>
-                    <a href="#" class="list-group-item">Link</a>
-                    <a href="#" class="list-group-item">Link</a>
-                    <a href="#" class="list-group-item">Link</a>
-                    <a href="#" class="list-group-item">Link</a>
-                    <a href="#" class="list-group-item">Link</a>
-                    <a href="#" class="list-group-item">Link</a>
-                    <a href="#" class="list-group-item">Link</a>
-                    <a href="#" class="list-group-item">Link</a>
-                    <a href="#" class="list-group-item">Link</a>
+                    <?
+                    foreach ($hots as $hot) {
+                    ?>
+                    <a href="<?=Url::toRoute(['offer/view', 'id'=>$hot->id])?>" class="list-group-item"><?=$hot->title?> <?=$hot->price?></a>
+                    <? } // end foreach ?>
                 </div>
             </div><!--/.sidebar-offcanvas-->

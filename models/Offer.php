@@ -135,12 +135,21 @@ class Offer extends \yii\db\ActiveRecord
 
     public function findHot()
     {
+        /*
         return Offer::find()
             ->select('offer.*, link.click AS click')
             ->leftJoin('link', 'offer.link_slug=link.slug')
             ->where(['>', 'offer.created_at', date('Y-m-d 00:00:00')])
             ->andWhere(['offer.status'=>Offer::STATUS_PUBLISHED])
             ->orderBy('link.click DESC')
+            ->limit(10)
+            ->all();
+        */
+       
+        return Offer::find()
+            ->where(['status'=>Offer::STATUS_PUBLISHED])
+            ->andWhere(['>', 'created_at', date('Y-m-d 00:00:00')])
+            ->orderBy('click')
             ->limit(10)
             ->all();
     }
@@ -210,7 +219,12 @@ class Offer extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function getSiteLabel($site='')
+    public function getSiteLabel()
+    {
+        $labels = $this->getSiteLabels();
+        return $labels[$this->site] ?: '';
+    }
+    public static function getSiteLabels($site='')
     {
         $labels = [
             self::SITE_ZDM      => '值买',

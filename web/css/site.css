@@ -5,7 +5,9 @@ body {
     margin: 0;
     font-family: "Helvetica","Hiragino Sans GB", "PingFang SC", "Microsoft YaHei UI","Microsoft YaHei","宋体";
 }
-
+.glyphicon{
+    top: 2px;
+}
 
 .breadcrumb{
     margin-bottom: 10px;
@@ -169,8 +171,12 @@ body {
         margin-top: 20px;
         margin-bottom: 20px;
     }
-    .spo .pager .previous>a, .spo .pager .previous>span {
+    .spo .pager .previous>a, .spo .pager .previous>span, .spo .pager .next>a, .spo .pager .next>span {
         float: none;
+    }
+    .spo .pager {
+        margin-top: 20px;
+        margin-bottom: 0px;
     }
 }
 /**********************************

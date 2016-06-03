@@ -16,11 +16,11 @@ class OfferController extends \yii\web\Controller
         // build a DB query to get all offer with status = 1
         $query = Offer::find()->where(['status' => Offer::STATUS_PUBLISHED]);
 
-        // $category = Yii::$app->request->get('category');
-        // if ($category) {
-        //     $catObj = Category::findOne(['slug'=>$category]);
-        //     $query->andWhere(['category_id' => $catObj->id]);
-        // }
+        $category = Yii::$app->request->get('category');
+        if ($category) {
+            $catObj = Category::findOne(['slug'=>$category]);
+            $query->andWhere(['category_id' => $catObj->id]);
+        }
 
         // get the total number of offer (but do not fetch the article data yet)
         $total = $query->count();
@@ -29,7 +29,6 @@ class OfferController extends \yii\web\Controller
         $pagination = new pagination([
             'totalCount'=>$total,
             'defaultPageSize'=>20,
-            // 'params' => ['category'=>''],
         ]);
         
         // limit the query using the pagination and retrieve the offer
@@ -39,12 +38,10 @@ class OfferController extends \yii\web\Controller
             ->orderBy('id DESC')
             ->all();
 
-
-        Offer::findHot();
-
         return $this->render('index',[
             'offers' => $offers,
-            'pagination' => $pagination
+            'pagination' => $pagination,
+            'category' => $catObj,
         ]);
     }
 
@@ -56,7 +53,6 @@ class OfferController extends \yii\web\Controller
             'status'    => Offer::STATUS_PUBLISHED,
         ]);
         $offer->getThumb();
-        $tagId = $offer->tags[0]->id;
 
         // not found
         if (!$offer) {
@@ -73,16 +69,29 @@ class OfferController extends \yii\web\Controller
         //     ->orderBy('id DESC')
         //     ->all();
 
+        // same tag id
+        // $similarOffers = Offer::find()
+        //     ->select('offer.*')
+        //     ->leftJoin('tag_offer', 'offer.id=tag_offer.offer_id')
+        //     ->where(['offer.status'=>Offer::STATUS_PUBLISHED])
+        //     ->andWhere(['<', 'id', $id])
+        //     ->andWhere(['tag_offer.tag_id'=>$tagId])
+        //     ->with('thumb')
+        //     ->orderBy('offer.id DESC')
+        //     ->limit(4)
+        //     ->all();
+
+        // same category id
         $similarOffers = Offer::find()
-            ->select('offer.*')
-            ->leftJoin('tag_offer', 'offer.id=tag_offer.offer_id')
-            ->where(['offer.status'=>Offer::STATUS_PUBLISHED])
-            ->andWhere(['<', 'id', $id])
-            ->andWhere(['tag_offer.tag_id'=>$tagId])
+            ->where([
+                'status'        => Offer::STATUS_PUBLISHED,
+                'category_id'   => $offer->category_id,
+            ])
             ->with('thumb')
             ->orderBy('offer.id DESC')
             ->limit(4)
             ->all();
+
 
         // find next and pre
         $nextOffer = Offer::find()
@@ -99,6 +108,7 @@ class OfferController extends \yii\web\Controller
             ->limit(1)
             ->asArray()
             ->one();
+
 
         return $this->render('view', [
             'offer'         => $offer,

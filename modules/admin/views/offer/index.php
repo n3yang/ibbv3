@@ -40,8 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'site', 
                 'value' => function($model){
-                    $b = $model->getSiteLabel($model->site);
-                    return is_string($b) ? $b : null ;
+                    return $model->getSiteLabel();
                 }
             ],
             [

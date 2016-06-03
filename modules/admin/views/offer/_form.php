@@ -26,7 +26,7 @@ use app\models\tag;
 
     <?= $form->field($model, 'link_slug')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'site')->dropDownList($model->getSiteLabel()) ?>
+    <?= $form->field($model, 'site')->dropDownList($model->getSiteLabels()) ?>
 
     <?= $form->field($model, 'b2c')->dropDownList($model->getB2cLabels()) ?>
 
