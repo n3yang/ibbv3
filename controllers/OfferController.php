@@ -59,6 +59,8 @@ class OfferController extends \yii\web\Controller
             throw new yii\web\NotFoundHttpException;
         }
 
+        // the counter
+        $offer->updateCounters(['click' => 1]);
 
         // same category
         // $tag = Tag::findOne($tagId);
