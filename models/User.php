@@ -35,15 +35,11 @@ class User extends ActiveRecord implements IdentityInterface
     const GROUP_ADMIN = 1;
     const GROUP_MEMBER = 10;
 
-    public $id;
-    public $username;
+    const SCENARIO_LOGIN = 'login';
+    const SCENARIO_REGISTER = 'register';
+    const SCENARIO_ADMIN = 'admin';
+
     public $password;
-    public $authKey;
-    public $accessToken;
-    public $created_at;
-    public $updated_at;
-    public $status;
-    public $group_id;
 
     /**
      * @inheritdoc
@@ -56,12 +52,27 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * @inheritdoc
      */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'username' => '用户名',
+            'password' => '密码',
+            'group_id'  => '用户组',
+            'status'    => '状态',
+            'created_at' => '添加时间',
+            'updated_at' => '更新时间',
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function behaviors()
     {
         return [
             [
                 'class' => TimestampBehavior::className(),
-                'value' => new Expression('NOW()'),
             ],
         ];
     }
@@ -72,10 +83,25 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
+            [['username', 'email', 'password', 'password_hash'], 'string'],
+            // [['username', 'password', 'email'], 'safe', on=>self::SCENARIO_ADMIN],
+            // [['username'], 'required'],
+            // [['username'], 'string', 'max' => 100],
+            [['email'], 'email', 'on'=>self::SCENARIO_REGISTER],
+            ['group_id', 'default', 'value' => self::GROUP_MEMBER],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED, self::STATUS_PENDING]],
         ];
     }
+
+    // public function scenarios()
+    // {
+    //     $scenarios = parent::scenarios();
+    //     $scenarios[self::SCENARIO_LOGIN] = ['username', 'password'];
+    //     $scenarios[self::SCENARIO_ADMIN] = ['username', 'email', 'password', 'password_hash', 'group_id'];
+    //     $scenarios[self::SCENARIO_REGISTER] = ['username', 'email', 'password'];
+    //     return $scenarios;
+    // }
 
     /**
      * @inheritdoc
@@ -206,5 +232,9 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    public function getIsAdmin(){
+        return $this->group_id == self::GROUP_ADMIN;
     }
 }
