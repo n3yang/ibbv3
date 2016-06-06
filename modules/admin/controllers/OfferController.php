@@ -113,8 +113,10 @@ class OfferController extends Controller
 
             // link new tags
             $newTagIds = ArrayHelper::getValue(Yii::$app->request->post('Offer'), 'tags');
-            foreach ($newTagIds as $tagId){
-                $model->link('tags', Tag::findOne($tagId));
+            if ($newTagIds) {
+                foreach ($newTagIds as $tagId){
+                    $model->link('tags', Tag::findOne($tagId));
+                }
             }
             
             return $this->redirect(['view', 'id' => $model->id]);

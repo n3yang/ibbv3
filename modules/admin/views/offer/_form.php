@@ -16,6 +16,8 @@ use app\models\tag;
 
     <?= $form->field($model, 'title')->textInput() ?>
 
+    <?= $form->field($model, 'category_id')->dropDownList($categories) ?>
+
     <?= $form->field($model, 'excerpt')->textarea(['rows' => 4]) ?>
 
     <?= $form->field($model, 'content')->textarea(['rows' => 6]) ?>
@@ -33,8 +35,6 @@ use app\models\tag;
     <?= $form->field($model, 'created_at')->textInput() ?>
 
     <?= $form->field($model, 'status')->dropDownList($model->getStatusLabel()) ?>
-
-    <?= $form->field($model, 'category_id')->dropDownList($categories) ?>
 
     <?= $form->field($model, 'tags')->checkboxList($tags) ?>
 

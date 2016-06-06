@@ -75,7 +75,7 @@ class Offer extends \yii\db\ActiveRecord
         return [
             [['title', 'content'], 'required'],
             [['title', 'content'], 'string'],
-            [['thumb_file_id', 'site', 'b2c'], 'integer'],
+            [['thumb_file_id', 'site', 'b2c', 'category_id'], 'integer'],
             [['price', 'link_slug'], 'string', 'max' => 200],
             ['status', 'default', 'value' => self::STATUS_DRAFT],
             // ['tags', 'each', 'rule' => ['integer']],
