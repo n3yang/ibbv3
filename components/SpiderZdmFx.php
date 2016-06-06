@@ -1,8 +1,9 @@
 <?php
 
-namespace app\models;
+namespace app\components;
 
-use app\models\SpiderZdm;
+use app\components\SpiderZdm;
+use app\models\Offer;
 
 /**
  * Spider for zdm_fx

@@ -1,13 +1,15 @@
 <?php
 
-namespace app\models;
+namespace app\components;
 
 use Yii;
 use yii\base\Model;
 use yii\httpclient\Client;
 use yii\helpers\ArrayHelper;
 use PHPHtmlParser\Dom;
-use app\models\SpiderBase;
+use app\components\SpiderBase;
+use app\models\Offer;
+
 
 /**
  * Spider for zdm
@@ -423,6 +425,7 @@ class SpiderZdm extends SpiderBase
             '93'    => '17', // 玩具
             '97'    => '12', // 保健品
             '79'    => '12', // 营养辅食
+            '85'    => '14', // 洗护用品
             '75'    => '12',
             '147'   => '20',
             '57'    => '19',

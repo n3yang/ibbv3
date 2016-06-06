@@ -12,10 +12,10 @@ use yii\helpers\Console;
 use PHPHtmlParser\Dom;
 use app\models\File;
 use app\models\Offer;
-use app\models\SpiderZdm;
-use app\models\SpiderZdmFx;
-use app\models\SpiderPyh;
 use app\models\Link;
+use app\components\SpiderZdm;
+use app\components\SpiderZdmFx;
+use app\components\SpiderPyh;
 
 /**
  * 
@@ -68,13 +68,12 @@ class SpiderController extends Controller
         // var_dump(Link::findOneBySlug('gska1cgf'));
         // $spider->replaceUrl('http://www.smzdm.com/gourl/5D8916EA9AA5AC64/AA_YH_75');
 
-        // $spider = new SpiderZdmFx;
-        // $spider->syncArticle();
+        $spider = new SpiderZdmFx;
+        $spider->syncArticle();
     }
 
     public function actionTest()
     {
-
     }
 
     public function actionSyncPyh()

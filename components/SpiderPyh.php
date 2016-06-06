@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace app\components;
 
 use Yii;
 use yii\base\Model;
@@ -8,8 +8,8 @@ use yii\httpclient\Client;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use PHPHtmlParser\Dom;
-use app\models\SpiderBase;
-
+use app\components\SpiderBase;
+use app\models\Offer;
 /**
  * Spider for pyh
  */
