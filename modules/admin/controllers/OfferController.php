@@ -3,9 +3,9 @@
 namespace app\modules\admin\controllers;
 
 use Yii;
-use app\models\offer;
-use app\models\offerSearch;
-use app\models\tag;
+use app\models\Offer;
+use app\models\OfferSearch;
+use app\models\Tag;
 use app\models\Category;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
