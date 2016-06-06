@@ -287,7 +287,7 @@ class SpiderPyh extends SpiderBase
             22 => ['图书'],
             21 => ['儿童监护', '吸乳器'],
             20 => ['安全座椅'],
-            19 => ['童鞋', '童装'],
+            19 => ['童鞋', '童装', '内外服饰'],
             18 => ['婴儿推车', '餐椅摇椅'],
             17 => ['LEGO积木拼插', '健身玩具', '益智玩具', '毛绒布艺', '模型玩具', '乐器发声', '动漫相关'],
             14 => ['护肤', '洗护', '清洁', '洗浴'],
@@ -303,7 +303,7 @@ class SpiderPyh extends SpiderBase
             }
         }
         // not found
-        Yii::warning('Fail to get tagId by category name! category name: ' . $name);
+        Yii::warning('Fail to get CategoryId by category name! category name: ' . $name);
 
         // not category
         return 10;

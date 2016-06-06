@@ -25,7 +25,7 @@ $this->title .= $category->name;
                 <? foreach ($offers as $o) { ?>
                 <div class="spo-row row">
                     <div class="thumb col-xs-3 col-sm-2">
-                        <a href="<?=$o->getLinkSlugUrl()?>" target="_blank"><img src="<?=empty($o->thumb)?'':$o->thumb->getImageUrl();?>" class="img-thumbnail img-responsive"></a>
+                        <a href="<?=Url::to(['offer/view', 'id'=>$o->id])?>" target="_blank"><img src="<?=$o->getThumbUrl()?>" class="img-thumbnail img-responsive"></a>
                     </div>
                     <div class="info col-xs-9 col-sm-10">
                         <a href="<?=Url::to(['offer/view', 'id'=>$o->id])?>"><h4 class="title"><?=$o->title?><span class="price"><?=$o->price?></span></h4></a>

@@ -155,6 +155,15 @@ class Offer extends \yii\db\ActiveRecord
             ->all();
     }
 
+    public function getThumbUrl()
+    {
+        if (empty($this->thumb)) {
+            return '';
+        } else {
+            return $this->thumb->getImageUrl();
+        }
+    }
+
     public function getThumb()
     {
         return $this->hasOne(File::className(), ['id'=>'thumb_file_id']);

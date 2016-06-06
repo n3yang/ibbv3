@@ -17,8 +17,8 @@ class SpiderZdm extends SpiderBase
 
     protected $syncCacheKey = 'SPIDER_ZDM_SYNC_STATE'; 
     /**
-     * Valid Category Ids
-     * 75   营养辅食
+     * Valid Category Ids ( root category )
+     * 75   母婴用品
      * 93   玩具乐器
      * 147  安全座椅
      * 57   服装鞋帽
