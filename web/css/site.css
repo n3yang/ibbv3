@@ -153,7 +153,7 @@ body {
     margin: auto;
 }
 @media (max-width: 500px) {
-    .spo .spo-info {
+    .spo .info {
         width: 100%;
         margin: 5px auto auto auto;
         padding-top: 5px;
@@ -177,6 +177,9 @@ body {
     .spo .pager {
         margin-top: 20px;
         margin-bottom: 0px;
+    }
+    .spo .related .img-thumbnail{
+        max-height: 150px;
     }
 }
 /**********************************

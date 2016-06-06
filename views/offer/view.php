@@ -5,7 +5,8 @@ use yii\helpers\Html;
 use yii\helpers\StringHelper;
 use yii\helpers\Url;
 
-$this->title = '';
+$this->title = yii::$app->params['site']['title'];
+$this->title .= ' - ' . $offer->title;
 ?>
 
         <div class="row row-offcanvas row-offcanvas-right">
@@ -45,9 +46,9 @@ $this->title = '';
 
                         <div class="meta visible-xs">
                             <a href="<?=$offer->getLinkSlugUrl()?>" class="link btn btn-primary text-center col-xs-8 col-xs-offset-2" rel="nofollow">去看看</a>
-                            <div class="time text-muted col-xs-6"><label>时间：</label><?=Yii::$app->formatter->asRelativeTime($o->created_at)?></div>
+                            <div class="time text-muted col-xs-5 col-xs-offset-1"><label>时间：</label><?=Yii::$app->formatter->asRelativeTime($offer->created_at)?></div>
                             <div class="mall text-muted col-xs-6"><label>商城：</label><?=$offer->getB2cLabel()?></div>
-                            <div class="tag text-muted col-xs-12"> <label>分类：</label><?=$offer->category->name?></div>
+                            <div class="tag text-muted col-xs-11 col-xs-offset-1"> <label>分类：</label><?=$offer->category->name?></div>
                         </div>
 
                         <ul class="pager col-sm-6 col-xs-12">
