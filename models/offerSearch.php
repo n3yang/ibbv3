@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\offer;
+use app\models\Offer;
 
 /**
  * offerSearch represents the model behind the search form about `app\models\offer`.
  */
-class OfferSearch extends offer
+class OfferSearch extends Offer
 {
     /**
      * @inheritdoc
