@@ -100,7 +100,7 @@ class SpiderZdm extends SpiderBase
             $newOffer['fetched_from'] = $url . '?' . http_build_query($reqData);
         }
 
-        print_r($a);
+        // print_r($a);
         // pass invalid articles
         if ( !static::isValidArticle($a) ) {
             Yii::info('Find invalid article: ' . $a['article_id'] . ', ' . $a['article_title']);
@@ -401,6 +401,7 @@ class SpiderZdm extends SpiderBase
             '3981'  => Offer::B2C_KAOLA,
             '261'   => Offer::B2C_WOMAI,
             '691'   => Offer::B2C_SUPUY,
+            '2897'  => Offer::B2C_TMALL_GJ,
         ];
         if (!isset($mapping[$mallId])) {
             Yii::warning('Fail to convert mall id: ' . $mallId);
@@ -416,7 +417,10 @@ class SpiderZdm extends SpiderBase
             '77'    => '11', // 奶粉
             '81'    => '13', // 尿裤湿巾
             '83'    => '15', // 喂养用品
-            '93'    => '17', 
+            '981'   => '17', // 玩具
+            '2067'  => '17', // 婴儿玩具
+            '93'    => '17', // 玩具
+            '97'    => '12', // 保健品
             '75'    => '12',
             '147'   => '20',
             '57'    => '19',
@@ -424,10 +428,7 @@ class SpiderZdm extends SpiderBase
             '1515'  => '14', // 日用百货
             '7'     => '22', // 图书影音
             '111'   => '23', // 生鲜食品
-            // 981 玩具
-            // 2067 婴儿玩具
-            // '97' 保健品
-            // 105粮油调味
+            '105'   => '23', // 粮油调味
         ];
         if (!isset($mapping[$categoryId])) {
             return '';

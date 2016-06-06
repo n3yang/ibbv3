@@ -320,7 +320,7 @@ class SpiderBase extends \yii\base\Component
         $matches = [
             Offer::B2C_JD            => ['京东', '京东全球购'],
             Offer::B2C_TMALL         => ['天猫'],
-            Offer::B2C_SUNING        => ['苏宁'],
+            Offer::B2C_SUNING        => ['苏宁', '苏宁易购'],
             Offer::B2C_GOME          => ['国美'],
             Offer::B2C_MIYA          => ['蜜牙'],
             Offer::B2C_DANGDANG      => ['当当'],
