@@ -73,7 +73,7 @@ $this->title = '';
                         <? foreach ($similarOffers as $k => $o) { ?>
                         <div class="col-xs-6 col-sm-3">
                             <a href="<?=Url::to(['offer/view', 'id'=>$o->id])?>" class="">
-                                <img class="img-responsive img-thumbnail" src="<?=$o->thumb->getImageUrl()?>">
+                                <img class="img-responsive img-thumbnail" src="<?=$o->getThumbUrl()?>">
                                 <div class="caption"><h6><?=StringHelper::truncate($o->title, 30)?></h4></div>
                             </a>
                         </div>

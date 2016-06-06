@@ -94,9 +94,9 @@ class SpiderPyh extends SpiderBase
         }
 
         $last = Yii::$app->cache->get($this->syncCacheKey.__FUNCTION__);
-        foreach ($items as &$r) {
+
+        foreach ($items as $r) {
             if ($r['is_top']) {
-                unset($r);
                 continue;
             }
             // echo $r['category'] .'-'. static::getCategoryIdByCategoryName($r['category']) ."\n";
@@ -104,9 +104,8 @@ class SpiderPyh extends SpiderBase
             if ($r['id'] > $last['maxId']) {
                 $this->fetchArticle($r);
             }
-            $maxId = max($last['maxId'], $r['id']);
+            $last['maxId'] = max($last['maxId'], $r['id']);
         }
-        $last['maxId'] = $maxId;
         Yii::$app->cache->set($this->syncCacheKey.__FUNCTION__, $last);
         Yii::info('Fetch finished. ' . json_encode($last));
     }
@@ -121,9 +120,8 @@ class SpiderPyh extends SpiderBase
     {
         Yii::info('Fetch article: ' . $a['post_title']);
         // title
-        if (preg_match("/(^.*)\s(.*)$/", $a['post_title'], $matches)) {
-            $title = $matches[1];
-        } else {
+        $title = mb_substr($a, 0, mb_strripos($a['post_title'], ' '));
+        if (empty($title)) {
             $title = $a['item_name'];
         }
         // price
