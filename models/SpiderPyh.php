@@ -120,7 +120,7 @@ class SpiderPyh extends SpiderBase
     {
         Yii::info('Fetch article: ' . $a['post_title']);
         // title
-        $title = mb_substr($a, 0, mb_strripos($a['post_title'], ' '));
+        $title = mb_substr($a['post_title'], 0, mb_strripos($a['post_title'], ' '));
         if (empty($title)) {
             $title = $a['item_name'];
         }

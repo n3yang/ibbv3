@@ -162,11 +162,12 @@ class SpiderZdm extends SpiderBase
 
         // get category
         $categoryId = self::convertCategoryId($a['article_category_list'][1]['ID']);
-        $newOffer['category_id'] = $categoryId;
         if (!$categoryId) {
             Yii::warning('Fail to convert category id: ' . $a['article_category']['ID'] . ', name: ' . $a['article_category']['title']);
             Yii::warning('Fail to convert category list: ' . var_export($a['article_category_list'], 1));
+            $categoryId = 10;
         }
+        $newOffer['category_id'] = $categoryId;
 
         // TODO
         $tagId = [];
@@ -421,6 +422,7 @@ class SpiderZdm extends SpiderBase
             '2067'  => '17', // 婴儿玩具
             '93'    => '17', // 玩具
             '97'    => '12', // 保健品
+            '79'    => '12', // 营养辅食
             '75'    => '12',
             '147'   => '20',
             '57'    => '19',

@@ -321,7 +321,7 @@ class SpiderBase extends \yii\base\Component
             Offer::B2C_JD            => ['京东', '京东全球购'],
             Offer::B2C_TMALL         => ['天猫'],
             Offer::B2C_SUNING        => ['苏宁', '苏宁易购'],
-            Offer::B2C_GOME          => ['国美'],
+            Offer::B2C_GOME          => ['国美', '国美海外购'],
             Offer::B2C_MIYA          => ['蜜牙', '蜜芽网'],
             Offer::B2C_DANGDANG      => ['当当'],
             Offer::B2C_AMAZON_CN     => ['亚马逊', '亚马逊中国'],
