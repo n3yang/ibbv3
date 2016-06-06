@@ -163,7 +163,7 @@ class SpiderZdm extends SpiderBase
         $newOffer['thumb_file_id'] = $thumbnail['id'];
 
         // get category
-        $aCategoryId = isset(['article_category_list'][1]['ID'])) ? ['article_category_list'][1]['ID'] : ['article_category_list'][0]['ID'];
+        $aCategoryId = isset($a['article_category_list'][1]['ID']) ? $a['article_category_list'][1]['ID'] : $a['article_category_list'][0]['ID'];
         $categoryId = self::convertCategoryId($aCategoryId);
         if (!$categoryId) {
             Yii::warning('Fail to convert category id: ' . $a['article_category']['ID'] . ', name: ' . $a['article_category']['title']);
