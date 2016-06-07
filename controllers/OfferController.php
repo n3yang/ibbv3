@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use yii;
 use yii\data\Pagination;
+use yii\helpers\Url;
 use app\models\Offer;
 use app\models\Tag;
 use app\models\Category;
@@ -94,7 +95,6 @@ class OfferController extends \yii\web\Controller
             ->limit(4)
             ->all();
 
-
         // find next and pre
         $nextOffer = Offer::find()
             ->where(['status' => Offer::STATUS_PUBLISHED])
@@ -111,6 +111,21 @@ class OfferController extends \yii\web\Controller
             ->asArray()
             ->one();
 
+        // SEO
+        if ($nextOffer) {
+            Yii::$app->view->registerLinkTag([
+                'rel'   => 'next',
+                'title' => $nextOffer['title'],
+                'href'  => Url::to(['offer/view', 'id'=>$nextOffer['id']], true)
+            ]);
+        }
+        if ($prevOffer) {
+            Yii::$app->view->registerLinkTag([
+                'rel'   => 'next',
+                'title' => $prevOffer['title'],
+                'href'  => Url::to(['offer/view', 'id'=>$prevOffer['id']], true)
+            ]);
+        }
 
         return $this->render('view', [
             'offer'         => $offer,
