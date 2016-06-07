@@ -24,7 +24,7 @@ $this->title .= ' - ' . $offer->title;
                 <div class="info">
                     <div class="row">
                         <div class="thumb col-xs-8 col-xs-offset-2 col-sm-3 col-sm-offset-0">
-                            <img src="<?=$offer->thumb->getImageUrl()?>" class="img-thumbnail img-responsive">
+                            <span class="thumbnail"><img src="<?=$offer->thumb->getImageUrl()?>" class="img-responsive"></span>
                         </div>
 
                         <div class="meta col-xs-12 col-xs-offset col-sm-9 hidden-xs">
@@ -73,10 +73,10 @@ $this->title .= ' - ' . $offer->title;
                         </div>
                         <? foreach ($similarOffers as $k => $o) { ?>
                         <div class="col-xs-6 col-sm-3">
-                            <a href="<?=Url::to(['offer/view', 'id'=>$o->id])?>" class="">
-                                <img class="img-responsive img-thumbnail" src="<?=$o->getThumbUrl()?>">
-                                <div class="caption"><h6><?=StringHelper::truncate($o->title, 30)?></h4></div>
+                            <a href="<?=Url::to(['offer/view', 'id'=>$o->id])?>" class="thumbnail">
+                                <img class="img-responsive" src="<?=$o->getThumbUrl()?>">
                             </a>
+                            <div class="caption"><h5><?=StringHelper::truncate($o->title, 30)?></h5></div>
                         </div>
                         <? } // end foreach ?>
                     </div>

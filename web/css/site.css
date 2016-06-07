@@ -27,6 +27,10 @@ body {
 .spo-row .thumb{
     padding-right: 0px;
 }
+.spo-row .thumbnail img{
+    max-height: 160px;
+    margin: auto;
+}
 .spo-row .title{
     font-weight: 400;
     line-height: 120%;
@@ -58,10 +62,8 @@ body {
     .spo-row .thumb {
         padding-left: 10px;
     }
-    .spo-row .img-thumbnail{
-        padding: 0px;
-        line-height: 0;
-        border: 0;
+    .spo-row .thumbnail img{
+        max-height: 70px;
     }
     .spo-row .info{
         /*padding: 0 0 0 5px;*/
@@ -114,6 +116,10 @@ body {
     border: 0 none;
     font-size: 18px;
 }
+.spo .thumb img{
+    display: block;
+    margin: auto;
+}
 .spo .meta label {
     font-weight: normal;
 }
@@ -148,7 +154,7 @@ body {
     margin-bottom: 20px;
 }
 .spo .related img{
-    max-height: 168px;
+    max-height: 158px;
     display: block;
     margin: auto;
 }
@@ -178,8 +184,8 @@ body {
         margin-top: 20px;
         margin-bottom: 0px;
     }
-    .spo .related .img-thumbnail{
-        max-height: 150px;
+    .spo .related .thumbnail img{
+        max-height: 120px;
     }
 }
 /**********************************

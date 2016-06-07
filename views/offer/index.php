@@ -25,10 +25,12 @@ $this->title .= ' - ' . $category->name;
 
                 <? foreach ($offers as $o) { ?>
                 <div class="spo-row row">
-                    <div class="thumb col-xs-3 col-sm-2">
-                        <a href="<?=Url::to(['offer/view', 'id'=>$o->id])?>"><img src="<?=$o->getThumbUrl()?>" class="img-thumbnail img-responsive"></a>
+                    <div class="thumb col-xs-3">
+                        <a href="<?=Url::to(['offer/view', 'id'=>$o->id])?>" class="thumbnail">
+                            <img src="<?=$o->getThumbUrl()?>" class="img-responsive">
+                        </a>
                     </div>
-                    <div class="info col-xs-9 col-sm-10">
+                    <div class="info col-xs-9">
                         <a href="<?=Url::to(['offer/view', 'id'=>$o->id])?>"><h4 class="title"><?=$o->title?><span class="price"><?=$o->price?></span></h4></a>
                         <div class="detail hidden-xs"><?=StringHelper::truncate($o->excerpt, 90)?></div>
                         <div class="meta row text-muted">
