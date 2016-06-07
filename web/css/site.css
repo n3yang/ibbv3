@@ -27,6 +27,9 @@ body {
 .spo-row .thumb{
     padding-right: 0px;
 }
+.spo-row .thumbnail{
+    margin-bottom: 0px;
+}
 .spo-row .thumbnail img{
     max-height: 160px;
     margin: auto;
