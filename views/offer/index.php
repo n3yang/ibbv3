@@ -35,7 +35,7 @@ $this->title .= ' - ' . $category->name;
                         <div class="detail hidden-xs"><?=StringHelper::truncate($o->excerpt, 90)?></div>
                         <div class="meta row text-muted">
                             <span class="mall col-xs-4"><span class="glyphicon glyphicon-shopping-cart hidden-xs" aria-hidden="true"></span> <?=$o->getB2cLabel()?></span>
-                            <span class="time col-xs-3 "><span class="glyphicon glyphicon-time hidden-xs" aria-hidden="true"></span> <?=Yii::$app->formatter->asRelativeTime($o->created_at)?></span>
+                            <span class="time col-xs-3 "><span class="glyphicon glyphicon-time hidden-xs" aria-hidden="true"></span> <time datetime="<?=$o->created_at?>"><?=Yii::$app->formatter->asRelativeTime($o->created_at)?></time></span>
                             <span class="link col-xs-5 text-right"><a href="<?=$o->getLinkSlugUrl()?>" target="_blank" class="btn btn-primary" rel="nofollow">去看看</a></span>
                         </div>
                     </div>
