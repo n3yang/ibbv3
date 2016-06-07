@@ -9,7 +9,9 @@ use yii\helpers\StringHelper;
 use yii\helpers\Url;
 
 $this->title = yii::$app->params['site']['title'];
-$this->title .= ' - ' . $category->name;
+if ($category->name) {
+    $this->title .= ' - ' . $category->name;
+}
 ?>
 
         <div class="row row-offcanvas row-offcanvas-right">

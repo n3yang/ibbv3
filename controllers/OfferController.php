@@ -113,19 +113,24 @@ class OfferController extends \yii\web\Controller
 
         // SEO
         if ($nextOffer) {
-            Yii::$app->view->registerLinkTag([
+            $this->view->registerLinkTag([
                 'rel'   => 'next',
                 'title' => $nextOffer['title'],
                 'href'  => Url::to(['offer/view', 'id'=>$nextOffer['id']], true)
             ]);
         }
         if ($prevOffer) {
-            Yii::$app->view->registerLinkTag([
+            $this->view->registerLinkTag([
                 'rel'   => 'next',
                 'title' => $prevOffer['title'],
                 'href'  => Url::to(['offer/view', 'id'=>$prevOffer['id']], true)
             ]);
         }
+        // SEO Open Graph
+        $this->view->registerMetaTag(['property' => 'og:title', 'content' => $offer->title . $offer->price]);
+        $this->view->registerMetaTag(['property' => 'og:image', 'content' => Url::base(true) . $offer->getThumbUrl()]);
+        $this->view->registerMetaTag(['property' => 'og:url', 'content' => Yii::$app->request->absoluteUrl]);
+        $this->view->registerMetaTag(['property' => 'og:type', 'content' => 'article']);
 
         return $this->render('view', [
             'offer'         => $offer,
