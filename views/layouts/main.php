@@ -38,7 +38,7 @@ AppAsset::register($this);
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">Project name</a>
+                <a class="navbar-brand" href="/"><?=yii::$app->params['site']['title']?></a>
             </div>
             <div class="navbar-collapse collapse" id="navbar" aria-expanded="false" style="height: 1px;">
                 <ul class="nav navbar-nav">
