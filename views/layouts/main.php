@@ -19,6 +19,7 @@ AppAsset::register($this);
     <meta name="renderer" content="webkit">
     <?= Html::csrfMetaTags() ?>
     <?php $this->head() ?>
+    
     <title><?= Html::encode($this->title) ?></title>
     <!--[if lt IE 9]>
     <script src="//cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
