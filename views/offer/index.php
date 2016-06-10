@@ -8,10 +8,32 @@ use yii\helpers\Html;
 use yii\helpers\StringHelper;
 use yii\helpers\Url;
 
-$this->title = yii::$app->params['site']['title'];
-if ($category->name) {
-    $this->title .= ' - ' . $category->name;
+// index page
+if (!$category->name) {
+    $this->title = yii::$app->params['site']['title'];
+    $categoryName = '';
+} else {
+    // category page
+    $this->title = yii::$app->params['site']['title'] . ' - ' . $category->name;
+    $categoryName = $category->name;
 }
+
+// keywords, description
+$this->registerMetaTag([
+    'property' => 'keywords',
+    'content' =>  yii::$app->params['site']['keywords'] . ' ' . $categoryName,
+]);
+$this->registerMetaTag([
+    'property' => 'description',
+    'content' => yii::$app->params['site']['description'] . $categoryName,
+]);
+
+// SEO Open Graph
+$this->registerMetaTag(['property' => 'og:title', 'content' => $this->title]);
+// $this->registerMetaTag(['property' => 'og:image', 'content' => Url::base(true) . $offer->getThumbUrl()]);
+$this->registerMetaTag(['property' => 'og:url', 'content' => Yii::$app->request->absoluteUrl]);
+$this->registerMetaTag(['property' => 'og:type', 'content' => 'site']);
+
 ?>
 
         <div class="row row-offcanvas row-offcanvas-right">

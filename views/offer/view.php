@@ -5,8 +5,19 @@ use yii\helpers\Html;
 use yii\helpers\StringHelper;
 use yii\helpers\Url;
 
+
+// SEO Open Graph
+$this->registerMetaTag(['property' => 'og:title', 'content' => $offer->title . $offer->price]);
+$this->registerMetaTag(['property' => 'og:image', 'content' => Url::base(true) . $offer->getThumbUrl()]);
+$this->registerMetaTag(['property' => 'og:url', 'content' => Yii::$app->request->absoluteUrl]);
+$this->registerMetaTag(['property' => 'og:type', 'content' => 'article']);
+// SEO title
 $this->title = yii::$app->params['site']['title'];
 $this->title .= ' - ' . $offer->title;
+// keywords, description
+$this->registerMetaTag(['property' => 'keywords', 'content' => $offer->title]);
+$this->registerMetaTag(['property' => 'description', 'content' => $offer->excerpt]);
+
 ?>
 
         <div class="row row-offcanvas row-offcanvas-right">
