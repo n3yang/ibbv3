@@ -17,8 +17,6 @@ AppAsset::register($this);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="renderer" content="webkit">
-    <meta name="description" content="<?=yii::$app->params['site']['description']?>">
-    <meta name="keywords" content="<?=yii::$app->params['site']['keywords']?>">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
