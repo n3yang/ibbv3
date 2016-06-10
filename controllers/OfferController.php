@@ -99,7 +99,7 @@ class OfferController extends \yii\web\Controller
         $nextOffer = Offer::find()
             ->where(['status' => Offer::STATUS_PUBLISHED])
             ->andWhere(['>', 'id', $id])
-            ->orderBy('id DESC')
+            ->orderBy('id ASC')
             ->limit(1)
             ->asArray()
             ->one();
