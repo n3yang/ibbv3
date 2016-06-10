@@ -111,22 +111,6 @@ class OfferController extends \yii\web\Controller
             ->asArray()
             ->one();
 
-        // SEO
-        if ($nextOffer) {
-            $this->view->registerLinkTag([
-                'rel'   => 'next',
-                'title' => $nextOffer['title'],
-                'href'  => Url::to(['offer/view', 'id'=>$nextOffer['id']], true)
-            ]);
-        }
-        if ($prevOffer) {
-            $this->view->registerLinkTag([
-                'rel'   => 'next',
-                'title' => $prevOffer['title'],
-                'href'  => Url::to(['offer/view', 'id'=>$prevOffer['id']], true)
-            ]);
-        }
-
         return $this->render('view', [
             'offer'         => $offer,
             'nextOffer'     => $nextOffer,

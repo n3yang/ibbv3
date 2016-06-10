@@ -11,6 +11,7 @@ $this->registerMetaTag(['property' => 'og:title', 'content' => $offer->title . $
 $this->registerMetaTag(['property' => 'og:image', 'content' => Url::base(true) . $offer->getThumbUrl()]);
 $this->registerMetaTag(['property' => 'og:url', 'content' => Yii::$app->request->absoluteUrl]);
 $this->registerMetaTag(['property' => 'og:type', 'content' => 'article']);
+
 // SEO title
 $this->title = yii::$app->params['site']['title'];
 $this->title .= ' - ' . $offer->title;
@@ -18,6 +19,21 @@ $this->title .= ' - ' . $offer->title;
 $this->registerMetaTag(['property' => 'keywords', 'content' => $offer->title]);
 $this->registerMetaTag(['property' => 'description', 'content' => $offer->excerpt]);
 
+// SEO next and prev
+if ($nextOffer) {
+    $this->registerLinkTag([
+        'rel'   => 'next',
+        'title' => $nextOffer['title'],
+        'href'  => Url::to(['offer/view', 'id'=>$nextOffer['id']], true)
+    ]);
+}
+if ($prevOffer) {
+    $this->registerLinkTag([
+        'rel'   => 'prev',
+        'title' => $prevOffer['title'],
+        'href'  => Url::to(['offer/view', 'id'=>$prevOffer['id']], true)
+    ]);
+}
 ?>
 
         <div class="row row-offcanvas row-offcanvas-right">
