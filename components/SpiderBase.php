@@ -7,7 +7,6 @@ use yii\base\Model;
 use yii\httpclient\Client;
 use yii\helpers\Url;
 use yii\helpers\FileHelper;
-use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
 use Imagine\Image\Point;
 
@@ -101,7 +100,12 @@ class SpiderBase extends \yii\base\Component
         }
         $newFileName = base_convert(uniqid(), 16, 32) . '.jpg';
         $newFile = $this->fileTempDir . '/' . $newFileName;
-        $imagine = new Imagine;
+        
+        if (class_exists('Imagick')) {
+            $imagine = new Imagine\Imagick\Imagine;
+        } else {
+            $imagine = new Imagine\Gd\Imagine;
+        }
         $imagine->open($tempfile)
                 ->thumbnail(new Box($width, $height))
                 ->save($newFile, ['quality' => 90]);
