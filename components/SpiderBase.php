@@ -102,9 +102,9 @@ class SpiderBase extends \yii\base\Component
         $newFile = $this->fileTempDir . '/' . $newFileName;
         
         if (class_exists('Imagick')) {
-            $imagine = new Imagine\Imagick\Imagine;
+            $imagine = new \Imagine\Imagick\Imagine;
         } else {
-            $imagine = new Imagine\Gd\Imagine;
+            $imagine = new \Imagine\Gd\Imagine;
         }
         $imagine->open($tempfile)
                 ->thumbnail(new Box($width, $height))
