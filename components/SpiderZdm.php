@@ -207,7 +207,8 @@ class SpiderZdm extends SpiderBase
         if ( !in_array($categoryId, self::$validCategoryIds) ) {
             return false;
         }
-        if ( in_array($categoryId, ['147', '57']) 
+        // 147-安全座椅 57-服装鞋帽
+        if ( in_array($categoryId, ['57'])
             && strpos($article['article_title'], '儿童')===false ) {
             return false;
         }
