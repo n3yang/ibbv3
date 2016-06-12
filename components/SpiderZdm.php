@@ -168,7 +168,11 @@ class SpiderZdm extends SpiderBase
         if (!$categoryId) {
             Yii::warning('Fail to convert category id: ' . $a['article_category']['ID'] . ', name: ' . $a['article_category']['title']);
             Yii::warning('Fail to convert category list: ' . var_export($a['article_category_list'], 1));
-            $categoryId = 10;
+            // not categorized, parse from article title
+            $categoryId = parent::getCategoryIdByOfferTitle($a['article_title']);
+            if (!$categoryId) {
+                $categoryId = 10;
+            }
         }
         $newOffer['category_id'] = $categoryId;
 
@@ -419,7 +423,7 @@ class SpiderZdm extends SpiderBase
     public static function convertCategoryId($categoryList = [])
     {
 
-       $mapping = [
+        $mapping = [
             '11'    => [77, 827], // 奶粉牛奶
             '12'    => [95, 97, 79], // 营养辅食
             '13'    => [81, ], // 尿裤湿巾

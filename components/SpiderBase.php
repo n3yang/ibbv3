@@ -358,4 +358,23 @@ class SpiderBase extends \yii\base\Component
         // not category
         return 0;
     }
+
+
+    public function getCategoryIdByOfferTitle($title)
+    {
+        $matches = [
+            12  => ['果汁泥'],
+            13  => ['纸尿裤', '尿不湿', '湿巾'],
+        ];
+
+        foreach ($matches as $k => $v) {
+            foreach ($v as $keyword) {
+                if (strpos($title, $keyword)!==false) {
+                    return $k;
+                }
+            }
+        }
+
+        return null;
+    }
 }
