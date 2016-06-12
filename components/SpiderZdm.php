@@ -163,8 +163,8 @@ class SpiderZdm extends SpiderBase
         $newOffer['thumb_file_id'] = $thumbnail['id'];
 
         // get category
-        $aCategoryId = isset($a['article_category_list'][1]['ID']) ? $a['article_category_list'][1]['ID'] : $a['article_category_list'][0]['ID'];
-        $categoryId = self::convertCategoryId($aCategoryId);
+        // $aCategoryId = isset($a['article_category_list'][1]['ID']) ? $a['article_category_list'][1]['ID'] : $a['article_category_list'][0]['ID'];
+        $categoryId = self::convertCategoryId($a['article_category_list']);
         if (!$categoryId) {
             Yii::warning('Fail to convert category id: ' . $a['article_category']['ID'] . ', name: ' . $a['article_category']['title']);
             Yii::warning('Fail to convert category list: ' . var_export($a['article_category_list'], 1));
@@ -415,39 +415,96 @@ class SpiderZdm extends SpiderBase
         }
     }
 
-    public static function convertCategoryId($categoryId='')
+    public static function convertCategoryId($categoryList = [])
     {
-        $mapping = [
-            '77'    => '11', // 奶粉
-            '81'    => '13', // 尿裤湿巾
-            '83'    => '15', // 喂养用品
-            '981'   => '17', // 玩具
-            '2067'  => '17', // 婴儿玩具
-            '93'    => '17', // 玩具
-            '97'    => '12', // 保健品
-            '79'    => '12', // 营养辅食
-            '85'    => '14', // 洗护用品
-            '129'   => '14', // 口腔护理
-            '75'    => '12', // 母婴用品
-            '87'    => '18', // 童车童床
-            '1965'  => '18', // 婴儿家居安全
-            '937'   => '18', // 婴儿推车
-            '91'    => '21', // 孕产妇用品
-            '7'     => '22', // 图书音像
-            '9'     => '22', // 电子书刊
-            '3099'  => '22', // 少儿
-            '147'   => '20',
-            '57'    => '19',
-            '95'    => '12',
-            '1515'  => '14', // 日用百货
-            '7'     => '22', // 图书影音
-            '111'   => '23', // 生鲜食品
-            '105'   => '23', // 粮油调味
+
+       $mapping = [
+            '11'    => [77, 827], // 奶粉牛奶
+            '12'    => [95, 97, 79], // 营养辅食
+            '13'    => [81, ], // 尿裤湿巾
+            '14'    => [85, 129, 1515, 747, 1141, 4275, 4261, 1565, 117, 113], // 洗护用品
+            '15'    => [83, 1491], // 喂养用品
+            '16'    => [1967, 2081, 4373, 53], // 家纺服饰
+            '17'    => [981, 2067, 93, 1319, 251, 3213, 163, 5067], // 玩具乐器
+            '18'    => [87, 1965, 937, 49, 51,], // 童车童床
+            '19'    => [67, 57, 89, 955, 603], // 童装童鞋
+            '20'    => [527, 147], // 安全座椅
+            '21'    => [967, 91], // 妈妈用品
+            '22'    => [7, 9, 3099], // 图书影音
+            '23'    => [111, 105, 107, 1635], // 美食生鲜
+            '24'    => [27, 35], // 家用电器
         ];
-        if (!isset($mapping[$categoryId])) {
-            return '';
-        } else {
-            return $mapping[$categoryId];
+
+        $myCategoryId = null;
+        for ($i=count($categoryList); $i > 0; $i--) { 
+            $categoryId = $categoryList[$i-1]['ID'];
+            foreach ($mapping as $k => $m) {
+                if (in_array($categoryId, $m)) {
+                    $myCategoryId = $k;
+                    break;
+                }
+            }
+            if (!empty($myCategoryId)) {
+                break;
+            }
         }
+
+        return $myCategoryId;
     }
 }
+
+
+// 77    奶粉       
+// 81    尿裤湿巾    
+// 83    喂养用品    
+// 981   玩具       
+// 2067  婴儿玩具    
+// 93    玩具       
+// 97    保健品     
+// 79    营养辅食    
+// 85    洗护用品    
+// 129   口腔护理    
+// 75    母婴用品    
+// 87    童车童床    
+// 1965  婴儿家居安全
+// 937   婴儿推车    
+// 91    孕产妇用品  
+// 7     图书音像    
+// 9     电子书刊    
+// 3099  少儿           
+// 147    
+// 57     
+// 95    
+// 1515  日用百货
+// 7     图书影音
+// 111   生鲜食品
+// 105   粮油调味
+// 35   个护健康
+// 27   家用电器
+// 1319 电吹风
+// 967  妈妈护理
+// 747  牙膏
+// 129  口腔护理
+// 937  婴儿推车
+// 1141 衣物清洁
+// 4275 洗衣皂
+// 4261 洗衣液
+// 1967 婴儿家纺
+// 2081 婴儿枕头
+// 4373 家居饰品
+// 2447 仿真模型
+// 985  模型
+// 67   童装
+// 251  运动器材
+// 1565 美发护发
+// 49   住宅家具
+// 827  牛奶
+// 3213 电子教育
+// 603  儿童书包
+// 51   灯具灯饰
+// 107  饮料
+// 1635 休闲食品
+// 113  个护化妆
+// 163  电脑数码
+// 5067 泳衣
+// 1491 水具酒具

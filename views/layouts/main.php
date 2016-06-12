@@ -43,8 +43,9 @@ AppAsset::register($this);
             <div class="navbar-collapse collapse" id="navbar" aria-expanded="false" style="height: 1px;">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="/">首页</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <!-- <li><a href="/sp/category/wanjuyueqi">玩具乐器</a></li> -->
+                    <!-- <li><a href="/sp/category/niaokushijin">尿裤湿巾</a></li> -->
+                    <!-- <li><a href="#contact">Contact</a></li> -->
                 </ul>
             </div><!-- /.nav-collapse -->
         </div><!-- /.container -->
