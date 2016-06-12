@@ -116,6 +116,7 @@ class SpiderBase extends \yii\base\Component
         $fileHash = md5_file($newFile);
         $fileModel = File::findOneByMd5($fileHash);
         if ( $fileModel && $fileModel->user_id=='' ) {
+            unlink($newFile);
             return [
                 'id'    => $fileModel->id,
                 'url'   => Yii::$aliases['@uploadUrl'] . '/' . $fileModel->path,
