@@ -51,7 +51,7 @@ if ($prevOffer) {
                 <div class="info">
                     <div class="row">
                         <div class="thumb col-xs-8 col-xs-offset-2 col-sm-3 col-sm-offset-0">
-                            <span class="thumbnail"><img src="<?=$offer->thumb->getImageUrl()?>" class="img-responsive"></span>
+                            <span class="thumbnail"><img src="<?=$offer->thumb->getImageUrl()?>" class="img-responsive" alt="<?= Html::encode($offer->title); ?>"></span>
                         </div>
 
                         <div class="meta col-xs-12 col-xs-offset col-sm-9 hidden-xs">

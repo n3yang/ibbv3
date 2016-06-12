@@ -51,7 +51,7 @@ $this->registerMetaTag(['property' => 'og:type', 'content' => 'site']);
                 <div class="spo-row row">
                     <div class="thumb col-xs-3">
                         <a href="<?=Url::to(['offer/view', 'id'=>$o->id])?>" class="thumbnail">
-                            <img src="<?=$o->getThumbUrl()?>" class="img-responsive">
+                            <img src="<?=$o->getThumbUrl()?>" class="img-responsive" alt="<?= Html::encode($o->title); ?>">
                         </a>
                     </div>
                     <div class="info col-xs-9">
