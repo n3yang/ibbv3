@@ -16,8 +16,14 @@ $this->registerMetaTag(['property' => 'og:type', 'content' => 'article']);
 $this->title = yii::$app->params['site']['title'];
 $this->title .= ' - ' . $offer->title;
 // keywords, description
-$this->registerMetaTag(['property' => 'keywords', 'content' => $offer->title]);
-$this->registerMetaTag(['property' => 'description', 'content' => $offer->excerpt]);
+$this->registerMetaTag([
+    'property'  => 'keywords', 
+    'content'   => $offer->title
+]);
+$this->registerMetaTag([
+    'property'  => 'description', 
+    'content'   => mb_substr($offer->excerpt, 0, 100)
+]);
 
 // SEO next and prev
 if ($nextOffer) {

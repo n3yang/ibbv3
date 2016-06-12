@@ -53,13 +53,13 @@ class OfferController extends \yii\web\Controller
             'id'        => $id,
             'status'    => Offer::STATUS_PUBLISHED,
         ]);
-        $offer->getThumb();
 
         // not found
         if (!$offer) {
             throw new yii\web\NotFoundHttpException;
         }
 
+        $offer->getThumb();
         // the counter
         $offer->updateCounters(['click' => 1]);
 
