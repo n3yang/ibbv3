@@ -363,8 +363,9 @@ class SpiderBase extends \yii\base\Component
     public function getCategoryIdByOfferTitle($title)
     {
         $matches = [
-            12  => ['果汁泥'],
-            13  => ['纸尿裤', '尿不湿', '湿巾'],
+            12  => ['果汁泥', '果泥', '磨牙棒'],
+            13  => ['纸尿裤', '尿不湿', '湿巾', '柔湿巾'],
+            15  => ['奶嘴', '奶瓶'],
         ];
 
         foreach ($matches as $k => $v) {
