@@ -22,7 +22,7 @@ class SpiderZdm extends SpiderBase
      * Valid Category Ids ( root category )
      * 75   母婴用品
      * 93   玩具乐器
-     * 147  安全座椅
+     * 147  汽车用品
      * 57   服装鞋帽
      * 95   食品保健 =========
      * 
@@ -212,7 +212,7 @@ class SpiderZdm extends SpiderBase
             return false;
         }
         // 147-安全座椅 57-服装鞋帽
-        if ( in_array($categoryId, ['57'])
+        if ( in_array($categoryId, ['57', '147'])
             && strpos($article['article_title'], '儿童')===false ) {
             return false;
         }
@@ -433,10 +433,10 @@ class SpiderZdm extends SpiderBase
             '17'    => [981, 2067, 93, 1319, 251, 3213, 163, 5067], // 玩具乐器
             '18'    => [87, 1965, 937, 49, 51,], // 童车童床
             '19'    => [67, 57, 89, 955, 603], // 童装童鞋
-            '20'    => [527, 147], // 安全座椅
+            '20'    => [527], // 安全座椅
             '21'    => [967, 91], // 妈妈用品
             '22'    => [7, 9, 3099], // 图书影音
-            '23'    => [111, 105, 107, 1635], // 美食生鲜
+            '23'    => [111, 105, 107, 773, 1635], // 美食生鲜
             '24'    => [27, 35], // 家用电器
         ];
 
@@ -479,7 +479,7 @@ class SpiderZdm extends SpiderBase
 // 3099  少儿           
 // 147    
 // 57     
-// 95    
+// 95    食品保健
 // 1515  日用百货
 // 7     图书影音
 // 111   生鲜食品
