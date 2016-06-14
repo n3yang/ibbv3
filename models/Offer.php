@@ -134,7 +134,7 @@ class Offer extends \yii\db\ActiveRecord
             ->all();
     }
 
-    public function findHot()
+    public static function findHot()
     {
         /*
         return Offer::find()
@@ -146,13 +146,17 @@ class Offer extends \yii\db\ActiveRecord
             ->limit(10)
             ->all();
         */
-       
-        return Offer::find()
-            ->where(['status'=>Offer::STATUS_PUBLISHED])
-            ->andWhere(['>', 'created_at', date('Y-m-d 00:00:00')])
-            ->orderBy('click')
-            ->limit(10)
-            ->all();
+        $rs = self::getDb()->cache(function ($db) {
+            return self::find()
+                ->where(['status'=>Offer::STATUS_PUBLISHED])
+                ->andWhere(['>', 'created_at', date('Y-m-d 00:00:00')])
+                ->orderBy('click')
+                ->limit(10)
+                ->with('thumb')
+                ->all();
+        }, 300);
+
+        return $rs;
     }
 
     public function getThumbUrl()

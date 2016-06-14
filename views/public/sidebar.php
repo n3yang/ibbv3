@@ -1,6 +1,7 @@
 <?
 use app\models\Offer;
 use yii\helpers\Url;
+use yii\helpers\Html;
 
 $hots = Offer::findHot();
 ?>
@@ -18,7 +19,11 @@ $hots = Offer::findHot();
                     <?
                     foreach ($hots as $hot) {
                     ?>
-                    <a href="<?=Url::toRoute(['offer/view', 'id'=>$hot->id])?>" class="list-group-item"><?=$hot->title?> <?=$hot->price?></a>
+
+                    <a href="<?=Url::toRoute(['offer/view', 'id'=>$hot->id])?>" class="list-group-item">
+                        <img src="<?=$hot->getThumbUrl()?>" class="img-responsive" alt="<?= Html::encode($hot->title); ?>"/>
+                        <?=$hot->title?> <span class="price"><?=$hot->price?></span>
+                    </a>
                     <? } // end foreach ?>
                 </div>
             </div><!--/.sidebar-offcanvas-->
