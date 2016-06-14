@@ -14,15 +14,14 @@ $hots = Offer::findHot();
                     </p>
                 </div>
 
-                <div class="list-group">
+                <div class="list-group hot-row">
                     <a href="#" class="list-group-item active">今日热门</a>
                     <?
                     foreach ($hots as $hot) {
                     ?>
 
                     <a href="<?=Url::toRoute(['offer/view', 'id'=>$hot->id])?>" class="list-group-item">
-                        <img src="<?=$hot->getThumbUrl()?>" class="img-responsive" alt="<?= Html::encode($hot->title); ?>"/>
-                        <?=$hot->title?> <span class="price"><?=$hot->price?></span>
+                        <img src="<?=$hot->getThumbUrl()?>" class="img-responsive hidden-xs" alt="<?= Html::encode($hot->title); ?>" /> <?=$hot->title?> <span class="price"><?=$hot->price?></span>
                     </a>
                     <? } // end foreach ?>
                 </div>

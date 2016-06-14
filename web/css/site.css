@@ -18,6 +18,12 @@ body {
         display: block;
     }
 }
+
+.hot-row .img-responsive{
+    margin: auto;
+    width: 80%;
+    display: block;
+}
 /***********************************
 * index
 ************************************/
