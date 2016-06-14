@@ -413,6 +413,7 @@ class SpiderZdm extends SpiderBase
             '3981'  => Offer::B2C_KAOLA,
             '261'   => Offer::B2C_WOMAI,
             '691'   => Offer::B2C_SUPUY,
+            '4039'  => Offer::B2C_SUPUY,
             '2897'  => Offer::B2C_TMALL_GJ,
         ];
         if (!isset($mapping[$mallId])) {
