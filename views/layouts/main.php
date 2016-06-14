@@ -35,7 +35,7 @@ $navbarActive = Yii::$app->request->get('category');
         <div class="container">
             <div class="navbar-header">
                 <button class="navbar-toggle collapsed" aria-expanded="false" aria-controls="navbar" type="button" data-toggle="collapse" data-target="#navbar">
-                    <span class="sr-only">Toggle navigation</span>
+                    <span class="sr-only">打开导航</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -44,17 +44,17 @@ $navbarActive = Yii::$app->request->get('category');
             </div>
             <div class="navbar-collapse collapse" id="navbar" aria-expanded="false" style="height: 1px;">
                 <ul class="nav navbar-nav">
-                    <li<? if ($navbarActive=='') {echo ' class="active"'; } ?>><a href="/">首页</a></li>
-                    <li<? if ($navbarActive=='wanjuyueqi') {echo ' class="active"'; } ?>><a href="/sp/category/wanjuyueqi">营养辅食</a></li>
-                    <li<? if ($navbarActive=='niaokushijin') {echo ' class="active"'; } ?>><a href="/sp/category/niaokushijin">尿裤湿巾</a></li>
-                    <li<? if ($navbarActive=='wanjuyueqi') {echo ' class="active"'; } ?>><a href="/sp/category/wanjuyueqi">玩具乐器</a></li>
-                    <li<? if ($navbarActive=='weiyangyongpin') {echo ' class="active"'; } ?>><a href="/sp/category/weiyangyongpin">喂养用品</a></li>
-                    <li<? if ($navbarActive=='xihuyongpin') {echo ' class="active"'; } ?>><a href="/sp/category/xihuyongpin">洗护用品</a></li>
-                    <li<? if ($navbarActive=='naifenniunai') {echo ' class="active"'; } ?>><a href="/sp/category/naifenniunai">奶粉牛奶</a></li>
-                    <li<? if ($navbarActive=='anquanzuoyi') {echo ' class="active"'; } ?>><a href="/sp/category/anquanzuoyi">安全座椅</a></li>
-                    <li<? if ($navbarActive=='tongchejiaju') {echo ' class="active"'; } ?>><a href="/sp/category/tongchejiaju">童车家具</a></li>
-                    <li<? if ($navbarActive=='mamayongpin') {echo ' class="active"'; } ?>><a href="/sp/category/mamayongpin">妈妈用品</a></li>
-                    <li<? if ($navbarActive=='tongzhuangtongxie') {echo ' class="active"'; } ?>><a href="/sp/category/tongzhuangtongxie">童装童鞋</a></li>
+                    <li<? if ($navbarActive=='') { echo ' class="active"'; } ?>><a href="/">首页</a></li>
+                    <li<? if ($navbarActive=='yingyangfushi') { echo ' class="active"'; } ?>><a href="/sp/category/yingyangfushi">营养辅食</a></li>
+                    <li<? if ($navbarActive=='niaokushijin') { echo ' class="active"'; } ?>><a href="/sp/category/niaokushijin">尿裤湿巾</a></li>
+                    <li<? if ($navbarActive=='wanjuyueqi') { echo ' class="active"'; } ?>><a href="/sp/category/wanjuyueqi">玩具乐器</a></li>
+                    <li<? if ($navbarActive=='weiyangyongpin') { echo ' class="active"'; } ?>><a href="/sp/category/weiyangyongpin">喂养用品</a></li>
+                    <li<? if ($navbarActive=='xihuyongpin') { echo ' class="active"'; } ?>><a href="/sp/category/xihuyongpin">洗护用品</a></li>
+                    <li<? if ($navbarActive=='naifenniunai') { echo ' class="active"'; } ?>><a href="/sp/category/naifenniunai">奶粉牛奶</a></li>
+                    <li<? if ($navbarActive=='anquanzuoyi') { echo ' class="active"'; } ?>><a href="/sp/category/anquanzuoyi">安全座椅</a></li>
+                    <li<? if ($navbarActive=='tongchejiaju') { echo ' class="active"'; } ?>><a href="/sp/category/tongchejiaju">童车家具</a></li>
+                    <li<? if ($navbarActive=='mamayongpin') { echo ' class="active"'; } ?>><a href="/sp/category/mamayongpin">妈妈用品</a></li>
+                    <li<? if ($navbarActive=='tongzhuangtongxie') { echo ' class="active"'; } ?>><a href="/sp/category/tongzhuangtongxie">童装童鞋</a></li>
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">更多类别</a>
                         <ul class="dropdown-menu" aria-labelledby="download">

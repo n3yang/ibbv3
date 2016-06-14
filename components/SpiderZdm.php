@@ -141,8 +141,12 @@ class SpiderZdm extends SpiderBase
             Yii::warning('Fail to convert mall: ' . $a['article_mall']);
         }
         
+        // fetch thumbnail
+        $thumbnail = $this->addRemoteFile($a['article_pic'], $a['article_title']);
+        $newOffer['thumb_file_id'] = $thumbnail['id'];
+
         // set status
-        if (!$b2c || !$newOffer['link_slug']) {
+        if (!$b2c || !$newOffer['link_slug'] || !$thumbnail['id']) {
             $status = Offer::STATUS_DRAFT;
         } else {
             $status = Offer::STATUS_PUBLISHED;
@@ -158,9 +162,6 @@ class SpiderZdm extends SpiderBase
                                     ? $this->parseContent($this->dataList[$id]['article_filter_content'])
                                     : '';
 
-        // fetch thumbnail
-        $thumbnail = $this->addRemoteFile($a['article_pic'], $a['article_title']);
-        $newOffer['thumb_file_id'] = $thumbnail['id'];
 
         // get category
         // $aCategoryId = isset($a['article_category_list'][1]['ID']) ? $a['article_category_list'][1]['ID'] : $a['article_category_list'][0]['ID'];
@@ -171,6 +172,7 @@ class SpiderZdm extends SpiderBase
             // not categorized, parse from article title
             $categoryId = parent::getCategoryIdByOfferTitle($a['article_title']);
             if (!$categoryId) {
+                Yii::warning('Fail to convert category list by offer title. ');
                 $categoryId = 10;
             }
         }
@@ -403,6 +405,7 @@ class SpiderZdm extends SpiderBase
             '2537'  => Offer::B2C_TMALL_CS,
             '43'    => Offer::B2C_YHD,
             '239'   => Offer::B2C_SUNING,
+            '4031'  => Offer::B2C_SUNING,
             '241'   => Offer::B2C_TAOBAO_JHS,
             '487'   => Offer::B2C_1IYAOWANG,
             '219'   => Offer::B2C_MUYINGZHIJIA,
