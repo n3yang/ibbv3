@@ -30,7 +30,7 @@ class Category extends \yii\db\ActiveRecord
         ('15','喂养用品',0,1,'weiyangyongpin', NOW(), NOW()),
         ('16','家纺服饰',0,1,'jiafangfushi', NOW(), NOW()),
         ('17','玩具乐器',0,1,'wanjuyueqi', NOW(), NOW()),
-        ('18','童车童床',0,1,'tongchetongchuang', NOW(), NOW()),
+        ('18','童车童床',0,1,'tongchejiaju', NOW(), NOW()),
         ('19','童装童鞋',0,1,'tongzhuangtongxie', NOW(), NOW()),
         ('20','安全座椅',0,1,'anquanzuoyi', NOW(), NOW()),
         ('21','妈妈用品',0,1,'mamayongpin', NOW(), NOW()),
