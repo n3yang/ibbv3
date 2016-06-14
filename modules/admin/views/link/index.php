@@ -48,6 +48,6 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); ?>
 
     
-    <?= $this->render('_search', ['model' => $model]); ?>
+    <?= $this->render('_search', ['model' => $model, 'categories' => $this->categories]); ?>
 
 </div>

@@ -59,6 +59,7 @@ class OfferSearch extends Offer
         $query->andFilterWhere([
             'id' => $this->id,
             'thumb_file_id' => $this->thumb_file_id,
+            'category_id' => $this->category_id,
             'site' => $this->site,
             'b2c' => $this->b2c,
             'created_at' => $this->created_at,

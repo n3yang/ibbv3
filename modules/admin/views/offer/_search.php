@@ -6,6 +6,7 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\models\offerSearch */
 /* @var $form yii\widgets\ActiveForm */
+
 ?>
 
 <div class="offer-search">
@@ -19,17 +20,19 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'title') ?>
 
-    <?= $form->field($model, 'content') ?>
+    <?= $form->field($model, 'category_id')->dropDownList([''=>'ALL'] + $categories) ?>
 
-    <?= $form->field($model, 'price') ?>
+    <?//= $form->field($model, 'content') ?>
 
-    <?= $form->field($model, 'thumb_file_id') ?>
+    <?//= $form->field($model, 'price') ?>
+
+    <?//= $form->field($model, 'thumb_file_id') ?>
 
     <?php // echo $form->field($model, 'link_slug') ?>
 
-    <?php // echo $form->field($model, 'site') ?>
+    <?=$form->field($model, 'site')->dropDownList([''=>"ALL"] + $model->getSiteLabels()) ?>
 
-    <?php // echo $form->field($model, 'b2c') ?>
+    <?=$form->field($model, 'b2c')->dropDownList([''=>'ALL'] + $model->getB2cLabels()) ?>
 
     <?php // echo $form->field($model, 'created_at') ?>
 

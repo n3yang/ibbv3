@@ -38,9 +38,13 @@ class OfferController extends Controller
         $searchModel = new OfferSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        // all category
+        $categories = Category::getAllAsArrayIdName();
+        
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'categories' => $categories,
         ]);
     }
 
@@ -82,11 +86,7 @@ class OfferController extends Controller
             $tags = ArrayHelper::map($tags, 'id', 'name');
 
             // all category
-            $categories = Category::find()
-                ->where(['type'=>Category::TYPE_OFFER])
-                ->asArray()
-                ->all();
-            $categories = ArrayHelper::map($categories, 'id', 'name');
+            $categories = Category::getAllAsArrayIdName();
 
             return $this->render('create', [
                 'model' => $model,
@@ -129,11 +129,7 @@ class OfferController extends Controller
             $selectedTags = $model->tags;
 
             // all category
-            $categories = Category::find()
-                ->where(['type'=>Category::TYPE_OFFER])
-                ->asArray()
-                ->all();
-            $categories = ArrayHelper::map($categories, 'id', 'name');
+            $categories = Category::getAllAsArrayIdName();
             
             return $this->render('update', [
                 'model' => $model,

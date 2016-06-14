@@ -56,4 +56,6 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
 
+    <?= $this->render('_search', ['model' => $searchModel, 'categories' => $categories]); ?>
+
 </div>
