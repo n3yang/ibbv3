@@ -20,7 +20,7 @@ body {
 }
 
 .hot-row .img-responsive{
-    margin: auto;
+    margin: 0px auto 10px auto;
     width: 80%;
     display: block;
 }

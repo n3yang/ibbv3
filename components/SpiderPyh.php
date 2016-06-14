@@ -104,8 +104,10 @@ class SpiderPyh extends SpiderBase
             if ($r['id'] > $last['maxId']) {
                 $this->fetchArticle($r);
             }
-            $last['maxId'] = max($last['maxId'], $r['id']);
+            $maxId = max($maxId, $r['id']);
         }
+        $last['maxId'] = $maxId;
+        $last['actionTime'] = date('Y-m-d H:i:s');
         Yii::$app->cache->set($this->syncCacheKey.__FUNCTION__, $last);
         Yii::info('Fetch finished. ' . json_encode($last));
     }
