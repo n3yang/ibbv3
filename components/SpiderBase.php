@@ -371,6 +371,7 @@ class SpiderBase extends \yii\base\Component
             17  => ['儿童文具'],
             19  => ['太阳镜', '速干裤', '篮球服'],
             21  => ['婴儿背带', '乳头霜', 'Mavala Stop'],
+            10  => ['促销活动'],
         ];
 
         foreach ($matches as $k => $v) {
