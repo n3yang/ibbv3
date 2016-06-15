@@ -263,7 +263,10 @@ class SpiderBase extends \yii\base\Component
             $info = parse_url($url);
             parse_str($info['query'], $params);
             unset($params['t'], $params['tag']);
-            $real = $info['scheme'] . '://' . $info['host'] . $info['path'] . '?' . http_build_query($params);
+            $real = $info['scheme'] . '://' . $info['host'] . $info['path'];
+            if (count($params) > 0) {
+                $real .= '?' . http_build_query($params);
+            }
         }
         // suning.com
         else if (strpos($url, 'union.suning.com') || strpos($url, 'sucs.suning.com')) {
@@ -302,6 +305,9 @@ class SpiderBase extends \yii\base\Component
         // haituncun.com
         else if (strpos($url, 'associates.haituncun.com')) {
             $real = static::getQueryValueFromUrl('url', $url);
+        } else if (strpos($url, 'mia.com')) {
+            $info = parse_url($url);
+            $real = $info['scheme'] . '://' . $info['host'] . $info['path'];
         }
         // womai.com
         // default 
@@ -367,14 +373,15 @@ class SpiderBase extends \yii\base\Component
     public function getCategoryIdByOfferTitle($title)
     {
         $matches = [
-            11  => ['奶粉'],
+            11  => ['奶粉', '婴儿配方奶粉'],
             12  => ['果汁泥', '果泥', '磨牙棒', '维生素D3滴剂', '辅食', '米糊', '维生素滴剂'],
             13  => ['拉拉裤', '纸尿裤', '尿不湿', '成长裤', '湿巾', '柔湿巾', '尿布'],
-            14  => ['香皂', '宝宝指甲钳', '洗衣液'],
+            14  => ['香皂', '宝宝指甲钳', '洗衣液', '洗衣皂', '护唇膏'],
             15  => ['奶嘴', '奶瓶', '退热贴', '围兜', '套装食具', ],
-            17  => ['儿童文具', '机器人', '火车', ''],
-            19  => ['太阳镜', '速干裤', '篮球服'],
-            21  => ['婴儿背带', '乳头霜', 'Mavala Stop'],
+            17  => ['儿童文具', '机器人', '火车', '玩具', '爬行垫', '游戏围栏', '手表'],
+            19  => ['太阳镜', '速干裤', '篮球服', '儿童午餐包', ],
+            20  => ['安全座椅'],
+            21  => ['婴儿背带', '乳头霜', 'Mavala Stop', '防溢乳垫'],
             10  => ['促销活动'],
         ];
 

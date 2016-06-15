@@ -236,6 +236,8 @@ class Link extends \yii\db\ActiveRecord
             'supuy.com'             =>  '927'   ,
             'lamall.com'            =>  '1731'  ,
             'miyabaobei.com'        =>  '930'   ,
+            'm.mia.com'             =>  '1770'  ,
+            'mia.com'               =>  '930'   ,
             'ymatou.com'            =>  '1419'  ,
             'suning.com'            =>  '84'    ,
             'm.suning.com'          =>  '501'   ,
