@@ -52,6 +52,9 @@ class Offer extends \yii\db\ActiveRecord
     const B2C_AMAZON_UK = 21;
     const B2C_SUPUY = 22;
     const B2C_TMALL_GJ = 23;
+    const B2C_AMAZON_DE = 24;
+    const B2C_AMAZON_FR = 25;
+    const B2C_AMAZON_ES = 26;
 
 
     const SITE_ZDM = 1;
@@ -219,6 +222,9 @@ class Offer extends \yii\db\ActiveRecord
             self::B2C_AMAZON_US     => '美国亚马逊',
             self::B2C_AMAZON_UK     => '英国亚马逊',
             self::B2C_AMAZON_JP     => '日本亚马逊',
+            self::B2C_AMAZON_DE     => '德国亚马逊',
+            self::B2C_AMAZON_FR     => '法国亚马逊',
+            self::B2C_AMAZON_ES     => '西班牙亚马逊',
             self::B2C_YHD           => '一号店',
             self::B2C_TAOBAO_JHS    => '淘宝聚划算',
             self::B2C_TAOBAO        => '淘宝',

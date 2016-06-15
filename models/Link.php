@@ -203,6 +203,16 @@ class Link extends \yii\db\ActiveRecord
                 $tag = 'ibaobr0d-22';
             } else if (strpos($url, 'amazon.com')) {
                 $tag = 'ibaobr-20';
+            } else if (strpos($url, 'amazon.de')) {
+                $tag = 'ibaobr0a-21';
+            } else if (strpos($url, 'amazon.co.uk')) {
+                $tag = 'ibaobr03-21';
+            } else if (strpos($url, 'amazon.es')) {
+                $tag = 'ibaobr0c-21';
+            } else if (strpos($url, 'amazon.fr')) {
+                $tag = 'ibaobr07-21';
+            } else if (strpos($url, 'amazon.it')) {
+                $tag = 'ibaobr0b3-21';
             }
             $params['t'] = $params['tag'] = $tag;
             $url = $info['scheme'] . '://' . $info['host'] . $info['path'] . '?' . http_build_query($params);
