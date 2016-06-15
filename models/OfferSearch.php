@@ -18,7 +18,7 @@ class OfferSearch extends Offer
     public function rules()
     {
         return [
-            [['id', 'thumb_file_id', 'site', 'b2c', 'created_at'], 'integer'],
+            [['id', 'thumb_file_id', 'site', 'b2c', 'created_at', 'category_id'], 'integer'],
             [['title', 'content', 'price', 'link_slug'], 'safe'],
         ];
     }
