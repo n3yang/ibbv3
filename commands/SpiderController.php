@@ -9,6 +9,7 @@ namespace app\commands;
 use yii;
 use yii\console\Controller;
 use yii\helpers\Console;
+use yii\helpers\ArrayHelper;
 use PHPHtmlParser\Dom;
 use app\models\File;
 use app\models\Offer;
@@ -16,6 +17,7 @@ use app\models\Link;
 use app\components\SpiderZdm;
 use app\components\SpiderZdmFx;
 use app\components\SpiderPyh;
+use yii\httpclient\Client;
 
 /**
  * 
@@ -74,6 +76,42 @@ class SpiderController extends Controller
 
     public function actionTest()
     {
+        // 46 baby
+        // 86 food
+        // 113 cloth
+        // 145 book
+        $data = json_decode('{"keyword":"","sortid":"86","mallid":"","page":"0"}', true);
+
+        $client = new Client();
+        $response = $client->createRequest()
+            // ->setFormat(Client::FORMAT_JSON)
+            ->setMethod('post')
+            ->setUrl('http://hmapp.liuzhu.com/api/product/SearchContent')
+            ->addHeaders(['timeToken' => time()])
+            ->addHeaders(['version' => '18'])
+            ->addHeaders(['Custom-Auth-Key' => 'SbvlwB90+GRIm8WL8Nk+VMkh1Et9996hIo3Inj35SLfdR0MCJ+o7PcPecysmarm3'])
+            ->addHeaders(['Accept-Language' => 'zh-Hans-CN;q=1,.en-CN;q=0.9'])
+            ->addHeaders(['Accept-Encoding' => 'gzip,deflate'])
+            ->addHeaders(['Content-Type' => 'application/json;charset=utf-8'])
+            ->addHeaders(['imei' => ''])
+            ->addHeaders(['deviceid' => '91133FC7-F009-6271-9031-BAA362DC0523'])
+            ->addHeaders(['Custom-Auth-Name' => ''])
+            ->addHeaders(['User-Agent' => 'Huim/3.4.1.(iPhone;.iOS.9.3.2;.Scale/2.00)'])
+            ->addHeaders(['nettype' => 'WIFI'])
+            ->addHeaders(['client' => 1])
+            // ->addHeaders([''])
+            ->setData($data)
+            ->send();
+        
+        $array = $response->getData();
+        // var_dump($array['data'][0]['title']);
+        // echo ArrayHelper::getValue($array['data'], 'title') . "\n";
+        $rs = ArrayHelper::getColumn($array['data'], 'id', $keepKeys = true);
+        var_dump($rs);
+
+        // /api/product/getcontent/?id=83851
+
+
     }
 
     public function actionSyncPyh()
