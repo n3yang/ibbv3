@@ -260,13 +260,7 @@ class SpiderBase extends \yii\base\Component
         }
         // amazon.cn, amazon.com, and so on..
         else if (strpos($url, 'amazon')) {
-            $info = parse_url($url);
-            parse_str($info['query'], $params);
-            unset($params['t'], $params['tag']);
-            $real = $info['scheme'] . '://' . $info['host'] . $info['path'];
-            if (count($params) > 0) {
-                $real .= '?' . http_build_query($params);
-            }
+            $real = static::removeQueryFromUrl(['t', 'tag'], $url);
         }
         // suning.com
         else if (strpos($url, 'union.suning.com') || strpos($url, 'sucs.suning.com')) {
@@ -278,8 +272,7 @@ class SpiderBase extends \yii\base\Component
         }
         // m.dangdang.com
         else if (strpos($url, 'm.dangdang.com') || strpos($url, 't.dangdang.com')) {
-            $real = str_replace('unionid=p-326920m-ACYH93', '', $url);
-            $real = str_replace('unionid=p-326920m-ACFX75', '', $url);
+            $real = static::removeQueryFromUrl('unionid', $url);
         }
         // taobao alimama
         // else if (strpos($js, 's.click.taobao.com') || strpos($js, 's.taobao.com')) {
@@ -296,7 +289,7 @@ class SpiderBase extends \yii\base\Component
         }
         // fengyu.com
         else if (strpos($url, 'fengyu.com')) {
-            $real = str_replace('_src=smzdm5148', '', $url);
+            $real = static::removeQueryFromUrl('_src', $url);
         }
         // kaola.com
         else if (strpos($url, 'cps.kaola.com')) {
@@ -306,8 +299,7 @@ class SpiderBase extends \yii\base\Component
         else if (strpos($url, 'associates.haituncun.com')) {
             $real = static::getQueryValueFromUrl('url', $url);
         } else if (strpos($url, 'mia.com')) {
-            $info = parse_url($url);
-            $real = $info['scheme'] . '://' . $info['host'] . $info['path'];
+            $real = static::removeQueryFromUrl(['from', 'utm_source', 'utm_medium', 'utm_campaign'], $url);
         }
         // womai.com
         // default 
@@ -323,6 +315,30 @@ class SpiderBase extends \yii\base\Component
     {
         parse_str(parse_url($url, PHP_URL_QUERY), $query);
         return $query[$queryKey];
+    }
+
+    public static function removeQueryFromUrl($queryKey, $url)
+    {
+        $info = parse_url($url);
+        parse_str($info['query'], $query);
+
+        // single key
+        if (is_string($queryKey)) {
+            unset($query[$queryKey]);
+        }
+        // multi keys
+        if (is_array($queryKey)) {
+            foreach ($queryKey as $key) {
+                unset($query[$key]);
+            }
+        }
+        // build full url
+        $full = $info['scheme'] . '://' . $info['host'] . $info['path'];
+        if (count($query) > 0) {
+            $full .= '?' . http_build_query($query);
+        }
+
+        return $full;
     }
 
     public static function getB2cIdByShopName($name)
