@@ -76,20 +76,29 @@ class SpiderController extends Controller
 
     public function actionTest()
     {
+
+        $authkey = substr(crypt(md5(time()), "$6$"), 10, 64);
         // 46 baby
         // 86 food
         // 113 cloth
         // 145 book
-        $data = json_decode('{"keyword":"","sortid":"86","mallid":"","page":"0"}', true);
+        $query = [
+            'keyword'   => '',
+            'sortid'    => '46',
+            'mallid'    => '',
+            'page'      => '0',
+        ];
 
         $client = new Client();
         $response = $client->createRequest()
-            // ->setFormat(Client::FORMAT_JSON)
-            ->setMethod('post')
+            ->setUrl('http://localhost')
             ->setUrl('http://hmapp.liuzhu.com/api/product/SearchContent')
+            ->setMethod('post')
+            ->setFormat(Client::FORMAT_JSON)
             ->addHeaders(['timeToken' => time()])
             ->addHeaders(['version' => '18'])
-            ->addHeaders(['Custom-Auth-Key' => 'SbvlwB90+GRIm8WL8Nk+VMkh1Et9996hIo3Inj35SLfdR0MCJ+o7PcPecysmarm3'])
+            // ->addHeaders(['Custom-Auth-Key' => 'SbvlwB90+GRIm8WL8Nk+VMkh1Et9996hIo3Inj35SLfdR0MCJ+o7PcPecysmarm3'])
+            ->addHeaders(['Custom-Auth-Key' => $authkey])
             ->addHeaders(['Accept-Language' => 'zh-Hans-CN;q=1,.en-CN;q=0.9'])
             ->addHeaders(['Accept-Encoding' => 'gzip,deflate'])
             ->addHeaders(['Content-Type' => 'application/json;charset=utf-8'])
@@ -99,15 +108,15 @@ class SpiderController extends Controller
             ->addHeaders(['User-Agent' => 'Huim/3.4.1.(iPhone;.iOS.9.3.2;.Scale/2.00)'])
             ->addHeaders(['nettype' => 'WIFI'])
             ->addHeaders(['client' => 1])
-            // ->addHeaders([''])
-            ->setData($data)
+            ->setData($query)
             ->send();
-        
+        if ($response->oK()) {
         $array = $response->getData();
         // var_dump($array['data'][0]['title']);
         // echo ArrayHelper::getValue($array['data'], 'title') . "\n";
-        $rs = ArrayHelper::getColumn($array['data'], 'id', $keepKeys = true);
+        $rs = ArrayHelper::getColumn($array['data'], 'title', $keepKeys = true);
         var_dump($rs);
+    }
 
         // /api/product/getcontent/?id=83851
 
