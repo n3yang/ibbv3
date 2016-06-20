@@ -257,6 +257,8 @@ class SpiderBase extends \yii\base\Component
         } else if (strpos($url, 'item.jd.com')) {
             // preg_match('/(https?:\/\/item.jd.com.*)/', $url, $m);
             $real = $url;
+        } else if (strpos($url, 'ccc.x.jd.com')) {
+            $real = static::getQueryValueFromUrl('to', $url);
         }
         // amazon.cn, amazon.com, and so on..
         else if (strpos($url, 'amazon')) {
@@ -298,8 +300,21 @@ class SpiderBase extends \yii\base\Component
         // haituncun.com
         else if (strpos($url, 'associates.haituncun.com')) {
             $real = static::getQueryValueFromUrl('url', $url);
-        } else if (strpos($url, 'mia.com')) {
+        }
+        // mia.com
+        else if (strpos($url, 'mia.com')) {
             $real = static::removeQueryFromUrl(['from', 'utm_source', 'utm_medium', 'utm_campaign'], $url);
+        }
+        // gome.com.cn gomehigo.hk
+        else if (strpos($url, 'gome.com.cn') || strpos($url, 'gomehigo.hk')) {
+            $real = static::removeQueryFromUrl(['cmpid', 'feedback', 'sid', 'wid'], $url);
+        }
+        // yunhou.com
+        else if (strpos($url, 'yunhou.com')) {
+            $real = static::removeQueryFromUrl(['utm_source', 'tk'], $url);
+        }
+        else if (strpos($url, 'fengqu.com')) {
+            $real = static::removeQueryFromUrl(['_src'], $url);
         }
         // womai.com
         // default 
@@ -371,6 +386,7 @@ class SpiderBase extends \yii\base\Component
             Offer::B2C_WOMAI         => ['中粮我买网'],
             Offer::B2C_TMALL_CS      => ['天猫超市'],
             Offer::B2C_SUPUY         => ['速普母婴'],
+            Offer::B2C_YUNHOU        => ['云猴'],
         ];
         foreach ($matches as $k => $v) {
             if (in_array($name, $v)) {
@@ -391,13 +407,16 @@ class SpiderBase extends \yii\base\Component
         $matches = [
             11  => ['奶粉', '婴儿配方奶粉'],
             12  => ['果汁泥', '果泥', '磨牙棒', '维生素D3滴剂', '辅食', '米糊', '维生素滴剂'],
-            13  => ['拉拉裤', '纸尿裤', '尿不湿', '成长裤', '湿巾', '柔湿巾', '尿布'],
-            14  => ['香皂', '宝宝指甲钳', '洗衣液', '洗衣皂', '护唇膏'],
-            15  => ['奶嘴', '奶瓶', '退热贴', '围兜', '套装食具', ],
-            17  => ['儿童文具', '机器人', '火车', '玩具', '爬行垫', '游戏围栏', '手表'],
-            19  => ['太阳镜', '速干裤', '篮球服', '儿童午餐包', ],
+            13  => ['拉拉裤', '纸尿裤', '尿不湿', '成长裤', '湿巾', '柔湿巾', '尿布', '纸巾'],
+            14  => ['香皂', '宝宝指甲钳', '洗衣液', '洗衣皂', '护唇膏', '牙刷', '洗脸盆', '宝宝金水', '护臀霜', '驱蚊', '清洁', '蚊香'],
+            15  => ['奶嘴', '奶瓶', '退热贴', '围兜', '套装食具', '咬胶', '脐贴', '儿童杯'],
+            16  => ['睡袋', '花洒', '行李箱', '餐椅', '餐盘', '防护插排'],
+            17  => ['儿童文具', '机器人', '火车', '玩具', '爬行垫', '游戏围栏', '手表', '梦想屋', '邦尼兔', '费雪', '早教机', '画板'],
+            18  => ['童车', '童床', '推车', '三轮车', '伞车'],
+            19  => ['太阳镜', '速干裤', '篮球服', '儿童午餐包', '肚兜', '腰凳'],
             20  => ['安全座椅'],
-            21  => ['婴儿背带', '乳头霜', 'Mavala Stop', '防溢乳垫'],
+            21  => ['婴儿背带', '乳头霜', 'Mavala Stop', '防溢乳垫', 'Bio-Oil', '吸乳器', '吸奶器', '暖奶器'],
+            23  => ['肉', '月子茶'],
             10  => ['促销活动'],
         ];
 

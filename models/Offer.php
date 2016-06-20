@@ -55,7 +55,7 @@ class Offer extends \yii\db\ActiveRecord
     const B2C_AMAZON_DE = 24;
     const B2C_AMAZON_FR = 25;
     const B2C_AMAZON_ES = 26;
-
+    const B2C_YUNHOU = 27;
 
     const SITE_ZDM = 1;
     const SITE_ZDM_FX = 2;
@@ -237,6 +237,7 @@ class Offer extends \yii\db\ActiveRecord
             self::B2C_TMALL_CS      => '天猫超市',
             self::B2C_TMALL_GJ      => '天猫国际',
             self::B2C_SUPUY         => '速普母婴',
+            self::B2C_YUNHOU        => '云猴',
         ];
     }
 
