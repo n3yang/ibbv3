@@ -168,7 +168,9 @@ class SpiderZdm extends SpiderBase
         $categoryId = self::convertCategoryId($a['article_category_list']);
         if (!$categoryId) {
             Yii::warning('Fail to convert category id: ' . $a['article_category']['ID'] . ', name: ' . $a['article_category']['title']);
-            Yii::warning('Fail to convert category list: ' . var_export($a['article_category_list'], 1));
+            if (!$a['article_category_list'] == 75) {
+                Yii::warning('Fail to convert category list: ' . var_export($a['article_category_list'], 1));
+            }
             // not categorized, parse from article title
             $categoryId = parent::getCategoryIdByOfferTitle($a['article_title']);
             if (!$categoryId) {
