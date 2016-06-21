@@ -54,9 +54,9 @@ class SpiderPyh extends SpiderBase
         $this->newListApiUrl .= '?' . http_build_query($query);
         // generate category url
         unset($query['request_key']);
-        $query['cat_id'] = 55;
+        $query['cat_id'] = 20;
         $this->babyListAPiUrl .= '?' . http_build_query($query);
-        $query['cat_id'] = 57;
+        $query['cat_id'] = 14;
         $this->foodListApiUrl .= '?' . http_build_query($query);
     }
 
