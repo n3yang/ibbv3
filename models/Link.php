@@ -53,7 +53,7 @@ class Link extends \yii\db\ActiveRecord
             [['url'], 'required', 'on'=> self::SCENARIO_DEFAULT],
             [['url'], 'string'],
             [['click'], 'integer'],
-            [['url'], 'url'],
+            [['url'], 'url', 'on'=> self::SCENARIO_DEFAULT],
             [['created_at'], 'safe'],
             [['name', 'slug'], 'string', 'max' => 200]
         ];

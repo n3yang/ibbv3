@@ -144,7 +144,7 @@ class SpiderPyh extends SpiderBase
         // site
         $fromSite = $this->fromSite;
         // fetch from
-        $fetchedFrom = $this->siteUrl . '/' . $a['post_url'];
+        $fetchedFrom = $this->siteUrl . $a['post_url'];
         
         // set status
         if (!$b2c || !$linkSlug) {
