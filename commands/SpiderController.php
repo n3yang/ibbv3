@@ -77,6 +77,18 @@ class SpiderController extends Controller
     public function actionTest()
     {
 
+        $spider = new \app\components\SpiderBase;
+        $ls = \app\models\Link::find()->where(['like', 'url', 'taobao'])->limit(20)->all();
+        foreach ($ls as $l) {
+            echo $l->url . PHP_EOL;
+            // echo SpiderPyh::getRealUrlFromTaobaoClick($l->url).PHP_EOL;
+            echo $spider->getRealUrl($l->url) . PHP_EOL;
+        }
+
+        // echo SpiderPyh::getRealUrlFromTaobaoClick($url) . PHP_EOL;
+
+        return;
+
         $authkey = substr(crypt(md5(time()), "$6$"), 10, 64);
         // 46 baby
         // 86 food

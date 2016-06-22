@@ -276,14 +276,12 @@ class SpiderBase extends \yii\base\Component
         else if (strpos($url, 'm.dangdang.com') || strpos($url, 't.dangdang.com')) {
             $real = static::removeQueryFromUrl('unionid', $url);
         }
-        // taobao alimama
-        // else if (strpos($js, 's.click.taobao.com') || strpos($js, 's.taobao.com')) {
-        //     preg_match("/smzdmhref=\\\\'(.*).\';/", $js, $m);
-        //     $real = $m[1];
-        // }
+        // taobao alimama / taobaoke
+        else if (strpos($url, 's.click.taobao.com')) {
+            $real = static::getRealUrlFromTaobaoClick($url);
+        }
         // taobao
-        // 
-        else if (strpos($url, 'taobao.com') || strpos($url, 'tmall.com')) {
+        else if (strpos($url, 'taobao.com') || strpos($url, 'tmall.com') || strpos($url, 's.taobao.com')) {
             $real = $url;
         }
         else if (strpos($url, '111.com.cn')) {
@@ -356,6 +354,54 @@ class SpiderBase extends \yii\base\Component
         return $full;
     }
 
+    /**
+     * get real url from s.click.taobao.com
+     * 
+     * @param  string $url s.click.taobao.com
+     * @return string      real url     
+     */
+    public static function getRealUrlFromTaobaoClick($url)
+    {
+        $headers = get_headers($url, true);
+        $requestReferer = $headers['Location'];
+        $toUrl = self::getQueryValueFromUrl('tu', $requestReferer);
+
+        $ch = curl_init();
+        $opt = [
+            CURLOPT_URL         => $toUrl,
+            CURLOPT_REFERER     => $requestReferer,
+            CURLOPT_HEADER      => true,
+            // CURLOPT_NOBODY      => true, // set method HEAD, removed is OK.
+            CURLOPT_RETURNTRANSFER => 1,
+        ];
+        curl_setopt_array($ch, $opt);
+
+        $result = curl_exec($ch);
+        $info = curl_getinfo($ch);
+        curl_close($ch);
+        
+        $targetUrl = self::getQueryValueFromUrl('tar', $info['redirect_url']);
+        if (empty($targetUrl)) {
+            $targetUrl = $info['redirect_url'];
+        }
+
+        $targetUrl = self::removeQueryFromUrl('ali_trackid', $targetUrl);
+
+        return $targetUrl;
+
+        // another way: redirection twice
+        // curl_setopt($ch, CURLOPT_URL, $toUrl);
+        // curl_setopt($ch, CURLOPT_REFERER, $requestReferer);
+        // curl_setopt($ch, CURLOPT_HEADER, false);
+        // curl_setopt($ch, CURLOPT_NOBODY,1);
+        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        // curl_setopt($ch, CURLOPT_FOLLOWLOCATION,true);
+        // curl_setopt($ch, CURLOPT_MAXREDIRS,2);
+        // curl_exec($ch);
+        // $info = curl_getinfo($ch);
+        // $targetUrl = $info['url'];
+    }
+
     public static function getB2cIdByShopName($name)
     {
 
@@ -408,7 +454,7 @@ class SpiderBase extends \yii\base\Component
             11  => ['奶粉', '婴儿配方奶粉'],
             12  => ['果汁泥', '果泥', '磨牙棒', '维生素D3滴剂', '辅食', '米糊', '维生素滴剂'],
             13  => ['拉拉裤', '纸尿裤', '尿不湿', '成长裤', '湿巾', '柔湿巾', '尿布', '纸巾'],
-            14  => ['香皂', '宝宝指甲钳', '洗衣液', '洗衣皂', '护唇膏', '牙刷', '洗脸盆', '宝宝金水', '护臀霜', '驱蚊', '清洁', '蚊香', '沐浴', '洗发'],
+            14  => ['香皂', '指甲钳', '指甲剪', '洗衣液', '洗衣皂', '护唇膏', '牙刷', '洗脸盆', '宝宝金水', '护臀霜', '驱蚊', '清洁', '蚊香', '沐浴', '洗发'],
             15  => ['奶嘴', '奶瓶', '退热贴', '围兜', '套装食具', '咬胶', '脐贴', '儿童杯'],
             16  => ['睡袋', '花洒', '行李箱', '餐椅', '餐盘', '防护插排', '护肚脐围', '肚兜'],
             17  => ['儿童文具', '机器人', '火车', '玩具', '爬行垫', '游戏围栏', '手表', '梦想屋', '邦尼兔', '费雪', '澳贝','早教机', '画板'],
@@ -431,4 +477,6 @@ class SpiderBase extends \yii\base\Component
 
         return null;
     }
+
+
 }
