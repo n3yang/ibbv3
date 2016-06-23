@@ -45,6 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'created_at',
             'updated_at',
             ['attribute'=>'status', 'value'=>$model->getStatusLabel($model->status)],
+            'click',
         ],
     ]) ?>
 

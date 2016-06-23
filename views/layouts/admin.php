@@ -67,7 +67,7 @@ AdminAsset::register($this);
 
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
+        <div class="col-sm-2 col-md-1 sidebar">
 
 <?
 
@@ -128,7 +128,7 @@ echo Nav::widget([
           </ul>
 
         </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div class="col-sm-10 col-sm-offset-2 col-md-11 col-md-offset-1 main">
 
           <?= $content ?>
 

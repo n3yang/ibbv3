@@ -23,6 +23,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
+            [
+                'label' => 'Preview',
+                'format' => 'html',
+                'value'=>function($model){
+                    return sprintf('<img src="%s" width="80" class="center-block">', $model->getImageUrl());
+                }
+            ],
             'id',
             'name',
             'path',

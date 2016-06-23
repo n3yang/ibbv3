@@ -51,6 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'created_at',
             ['attribute'=>'status', 'value'=>function($model){return $model->getStatusLabel($model->status);}],
+            'click',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

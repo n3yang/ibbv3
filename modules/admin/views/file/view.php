@@ -36,6 +36,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'md5',
             'user_id',
             'created_at',
+            'updated_at',
+            [
+                'label' => 'Preview',
+                'format' => 'html',
+                'value'=> sprintf('<img src="%s" class="left-block">', $model->getImageUrl())
+            ],
         ],
     ]) ?>
 
