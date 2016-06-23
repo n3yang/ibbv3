@@ -154,6 +154,7 @@ class SpiderController extends Controller
                         } else {
                             echo '...faild';
                         }
+                        echo PHP_EOL;
                     }
                 } else {
                     echo 'offer is not found';
