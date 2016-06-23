@@ -77,18 +77,6 @@ class SpiderController extends Controller
     public function actionTest()
     {
 
-        $spider = new \app\components\SpiderBase;
-        $ls = \app\models\Link::find()->where(['like', 'url', 'taobao'])->limit(20)->all();
-        foreach ($ls as $l) {
-            echo $l->url . PHP_EOL;
-            // echo SpiderPyh::getRealUrlFromTaobaoClick($l->url).PHP_EOL;
-            echo $spider->getRealUrl($l->url) . PHP_EOL;
-        }
-
-        // echo SpiderPyh::getRealUrlFromTaobaoClick($url) . PHP_EOL;
-
-        return;
-
         $authkey = substr(crypt(md5(time()), "$6$"), 10, 64);
         // 46 baby
         // 86 food
@@ -123,17 +111,58 @@ class SpiderController extends Controller
             ->setData($query)
             ->send();
         if ($response->oK()) {
-        $array = $response->getData();
-        // var_dump($array['data'][0]['title']);
-        // echo ArrayHelper::getValue($array['data'], 'title') . "\n";
-        $rs = ArrayHelper::getColumn($array['data'], 'title', $keepKeys = true);
-        var_dump($rs);
-    }
+            $array = $response->getData();
+            // var_dump($array['data'][0]['title']);
+            // echo ArrayHelper::getValue($array['data'], 'title') . "\n";
+            $rs = ArrayHelper::getColumn($array['data'], 'title', $keepKeys = true);
+            var_dump($rs);
+        }
 
         // /api/product/getcontent/?id=83851
+    }
 
+
+    public function actionUp()
+    {
+        $spider = new \app\components\SpiderBase;
+
+        $ls = \app\models\Link::find()->where(['like', 'url', 'taobao'])->all();
+
+        foreach ($ls as $l) {
+            echo $l->url . '--->';
+            $real = $spider->getRealUrl($l->url);
+            if (!$real) {
+                echo 'fail to get real' . PHP_EOL;
+                continue;
+            }
+            echo $real . PHP_EOL;
+            echo 'slug: ' . $l->slug . '-->';
+            $l->url = $real;
+            $l->slug = Link::generateSlug($real);
+            echo $l->slug . PHP_EOL;
+            if ($l->save()) {
+                echo 'saved' . PHP_EOL;
+                // echo SpiderPyh::getRealUrlFromTaobaoClick($l->url).PHP_EOL;
+                $offers = Offer::find()->where(['link_slug' => $l->slug])->all();
+                if ($offers) {
+                    foreach($offers as $o) {
+                        echo 'find offer: ' . $o->id;
+                        $o->link_slug = $l->slug;
+                        if ($o->save()) {
+                            echo '...saved';
+                        } else {
+                            echo '...faild';
+                        }
+                    }
+                } else {
+                    echo 'offer is not found';
+                }
+            }
+            echo PHP_EOL . PHP_EOL ;
+        }
 
     }
+
 
     public function actionSyncPyh()
     {
