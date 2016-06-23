@@ -420,6 +420,7 @@ class SpiderZdm extends SpiderBase
             '2897'  => Offer::B2C_TMALL_GJ,
             '4265'  => Offer::B2C_MIYA,
             '4683'  => Offer::B2C_GOME,
+            '2233'  => Offer::B2C_YUNHOU,
         ];
         if (!isset($mapping[$mallId])) {
             Yii::warning('Fail to convert mall id: ' . $mallId);
@@ -440,7 +441,7 @@ class SpiderZdm extends SpiderBase
             '15'    => [83, 1491], // 喂养用品
             '16'    => [1967, 2081, 4373, 53], // 家纺服饰
             '17'    => [981, 2067, 93, 1319, 251, 3213, 163, 5067, 3957], // 玩具乐器
-            '18'    => [87, 1965, 937, 49, 51,], // 童车童床
+            '18'    => [87, 1965, 937, 49, 51, 37], // 童车童床
             '19'    => [67, 57, 89, 955, 603], // 童装童鞋
             '20'    => [527], // 安全座椅
             '21'    => [967, 91], // 妈妈用品
