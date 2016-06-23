@@ -34,6 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'slug',
             'click',
             'created_at',
+            'updated_at',
         ],
     ]) ?>
 
