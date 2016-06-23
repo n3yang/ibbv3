@@ -136,6 +136,7 @@ class SpiderController extends Controller
                 continue;
             }
             echo $real . PHP_EOL;
+            $oldSlug = $l->slug;
             echo 'slug: ' . $l->slug . '-->';
             $l->url = $real;
             $l->slug = Link::generateSlug($real);
@@ -143,7 +144,7 @@ class SpiderController extends Controller
             if ($l->save()) {
                 echo 'saved' . PHP_EOL;
                 // echo SpiderPyh::getRealUrlFromTaobaoClick($l->url).PHP_EOL;
-                $offers = Offer::find()->where(['link_slug' => $l->slug])->all();
+                $offers = Offer::find()->where(['link_slug' => $oldSlug])->all();
                 if ($offers) {
                     foreach($offers as $o) {
                         echo 'find offer: ' . $o->id;
