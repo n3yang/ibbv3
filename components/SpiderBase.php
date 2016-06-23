@@ -282,7 +282,7 @@ class SpiderBase extends \yii\base\Component
         }
         // taobao
         else if (strpos($url, 'taobao.com') || strpos($url, 'tmall.com') || strpos($url, 's.taobao.com')) {
-            $real = $url;
+            $real = static::removeQueryFromUrl('pid', $url);
         }
         else if (strpos($url, '111.com.cn')) {
             $real = static::getQueryValueFromUrl('url', $url);
