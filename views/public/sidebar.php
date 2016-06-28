@@ -10,8 +10,8 @@ $hots = Offer::findHot();
 
                 <div class="list-group">
                     <a href="#" class="list-group-item active">关于我</a>
-                    <p class="list-group-item">爱宝贝，一个提供母婴全网最惠商品信息的网站。由sixma创立，致力于让妈妈们更省心、放心、开心的购买母婴类商品。在这里，sixma希望与妈妈们互相交流、分享，一起陪宝宝度过最美的时光。
-                    </p>
+                    <!-- <p class="list-group-item">爱宝贝，一个提供母婴全网最惠商品信息的网站。由sixma创立，致力于让妈妈们更省心、放心、开心的购买母婴类商品。在这里，sixma希望与妈妈们互相交流、分享，一起陪宝宝度过最美的时光。 </p> -->
+                    <p>爱宝贝，个人小站，记录收集到的商品优惠信息，方便自己购买。</p>
                 </div>
 
                 <div class="list-group hot-row">
