@@ -10,7 +10,8 @@
         "yiisoft/yii2-swiftmailer": "*",
         "yiisoft/yii2-httpclient": "*@dev",
         "yiisoft/yii2-imagine": "^2.0",
-        "paquettg/php-html-parser": "^1.7"
+        "paquettg/php-html-parser": "^1.7",
+        "2amigos/yii2-ckeditor-widget": "~1.0"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

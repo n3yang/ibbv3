@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\models\tag;
+// use dosamigos\ckeditor\CKEditor;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\offer */
@@ -21,6 +22,14 @@ use app\models\tag;
     <?= $form->field($model, 'excerpt')->textarea(['rows' => 4]) ?>
 
     <?= $form->field($model, 'content')->textarea(['rows' => 6]) ?>
+    <?
+    /*
+    echo $form->field($model, 'content')->widget(CKEditor::className(), [
+        'options' => ['rows' => 8],
+        'preset' => 'basic'
+        ]);
+    */
+    ?>
 
     <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
 
