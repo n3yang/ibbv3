@@ -101,7 +101,7 @@ class Category extends \yii\db\ActiveRecord
     public static function getAllAsArrayIdName($type = Category::TYPE_OFFER)
     {
         $categories = Category::find()
-            ->where(['type'=>Category::TYPE_OFFER])
+            ->where(['type'=>$type])
             ->asArray()
             ->all();
 
