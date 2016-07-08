@@ -116,6 +116,31 @@ class FileController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionUploadByCkeditor()
+    {
+        $model = new File();
+        $model->scenario = File::SCENARIO_CREATE;
+
+        $model->upfile = UploadedFile::getInstance($model, 'upload');
+        // var_dump(UploadedFile::getInstance($model, 'upload'));
+        // var_dump($_FILES);
+
+        if (Yii::$app->request->post()) {
+            $model->upfile = UploadedFile::getInstance($model, 'upfile');
+            if ($model->upload()){
+                $model->save();
+                $imageUrl = $model->getImageUrl();
+            }
+
+            $ckFuncNum = Yii::$app->request->get('CKEditorFuncNum');
+            echo "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction($ckFuncNum, '$imageUrl', '');</script>";
+        } else {
+            echo "<script>alert('".var_dump($model)."')</script>";
+        }
+
+
+        return;
+    }
     /**
      * Finds the File model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

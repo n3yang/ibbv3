@@ -3,7 +3,8 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\models\tag;
-// use dosamigos\ckeditor\CKEditor;
+use dosamigos\ckeditor\CKEditor;
+use dosamigos\tinymce\TinyMce;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\offer */
@@ -21,14 +22,28 @@ use app\models\tag;
 
     <?= $form->field($model, 'excerpt')->textarea(['rows' => 4]) ?>
 
-    <?= $form->field($model, 'content')->textarea(['rows' => 6]) ?>
+    <?//= $form->field($model, 'content')->textarea(['rows' => 6]) ?>
     <?
-    /*
+    
     echo $form->field($model, 'content')->widget(CKEditor::className(), [
-        'options' => ['rows' => 8],
-        'preset' => 'basic'
+        'options' => ['rows' => 18],
+        'preset' => 'basic',
+        'clientOptions' => [
+            'toolbarGroups' => [
+                ['name' => 'undo'],
+                ['name' => 'basicstyles', 'groups' => ['basicstyles', 'cleanup']],
+                ['name' => 'colors'],
+                ['name' => 'links', 'groups' => ['links', 'insert']],
+                ['name' => 'others', 'groups' => ['others', 'about', 'mode']],
+            ],
+            'filebrowserUploadUrl' => '/admin/file/upload-by-ckeditor',
+            // 'filebrowserImageBrowseLinkUrl' => '',
+            // 'filebrowserImageBrowseUrl' => '/browser/browse.php?type=Images',
+            'resize_enabled' => true,
+            'height' => 400,
+            ]
         ]);
-    */
+    
     ?>
 
     <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
