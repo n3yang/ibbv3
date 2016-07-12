@@ -55,6 +55,7 @@ class SpiderController extends Controller
 
         $spider = new SpiderZdm;
         $spider->syncArticle();
+        $fetchedArticleIds = array_keys($spider->dataArticle);
         // $list = $spider->fetchList('75, 93, 147', 6);
         // var_dump($list);
         // $article = $spider->fetchArticle(6089338);
@@ -71,6 +72,7 @@ class SpiderController extends Controller
         // $spider->replaceUrl('http://www.smzdm.com/gourl/5D8916EA9AA5AC64/AA_YH_75');
 
         $spider = new SpiderZdmFx;
+        $spider->setIgnoredArticleIds($fetchedArticleIds);
         $spider->syncArticle();
     }
 

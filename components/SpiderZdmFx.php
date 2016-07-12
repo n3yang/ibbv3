@@ -18,4 +18,22 @@ class SpiderZdmFx extends SpiderZdm
 
     public $fromSite = Offer::SITE_ZDM_FX;
 
+
+    public static $ignoredArticleIds = [];
+
+
+
+    public function setIgnoredArticleIds($ids)
+    {
+        $this->ignoredArticleIds = $ids;
+    }
+
+    public static function isValidArticle($article)
+    {
+        if (in_array($article['article_id'], self::$ignoredArticleIds)) {
+            Yii::info('Find repeated article: ' . $a['article_id'] . ', ' . $a['article_title']);
+            return false;
+        }
+        return parent::isValidArticle($article);
+    }
 }
