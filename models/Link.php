@@ -8,6 +8,7 @@ use yii\db\ActiveRecord;
 use yii\db\Expression;
 use yii\behaviors\TimestampBehavior;
 use yii\data\ActiveDataProvider;
+use app\components\JosClient;
 
 /**
  * This is the model class for table "link".
@@ -218,11 +219,17 @@ class Link extends \yii\db\ActiveRecord
             $url = $info['scheme'] . '://' . $info['host'] . $info['path'] . '?' . http_build_query($params);
             return $url;
         }
+
+        // jd.com
+        if (strpos($url, 'jd.com') || strpos($url, 'jd.hk')) {
+            // TODO: cache
+            $jos = new JosClient;
+            return $jos->getPromotionUrl($url);
+        }
+
         // 检测商品所属商城，并转换对应的CPS平台的连接
         $matches = [
             'kaola.com'             =>  '1737'  ,
-            // 'm.jd.com'              =>  '1146'  ,
-            // 'www.jd.com'            =>  '61'    ,
             'yixun.com'             =>  '337',
             'm.yhd.com'             =>  '516'   ,
             'yhd.com'               =>  '58'    ,
