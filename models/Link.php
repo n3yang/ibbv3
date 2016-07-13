@@ -195,7 +195,15 @@ class Link extends \yii\db\ActiveRecord
      */
     public static function replaceToCps($url)
     {
-        if (strpos($url, 'amazon')) {
+        // add cache
+        $cacheKey = __METHOD__ . '_KEY_' . md5($url);
+        $cps = Yii::$app->cache->get($cacheKey);
+        if ($cpsUrl) {
+            return $cpsUrl;
+        }
+
+        // amazon.
+        if (strpos($url, 'amazon.')) {
             $info = parse_url($url);
             parse_str($info['query'], $params);
             if (strpos($url, 'amazon.cn')) {
@@ -216,15 +224,13 @@ class Link extends \yii\db\ActiveRecord
                 $tag = 'ibaobr0b3-21';
             }
             $params['t'] = $params['tag'] = $tag;
-            $url = $info['scheme'] . '://' . $info['host'] . $info['path'] . '?' . http_build_query($params);
-            return $url;
+            $cpsUrl = $info['scheme'] . '://' . $info['host'] . $info['path'] . '?' . http_build_query($params);
         }
 
         // jd.com
         if (strpos($url, 'jd.com') || strpos($url, 'jd.hk')) {
-            // TODO: cache
             $jos = new JosClient;
-            return $jos->getPromotionUrl($url);
+            $cpsUrl = $jos->getPromotionUrl($url);
         }
 
         // 检测商品所属商城，并转换对应的CPS平台的连接
@@ -267,9 +273,13 @@ class Link extends \yii\db\ActiveRecord
                 break;
             }
         }
-        if (empty($aid))
-            return $url;
-        else
-            return 'http://c.duomai.com/track.php?site_id=149193&aid='.$aid.'&euid=&t=' . urlencode($url);
+        if (empty($aid)) {
+            $cpsUrl = $url;
+        } else {
+            $cpsUrl = 'http://c.duomai.com/track.php?site_id=149193&aid='.$aid.'&euid=&t=' . urlencode($url);
+            Yii::$app->cache->set($cacheKey, $cpsUrl, 3600);
+        }
+
+        return $cpsUrl;
     }
 }
