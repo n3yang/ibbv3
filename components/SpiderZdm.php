@@ -204,7 +204,7 @@ class SpiderZdm extends SpiderBase
         $keywords = ['儿童', '幼儿', '婴儿', '宝宝', '男宝', '女宝'];
         foreach ($keywords as $word) {
             if (strpos($article['article_title'], $word)!==false
-                AND $article['link_title']!='白菜党') {
+                AND strpos($article['link_title'], '白菜')===false) {
                 
                 return true;
             }
