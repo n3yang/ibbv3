@@ -121,25 +121,41 @@ class FileController extends Controller
         $model = new File();
         $model->scenario = File::SCENARIO_CREATE;
 
-        $model->upfile = UploadedFile::getInstance($model, 'upload');
-        // var_dump(UploadedFile::getInstance($model, 'upload'));
-        // var_dump($_FILES);
-
         if (Yii::$app->request->post()) {
-            $model->upfile = UploadedFile::getInstance($model, 'upfile');
+            $model->upfile = UploadedFile::getInstanceByName('upload');
             if ($model->upload()){
                 $model->save();
                 $imageUrl = $model->getImageUrl();
             }
-
+            
             $ckFuncNum = Yii::$app->request->get('CKEditorFuncNum');
             echo "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction($ckFuncNum, '$imageUrl', '');</script>";
         } else {
             echo "<script>alert('".var_dump($model)."')</script>";
         }
 
-
         return;
+    }
+
+    public function actionUploadByTinymce()
+    {
+        $model = new File();
+        $model->scenario = File::SCENARIO_CREATE;
+
+        if (Yii::$app->request->post()) {
+            $model->upfile = UploadedFile::getInstanceByName('image');
+            if ($model->upload()){
+                $model->save();
+                $imageUrl = $model->getImageUrl();
+            }
+            if ($imageUrl) {
+                echo "top.$('.mce-btn.mce-open').parent().find('.mce-textbox').val('$imageUrl').closest('.mce-window').find('.mce-primary').click();";
+            } else {
+                echo "alert('Failt to upload')";
+            }
+
+            return;
+        }
     }
     /**
      * Finds the File model based on its primary key value.
