@@ -12,7 +12,7 @@ use dosamigos\tinymce\TinyMce;
 /* @var $model app\models\offer */
 /* @var $form yii\widgets\ActiveForm */
 
-JqueryFormAsset::register($this);
+$this->registerJsFile('//cdn.bootcss.com/jquery.form/3.51/jquery.form.min.js', ['depends' => 'yii\web\JqueryAsset']);
 ?>
 
 <div class="offer-form">

@@ -168,7 +168,7 @@ body {
     margin-bottom: 20px;
 }
 .spo .related img{
-    max-height: 158px;
+    height: 158px;
     display: block;
     margin: auto;
 }
@@ -199,7 +199,11 @@ body {
         margin-bottom: 0px;
     }
     .spo .related .thumbnail img{
-        max-height: 120px;
+        height: 120px;
+    }
+    .spo .related .caption {
+        height: 30px;
+        overflow: hidden;
     }
 }
 /**********************************
