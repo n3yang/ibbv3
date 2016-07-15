@@ -64,6 +64,12 @@ echo $form->field($model, 'content')->widget(TinyMce::className(), [
         'file_browser_callback'=> new yii\web\JsExpression("function(field_name, url, type, win) {
             if(type=='image') $('#uploadForm input').click();
         }"),
+
+        'setup' => new yii\web\JsExpression("function(ed){
+            ed.on('init', function(){
+                this.getDoc().body.style.fontSize = '14px';
+            });
+        }"),
     ]
 ]);
 
