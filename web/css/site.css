@@ -201,7 +201,7 @@ body {
     .spo .related .thumbnail img{
         height: 120px;
     }
-    .spo .related .caption {
+    .spo .related .caption h5{
         height: 30px;
         overflow: hidden;
     }
