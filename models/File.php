@@ -100,6 +100,7 @@ class File extends \yii\db\ActiveRecord
         $scenarios = parent::scenarios();
         $scenarios[self::SCENARIO_CREATE] = ['name', 'user_id', 'created_at', 'upfile'];
         $scenarios[self::SCENARIO_UPDATE] = ['name', 'path', 'mime', 'size', 'md5', 'user_id', 'upfile'];
+
         return $scenarios;
     }
 
@@ -124,7 +125,8 @@ class File extends \yii\db\ActiveRecord
             $this->name = $this->upfile->baseName;
             $this->size = $this->upfile->size;
             $this->mime = $this->upfile->type;
-            $this->md5  = md5(file_get_contents($targetFile));
+            $this->md5  = md5_file($targetFile);
+            $this->user_id = empty(Yii::$app->user) ? null : Yii::$app->user->id;
 
             // @TODO: md5 checking, same md5 and same user, just updating property
 
@@ -158,10 +160,12 @@ class File extends \yii\db\ActiveRecord
             $this->name = empty($name) ? $info['filename'] : $name;
             $this->size = filesize($targetFile);
             $this->mime = FileHelper::getMimeType($file);
-            $this->md5  = md5(file_get_contents($targetFile));
+            $this->md5  = md5_file($targetFile);
+            $this->user_id = empty(Yii::$app->user) ? null : Yii::$app->user->id;
             if ( $removeFile ) {
                 unlink($file);
             }
+
             return true;
         } else {
             return false;
@@ -193,12 +197,13 @@ class File extends \yii\db\ActiveRecord
     public static function getImageUrlById($id)
     {
         if (!$id){
-            return '';
+            return null;
         }
         $file = static::findOne($id)->toArray();
         if (!preg_match("/^image/", $file['mime'])) {
-            return '';
+            return null;
         }
+
         return Yii::getAlias('@uploadUrl') . '/' . $file['path'];
     }
 
@@ -229,6 +234,7 @@ class File extends \yii\db\ActiveRecord
         if (file_exists($file)) {
             unlink($file);
         }
+
         return true;
     }
 
