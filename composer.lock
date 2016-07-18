@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6540019890771f57568781f6f14aec85",
-    "content-hash": "cb402fe019a1813ff353cafe93a03311",
+    "hash": "0e65e117c5008a00d1c2c2eb4b9bdddc",
+    "content-hash": "c7543a84278d1e6d7747055445782bc6",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -665,6 +665,49 @@
             "time": "2016-06-30 10:33:37"
         },
         {
+            "name": "xiaosier/libweibo",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/xiaosier/libweibo.git",
+                "reference": "2c9524190c4334e208613ad8f65365471c526954"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/xiaosier/libweibo/2c9524190c4334e208613ad8f65365471c526954.zip",
+                "reference": "2c9524190c4334e208613ad8f65365471c526954",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.0.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "saetv2.ex.class.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "lazypeople",
+                    "email": "hfutming@gmail.com",
+                    "homepage": "http://lazy.changes.com.cn",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP sdk for Weibo open platform",
+            "homepage": "http://github.com/xiaosier/libweibo",
+            "keywords": [
+                "sdk",
+                "weibo"
+            ],
+            "time": "2016-06-20 04:43:55"
+        },
+        {
             "name": "yiisoft/yii2",
             "version": "2.0.9",
             "source": {
@@ -1311,7 +1354,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "yiisoft/yii2-httpclient": 20
+        "yiisoft/yii2-httpclient": 20,
+        "xiaosier/libweibo": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

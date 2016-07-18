@@ -126,45 +126,8 @@ class SpiderController extends Controller
 
     public function actionUp()
     {
-        $spider = new \app\components\SpiderBase;
-
-        $ls = \app\models\Link::find()->where(['like', 'url', 'taobao'])->all();
-
-        foreach ($ls as $l) {
-            echo $l->url . '--->';
-            $real = $spider->getRealUrl($l->url);
-            if (!$real) {
-                echo 'fail to get real' . PHP_EOL;
-                continue;
-            }
-            echo $real . PHP_EOL;
-            $oldSlug = $l->slug;
-            echo 'slug: ' . $l->slug . '-->';
-            $l->url = $real;
-            $l->slug = Link::generateSlug($real);
-            echo $l->slug . PHP_EOL;
-            if ($l->save()) {
-                echo 'saved' . PHP_EOL;
-                // echo SpiderPyh::getRealUrlFromTaobaoClick($l->url).PHP_EOL;
-                $offers = Offer::find()->where(['link_slug' => $oldSlug])->all();
-                if ($offers) {
-                    foreach($offers as $o) {
-                        echo 'find offer: ' . $o->id;
-                        $o->link_slug = $l->slug;
-                        if ($o->save()) {
-                            echo '...saved';
-                        } else {
-                            echo '...faild';
-                        }
-                        echo PHP_EOL;
-                    }
-                } else {
-                    echo 'offer is not found';
-                }
-            }
-            echo PHP_EOL . PHP_EOL ;
-        }
-
+        $sae = new \SaeTOAuthV2(Yii::$app->params['weibo']['appSecret'], Yii::$app->params['weibo']['appSecret']);
+        echo $sae->getAuthorizeURL('http://ibaobr.com/user/oauth-weibo');
     }
 
 
