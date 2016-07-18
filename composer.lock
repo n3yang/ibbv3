@@ -861,12 +861,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-httpclient.git",
-                "reference": "45ef5e161fca4446c5f27d95268cb5c5d4f5ae1b"
+                "reference": "eb6b380af608c083e0361d82812909fba4360139"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/yiisoft/yii2-httpclient/45ef5e161fca4446c5f27d95268cb5c5d4f5ae1b.zip",
-                "reference": "45ef5e161fca4446c5f27d95268cb5c5d4f5ae1b",
+                "url": "https://packagist.phpcomposer.com/files/yiisoft/yii2-httpclient/eb6b380af608c083e0361d82812909fba4360139.zip",
+                "reference": "eb6b380af608c083e0361d82812909fba4360139",
                 "shasum": ""
             },
             "require": {
@@ -900,7 +900,7 @@
                 "httpclient",
                 "yii2"
             ],
-            "time": "2016-07-12 09:22:55"
+            "time": "2016-07-15 12:33:20"
         },
         {
             "name": "yiisoft/yii2-imagine",
