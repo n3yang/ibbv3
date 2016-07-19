@@ -13,7 +13,8 @@
         "paquettg/php-html-parser": "^1.7",
         "2amigos/yii2-ckeditor-widget": "~1.0",
         "2amigos/yii2-tinymce-widget": "~1.1",
-        "xiaosier/libweibo": "dev-master"
+        "xiaosier/libweibo": "dev-master",
+        "webcreate/jquery-ias": "^2.2"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

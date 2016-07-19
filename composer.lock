@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0e65e117c5008a00d1c2c2eb4b9bdddc",
-    "content-hash": "c7543a84278d1e6d7747055445782bc6",
+    "hash": "d3898f1a5d63eed1330ef05f24b62c4d",
+    "content-hash": "fb751436173b21036d1c4f9c428cd41a",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -663,6 +663,46 @@
                 "wysiwyg"
             ],
             "time": "2016-06-30 10:33:37"
+        },
+        {
+            "name": "webcreate/jquery-ias",
+            "version": "v2.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/webcreate/infinite-ajax-scroll.git",
+                "reference": "7380f74fca64180a4c5da18d01065a8aef0494b7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/webcreate/infinite-ajax-scroll/7380f74fca64180a4c5da18d01065a8aef0494b7.zip",
+                "reference": "7380f74fca64180a4c5da18d01065a8aef0494b7",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary",
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "fieg",
+                    "email": "jeroen@fieg.nl",
+                    "homepage": "http://webcreate.nl"
+                }
+            ],
+            "description": "Infinite AJAX Scroll: A jQuery plugin that turns your server-side pagination into an infinite scrolling one using AJAX",
+            "homepage": "http://infiniteajaxscroll.com",
+            "keywords": [
+                "ajax",
+                "ias",
+                "infinite",
+                "jquery",
+                "pagination",
+                "scroll",
+                "scrolling"
+            ],
+            "time": "2015-05-08 14:58:16"
         },
         {
             "name": "xiaosier/libweibo",

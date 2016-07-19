@@ -34,6 +34,8 @@ $this->registerMetaTag(['property' => 'og:title', 'content' => $this->title]);
 $this->registerMetaTag(['property' => 'og:url', 'content' => Yii::$app->request->absoluteUrl]);
 $this->registerMetaTag(['property' => 'og:type', 'content' => 'site']);
 
+// auto loading
+$this->registerJsFile('js/index-jquery-ias.js', ['depends' => 'app\assets\JqueryIasAsset']);
 ?>
 
         <div class="row row-offcanvas row-offcanvas-right">
@@ -47,6 +49,7 @@ $this->registerMetaTag(['property' => 'og:type', 'content' => 'site']);
                 </ul>
                 <? endif; ?>
 
+                <!-- <div class="spo-container"> -->
                 <? foreach ($offers as $o) { ?>
                 <div class="spo-row row">
                     <div class="thumb col-xs-3">
@@ -65,9 +68,9 @@ $this->registerMetaTag(['property' => 'og:type', 'content' => 'site']);
                     </div>
                 </div>
                 <? } // end foreach ?>
-
-                <div class="pagebar text-center">
-                    <nav>
+                <!-- </div> -->
+                <div class="pagebar">
+                    <nav class="text-center">
 <?
 echo LinkPager::widget([
     'pagination' => $pagination,
