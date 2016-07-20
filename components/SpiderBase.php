@@ -26,7 +26,7 @@ class SpiderBase extends \yii\base\Component
     public $requestReferer = '';
 
     public $fileTempDir = '/tmp';
-    public static $fileExtension = ['jpg', 'jpeg', 'gif', 'png'];
+    public static $fileExtension = ['jpg', 'jpeg', 'gif', 'png', 'webp'];
     public static $fileType = ['image/jpeg', 'image/gif', 'image/png'];
 
     function __construct()
