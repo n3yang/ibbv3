@@ -376,16 +376,16 @@
         },
         {
             "name": "ezyang/htmlpurifier",
-            "version": "v4.7.0",
+            "version": "v4.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ezyang/htmlpurifier.git",
-                "reference": "ae1828d955112356f7677c465f94f7deb7d27a40"
+                "reference": "d0c392f77d2f2a3dcf7fcb79e2a1e2b8804e75b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/ezyang/htmlpurifier/ae1828d955112356f7677c465f94f7deb7d27a40.zip",
-                "reference": "ae1828d955112356f7677c465f94f7deb7d27a40",
+                "url": "https://packagist.phpcomposer.com/files/ezyang/htmlpurifier/d0c392f77d2f2a3dcf7fcb79e2a1e2b8804e75b2.zip",
+                "reference": "d0c392f77d2f2a3dcf7fcb79e2a1e2b8804e75b2",
                 "shasum": ""
             },
             "require": {
@@ -416,7 +416,7 @@
             "keywords": [
                 "html"
             ],
-            "time": "2015-08-05 01:03:42"
+            "time": "2016-07-16 12:58:58"
         },
         {
             "name": "imagine/imagine",
@@ -944,12 +944,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-httpclient.git",
-                "reference": "eb6b380af608c083e0361d82812909fba4360139"
+                "reference": "542d10f10d49712a7fb589ea57369709e06ac162"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/yiisoft/yii2-httpclient/eb6b380af608c083e0361d82812909fba4360139.zip",
-                "reference": "eb6b380af608c083e0361d82812909fba4360139",
+                "url": "https://packagist.phpcomposer.com/files/yiisoft/yii2-httpclient/542d10f10d49712a7fb589ea57369709e06ac162.zip",
+                "reference": "542d10f10d49712a7fb589ea57369709e06ac162",
                 "shasum": ""
             },
             "require": {
@@ -983,7 +983,7 @@
                 "httpclient",
                 "yii2"
             ],
-            "time": "2016-07-15 12:33:20"
+            "time": "2016-07-19 13:42:57"
         },
         {
             "name": "yiisoft/yii2-imagine",
