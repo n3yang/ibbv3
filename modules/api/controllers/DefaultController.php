@@ -2,8 +2,8 @@
 
 namespace app\modules\api\controllers;
 
-use yii\web\Controller;
-// use yii\rest\Controller;
+// use yii\web\Controller;
+use yii\rest\Controller;
 // use yii\web\Response;
 
 
@@ -18,6 +18,8 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        throw new \yii\web\NotFoundHttpException("The requested resource was not found.");
+    	$link = \app\models\Link::find()->limit(20)->all();
+    	return $link;
+        return new \yii\web\NotFoundHttpException("The requested resource was not found.");
     }
 }
