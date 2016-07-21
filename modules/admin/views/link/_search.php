@@ -23,6 +23,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'slug') ?>
 
+    <?= $form->field($model, 'hard') ?>
+
     <?= $form->field($model, 'click') ?>
 
     <?php // echo $form->field($model, 'created_at') ?>

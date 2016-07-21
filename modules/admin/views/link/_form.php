@@ -14,9 +14,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'url')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'url')->textarea(['rows' => 2]) ?>
 
     <?= $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'hard')->textarea(['rows' => 2]) ?>
 
     <?= $form->field($model, 'click')->textInput() ?>
 

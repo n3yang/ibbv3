@@ -22,8 +22,14 @@ class LinkController extends \yii\web\Controller
 
             return $this->goHome();
         }
-        
+
+        // update counter
         $link->updateCounters(['click' => 1]);
+
+        if ($link->hard) {
+            return $this->redirect($link->hard, 307);
+        }
+
         $cps = Link::replaceToCps($link->url);
         
         return $this->redirect($cps, 307);

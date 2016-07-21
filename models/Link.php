@@ -17,6 +17,7 @@ use app\components\JosClient;
  * @property string $name
  * @property string $url
  * @property string $slug
+ * @property string $hard
  * @property integer $click
  * @property string $created_at
  */
@@ -70,6 +71,7 @@ class Link extends \yii\db\ActiveRecord
             'name' => '名称',
             'url' => 'URL地址',
             'slug' => '短地址',
+            'hard' => '强制跳转地址',
             'click' => '点击次数',
             'created_at' => '创建时间',
         ];
@@ -92,7 +94,7 @@ class Link extends \yii\db\ActiveRecord
     {
         return [
             self::SCENARIO_DEFAULT => array_keys(self::attributeLabels()),
-            self::SCENARIO_SEARCH => ['id', 'name', 'slug', 'url', 'click'],
+            self::SCENARIO_SEARCH => ['id', 'name', 'slug', 'url', 'hard', 'click'],
         ];
     }
 
@@ -131,6 +133,7 @@ class Link extends \yii\db\ActiveRecord
 
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'url', $this->url])
+            ->andFilterWhere(['like', 'hard', $this->hard])
             ->andFilterWhere(['like', 'slug', $this->slug]);
 
         return $dataProvider;
@@ -168,7 +171,7 @@ class Link extends \yii\db\ActiveRecord
         
         // get from caching
         $link = Yii::$app->cache->get($key);
-        if ( $link ) {
+        if ($link) {
             return $link;
         }
 
@@ -179,6 +182,12 @@ class Link extends \yii\db\ActiveRecord
         return $link;
     }
 
+    /**
+     * convert a normal URL to short relative URL
+     * 
+     * @param  string $url normal URL
+     * @return string      short relative URL
+     */
     public static function getSiteShortUrl($url)
     {
         $slug = self::generateSlug($url);
