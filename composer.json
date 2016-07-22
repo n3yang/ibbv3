@@ -14,7 +14,8 @@
         "2amigos/yii2-ckeditor-widget": "~1.0",
         "2amigos/yii2-tinymce-widget": "~1.1",
         "xiaosier/libweibo": "dev-master",
-        "webcreate/jquery-ias": "^2.2"
+        "webcreate/jquery-ias": "^2.2",
+        "yiisoft/yii2-redis": "^2.0"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
