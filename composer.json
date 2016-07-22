@@ -6,9 +6,9 @@
     "require": {
         "php": ">=5.4.0",
         "yiisoft/yii2": ">=2.0.5",
-        "yiisoft/yii2-bootstrap": "*",
-        "yiisoft/yii2-swiftmailer": "*",
-        "yiisoft/yii2-httpclient": "*@dev",
+        "yiisoft/yii2-bootstrap": "~2.0.0",
+        "yiisoft/yii2-swiftmailer": "~2.0.0",
+        "yiisoft/yii2-httpclient": "~2.0.0",
         "yiisoft/yii2-imagine": "^2.0",
         "paquettg/php-html-parser": "^1.7",
         "2amigos/yii2-ckeditor-widget": "~1.0",
