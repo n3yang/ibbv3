@@ -30,12 +30,13 @@ class JosClient extends Object
 
     public function getPromotionUrl($url)
     {
+        $channel = strpos($url, 'm.jd') ? 'WL' : 'PC';
         $params = [
             'promotionType' => 7,
             'materialId'    => $url,
             'unionId'       => Yii::$app->params['jos']['unionId'],
             'webId'         => Yii::$app->params['jos']['webId'],
-            'channel'       => 'PC', // 推广渠道 PC：pc推广，WL：无线推广 
+            'channel'       => $channel, // 推广渠道 PC：pc推广，WL：无线推广 
         ];
 
         $rs = $this->execute('jingdong.service.promotion.getcode', $params);
