@@ -245,7 +245,7 @@ class Link extends \yii\db\ActiveRecord
         // 检测商品所属商城，并转换对应的CPS平台的连接
         $matches = [
             'kaola.com'             =>  '1737'  ,
-            'yixun.com'             =>  '337',
+            // 'yixun.com'             =>  '337'   ,
             'm.yhd.com'             =>  '516'   ,
             'yhd.com'               =>  '58'    ,
             'm.dangdang.com'        =>  '468'   ,
@@ -260,7 +260,7 @@ class Link extends \yii\db\ActiveRecord
             'miyabaobei.com'        =>  '930'   ,
             'm.mia.com'             =>  '1770'  ,
             'mia.com'               =>  '930'   ,
-            'ymatou.com'            =>  '1419'  ,
+            // 'ymatou.com'            =>  '1419'  ,
             'suning.com'            =>  '84'    ,
             'm.suning.com'          =>  '501'   ,
             'm.gome.com.cn'         =>  '618'   ,
