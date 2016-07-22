@@ -39,8 +39,13 @@ class JosClient extends Object
         ];
 
         $rs = $this->execute('jingdong.service.promotion.getcode', $params);
+        if ($rs == false) {
+            $url = null;
+        } else {
+            $url = !empty($rs['url']) ? $rs['url'] : null;
+        }
 
-        return $rs['resultCode']=='0' ? $rs['url'] : null;
+        return $url;
     }
 
     public function refreshToken()
