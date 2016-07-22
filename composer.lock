@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4cde8cf4a552f1c631287d60a1f0d405",
-    "content-hash": "bacc3d84bf9c1d841906407b346ccb78",
+    "hash": "f906db80a1f1fbc388bd39bd8b51f0d4",
+    "content-hash": "e0ced075914dfdd618a964496239d7c7",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -940,20 +940,20 @@
         },
         {
             "name": "yiisoft/yii2-httpclient",
-            "version": "dev-master",
+            "version": "2.0.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-httpclient.git",
-                "reference": "542d10f10d49712a7fb589ea57369709e06ac162"
+                "reference": "782ef0972ad900f3c070d8a085555826e12f2c3f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/yiisoft/yii2-httpclient/542d10f10d49712a7fb589ea57369709e06ac162.zip",
-                "reference": "542d10f10d49712a7fb589ea57369709e06ac162",
+                "url": "https://packagist.phpcomposer.com/files/yiisoft/yii2-httpclient/782ef0972ad900f3c070d8a085555826e12f2c3f.zip",
+                "reference": "782ef0972ad900f3c070d8a085555826e12f2c3f",
                 "shasum": ""
             },
             "require": {
-                "yiisoft/yii2": "~2.0.0"
+                "yiisoft/yii2": "*"
             },
             "type": "yii2-extension",
             "extra": {
@@ -983,7 +983,7 @@
                 "httpclient",
                 "yii2"
             ],
-            "time": "2016-07-19 13:42:57"
+            "time": "2016-07-01 17:31:38"
         },
         {
             "name": "yiisoft/yii2-imagine",
@@ -1442,7 +1442,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "yiisoft/yii2-httpclient": 20,
         "xiaosier/libweibo": 20
     },
     "prefer-stable": false,
