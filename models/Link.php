@@ -204,9 +204,9 @@ class Link extends \yii\db\ActiveRecord
      */
     public static function replaceToCps($url)
     {
-        // add cache
+        // get from caching
         $cacheKey = __METHOD__ . '_KEY_' . md5($url);
-        $cps = Yii::$app->cache->get($cacheKey);
+        $cpsUrl = Yii::$app->cache->get($cacheKey);
         if ($cpsUrl) {
             return $cpsUrl;
         }
@@ -234,60 +234,62 @@ class Link extends \yii\db\ActiveRecord
             }
             $params['t'] = $params['tag'] = $tag;
             $cpsUrl = $info['scheme'] . '://' . $info['host'] . $info['path'] . '?' . http_build_query($params);
-        }
 
-        // jd.com
-        if (strpos($url, 'jd.com') || strpos($url, 'jd.hk')) {
+        } else if (strpos($url, 'jd.com') || strpos($url, 'jd.hk')) {
             $jos = new JosClient;
             $cpsUrl = $jos->getPromotionUrl($url);
-        }
-
-        // 检测商品所属商城，并转换对应的CPS平台的连接
-        $matches = [
-            'kaola.com'             =>  '1737'  ,
-            // 'yixun.com'             =>  '337'   ,
-            'm.yhd.com'             =>  '516'   ,
-            'yhd.com'               =>  '58'    ,
-            'm.dangdang.com'        =>  '468'   ,
-            'dangdang.com'          =>  '64'    ,
-            'm.gou.com'             =>  '1602'  ,
-            'gou.com'               =>  '756'   ,
-            'm.muyingzhijia.com'    =>  '897'   ,
-            'muyingzhijia.com'      =>  '114'   ,
-            'supumall.com'          =>  '927'   ,
-            'supuy.com'             =>  '927'   ,
-            'lamall.com'            =>  '1731'  ,
-            'miyabaobei.com'        =>  '930'   ,
-            'm.mia.com'             =>  '1770'  ,
-            'mia.com'               =>  '930'   ,
-            // 'ymatou.com'            =>  '1419'  ,
-            'suning.com'            =>  '84'    ,
-            'm.suning.com'          =>  '501'   ,
-            'm.gome.com.cn'         =>  '618'   ,
-            'gome.com.cn'           =>  '236'   ,
-            'womai.com'             =>  '334'   ,
-            'moximoxi.net'          =>  '1728'  ,
-            'xiji.com'              =>  '1752'  ,
-            'ikjtao.com'            =>  '723'   ,
-            'kjt.com'               =>  '1884'  ,
-            'jgb.cn'                =>  '1872'  ,
-            '111.com.cn'            =>  '256'   ,
-            'fengqu.com'            =>  '2058'  ,
-            'm.fengqu.com'          =>  '2307'  ,
-            'haituncun.com'         =>  '2862'  ,
-        ];
-        foreach ($matches as $k => $v) {
-            if (strpos($url, $k)) {
-                $aid = $v;
-                break;
+            if (!$cpsUrl) {
+                $cpsUrl = $url;
+            }
+        } else {
+            // 检测商品所属商城，并转换对应的CPS平台的连接
+            $matches = [
+                'kaola.com'             =>  '1737'  ,
+                // 'yixun.com'             =>  '337'   ,
+                'm.yhd.com'             =>  '516'   ,
+                'yhd.com'               =>  '58'    ,
+                'm.dangdang.com'        =>  '468'   ,
+                'dangdang.com'          =>  '64'    ,
+                'm.gou.com'             =>  '1602'  ,
+                'gou.com'               =>  '756'   ,
+                'm.muyingzhijia.com'    =>  '897'   ,
+                'muyingzhijia.com'      =>  '114'   ,
+                'supumall.com'          =>  '927'   ,
+                'supuy.com'             =>  '927'   ,
+                'lamall.com'            =>  '1731'  ,
+                'miyabaobei.com'        =>  '930'   ,
+                'm.mia.com'             =>  '1770'  ,
+                'mia.com'               =>  '930'   ,
+                // 'ymatou.com'            =>  '1419'  ,
+                'suning.com'            =>  '84'    ,
+                'm.suning.com'          =>  '501'   ,
+                'm.gome.com.cn'         =>  '618'   ,
+                'gome.com.cn'           =>  '236'   ,
+                'womai.com'             =>  '334'   ,
+                'moximoxi.net'          =>  '1728'  ,
+                'xiji.com'              =>  '1752'  ,
+                'ikjtao.com'            =>  '723'   ,
+                'kjt.com'               =>  '1884'  ,
+                'jgb.cn'                =>  '1872'  ,
+                '111.com.cn'            =>  '256'   ,
+                'fengqu.com'            =>  '2058'  ,
+                'm.fengqu.com'          =>  '2307'  ,
+                'haituncun.com'         =>  '2862'  ,
+            ];
+            foreach ($matches as $k => $v) {
+                if (strpos($url, $k)) {
+                    $aid = $v;
+                    break;
+                }
+            }
+            if (empty($aid)) {
+                $cpsUrl = $url;
+            } else {
+                $cpsUrl = 'http://c.duomai.com/track.php?site_id=149193&aid=' . $aid . '&euid=&t=' . urlencode($url);
             }
         }
-        if (empty($aid)) {
-            $cpsUrl = $url;
-        } else {
-            $cpsUrl = 'http://c.duomai.com/track.php?site_id=149193&aid='.$aid.'&euid=&t=' . urlencode($url);
-            Yii::$app->cache->set($cacheKey, $cpsUrl, 3600);
-        }
+        // caching
+        Yii::$app->cache->set($cacheKey, $cpsUrl, 3600);
 
         return $cpsUrl;
     }
