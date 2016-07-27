@@ -128,6 +128,19 @@ class SpiderController extends Controller
     {
         $sae = new \SaeTOAuthV2(Yii::$app->params['weibo']['appSecret'], Yii::$app->params['weibo']['appSecret']);
         echo $sae->getAuthorizeURL('http://ibaobr.com/user/oauth-weibo');
+
+        // $os = Offer::find()->all();
+        // foreach ($os as $o) {
+        //     $link = Link::findOne(['id' => $o->link_slug]);
+        //     if ($link) {
+        //         $o->link_slug = $link->slug;
+        //         if (!$o->save()){
+        //             print_r((array) $link);
+        //         }
+        //     }
+        // }
+
+        // $link = Link::findAll([ids or condition]);
     }
 
 
