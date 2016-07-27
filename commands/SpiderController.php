@@ -126,8 +126,6 @@ class SpiderController extends Controller
 
     public function actionUp()
     {
-        $sae = new \SaeTOAuthV2(Yii::$app->params['weibo']['appSecret'], Yii::$app->params['weibo']['appSecret']);
-        echo $sae->getAuthorizeURL('http://ibaobr.com/user/oauth-weibo');
 
         // $os = Offer::find()->all();
         // foreach ($os as $o) {

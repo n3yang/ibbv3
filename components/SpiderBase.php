@@ -13,6 +13,8 @@ use Imagine\Image\Point;
 use app\models\Offer;
 use app\models\File;
 use app\models\Link;
+use app\components\WeiboClient;
+
 /**
  * Spider Base Class
  */
@@ -51,6 +53,17 @@ class SpiderBase extends \yii\base\Component
                 if ($tagId) {
                     $offer->link('tags', Tag::findOne($tagId));
                 }
+            }
+            // 发送微博
+            if ($offer->status == Offer::STATUS_PUBLISHED) {
+                $twi = $offer->title 
+                    . ' ' . $offer->price
+                    . ' ' . Url::toRoute(['offer/view', 'id' => $offer->id], true)
+                    . ' ' . $offer->excerpt;
+                $twi = mb_substr($twi, 0, 136) . '..';
+                $thumbUrl = $offer->getThumbUrl();
+                $weibo = new WeiboClient;
+                $weibo->upload($twi, $thumbUrl);
             }
         }
         
