@@ -8,9 +8,10 @@ use yii\helpers\Url;
 
 // SEO Open Graph
 $this->registerMetaTag(['property' => 'og:title', 'content' => $offer->title . $offer->price]);
-$this->registerMetaTag(['property' => 'og:image', 'content' => Url::base(true) . $offer->getThumbUrl()]);
+$this->registerMetaTag(['property' => 'og:image', 'content' => $offer->getThumbUrl()]);
 $this->registerMetaTag(['property' => 'og:url', 'content' => Yii::$app->request->absoluteUrl]);
 $this->registerMetaTag(['property' => 'og:type', 'content' => 'article']);
+$this->registerMetaTag(['property' => 'og:description', 'content' => $offer->excerpt]);
 
 // SEO title
 $this->title = yii::$app->params['site']['title'];
@@ -40,6 +41,9 @@ if ($prevOffer) {
         'href'  => Url::to(['offer/view', 'id'=>$prevOffer['id']], true)
     ]);
 }
+
+// for weibo share
+$this->registerJsFile('http://tjs.sjs.sinajs.cn/open/api/js/wb.js');
 ?>
 
         <div class="row row-offcanvas row-offcanvas-right">
@@ -75,6 +79,7 @@ if ($prevOffer) {
                                 <p class="lead text-warning">优惠详情</p>
                                 <?=$offer->content?>
                             </div>
+                            <wb:share-button appkey="1823418018" addition="simple" type="button" ralateUid="5649379034"></wb:share-button>
                         </div>
 
                         <div class="meta visible-xs">
