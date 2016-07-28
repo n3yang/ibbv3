@@ -180,13 +180,12 @@ class SpiderBase extends \yii\base\Component
      * @param  array  $curlopt curl扩展设置参数
      * @return string          连接内容
      */
-    public function getHttpContent($url, $param='', $curlopt=array())
+    public function getHttpContent($url, $param = null, $curlopt = [], $header = [])
     {
         if (is_array($param)) {
             $reqData = http_build_query($param);
         }
         $option = array(
-            CURLOPT_URL             => $url . ( empty($reqData) ? '' : ('?' . $reqData) ),
             CURLOPT_RETURNTRANSFER  => 1,
             CURLOPT_USERAGENT       => $this->requestUserAgent,
             CURLOPT_COOKIESESSION   => false,
@@ -196,15 +195,24 @@ class SpiderBase extends \yii\base\Component
             $option = $option + $curlopt;
         }
 
-        // log
-        Yii::info('Curl get: ' . $option[CURLOPT_URL]);
+        $client = new Client();
+        $response = $client->get($url, $reqData, [], $option)
+            // ->setOptions([
+            //     'proxy' => Yii::$app->params['spider']['proxy'],
+            // ])
+            ->send();
 
-        $ch = curl_init();
-        curl_setopt_array($ch, $option);
-        $returnData = curl_exec($ch);
-        if ( $returnData===false ) {
-            Yii::warning('Curl error: ' . curl_error($ch));
+        // log
+        Yii::info('Curl get: ' . $client->getU);
+
+        if (!$response->getIsOk()) {
+            Yii::error('Curl response is fault. ' . __METHOD__);
+            Yii::error('Curl http header: ' . var_export($response->getHeaders(), 1));
+            Yii::error('Curl http content: ' . var_export($response->getData(), 1));
+
+            return false;
         }
+
         $ch = curl_close($ch);
 
         // log return data
