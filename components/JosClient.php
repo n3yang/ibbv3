@@ -90,13 +90,13 @@ class JosClient extends Object
         if (!$response->getIsOk()) {
             Yii::error('jos http response is fault. ' . __METHOD__);
             Yii::error('jos http header: ' . var_export($response->getHeaders(), 1));
-            Yii::error('jos http content: ' . var_export($response->getData(), 1));
+            Yii::error('jos http content: ' . var_export($response->getContent(), 1));
 
             return false;
         }
 
         $data = $response->getData();
-        $dataKey = str_replace('.', '_', $method) . '_responce';
+        $dataKey = str_replace('.', '_', $method) . '_response';
         $queryResult = json_decode($data[$dataKey]['queryjs_result'], true);
 
         // 返回错误码
