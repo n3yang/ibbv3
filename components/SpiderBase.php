@@ -175,50 +175,68 @@ class SpiderBase extends \yii\base\Component
 
     /**
      * 使用http get方式获取连接地址内容
-     * @param  string $url     链接地址
-     * @param  string $param   get请求参数
-     * @param  array  $curlopt curl扩展设置参数
-     * @return string          连接内容
+     * @param  string $url      链接地址
+     * @param  string $params   get请求参数
+     * @param  array  $curlopts curl扩展设置参数
+     * @param  array  $headers  additional http headers
+     * @return string           连接内容
      */
-    public function getHttpContent($url, $param = null, $curlopt = [], $header = [])
+    public function getHttpContent($url, $params = null, $curlopts = [], $headers = [])
     {
-        if (is_array($param)) {
-            $reqData = http_build_query($param);
+        if (!empty($params) && is_string($params)) {
+            parse_str($params, $reqData);
+        } else {
+            $reqData = $params;
         }
-        $option = array(
-            CURLOPT_RETURNTRANSFER  => 1,
+        // set options
+        $options = array(
             CURLOPT_USERAGENT       => $this->requestUserAgent,
-            CURLOPT_COOKIESESSION   => false,
+            CURLOPT_PROXY           => Yii::$app->params['spider']['proxy'],
+            CURLOPT_PROXYTYPE       => Yii::$app->params['spider']['proxyType'],
+            CURLOPT_CONNECTTIMEOUT  => Yii::$app->params['spider']['proxyTimeout'],
         );
-        
-        if (!empty($curlopt)) {
-            $option = $option + $curlopt;
+        if (!empty($curlopts)) {
+            $options = $options + $curlopts;
         }
 
-        $client = new Client();
-        $response = $client->get($url, $reqData, [], $option)
-            // ->setOptions([
-            //     'proxy' => Yii::$app->params['spider']['proxy'],
-            // ])
-            ->send();
+        $client = new Client(['transport' => 'yii\httpclient\CurlTransport']);
+        $request = $client->createRequest()
+            ->setUrl($url)
+            ->setMethod('get')
+            ->addHeaders($headers)
+            ->setOptions($options)
+            ->setData($reqData);
+        try {
+            $response = $request->send();
+        } catch (\Exception $e) {
+            preg_match('/\#(\d+)/', $e->getMessage(), $matches);
+            if (!empty($matches[1]) && $matches[1] == 7) {
+                unset($options[CURLOPT_PROXY], $options[CURLOPT_PROXYTYPE]);
+                $request = $client->createRequest()
+                    ->setUrl($url)
+                    ->setMethod('get')
+                    ->addHeaders($headers)
+                    ->setOptions($options)
+                    ->setData($reqData);
+                $response = $request->send();
+            }
+        }
 
         // log
-        Yii::info('Curl get: ' . $client->getU);
+        Yii::info('Curl get: ' . $request->getUrl());
 
         if (!$response->getIsOk()) {
             Yii::error('Curl response is fault. ' . __METHOD__);
             Yii::error('Curl http header: ' . var_export($response->getHeaders(), 1));
-            Yii::error('Curl http content: ' . var_export($response->getData(), 1));
+            Yii::error('Curl http content: ' . var_export($response->getContent(), 1));
 
-            return false;
+            return null;
         }
-
-        $ch = curl_close($ch);
 
         // log return data
         // Yii::info('Curl get data: ' . var_export($returnData, 1));
 
-        return $returnData;
+        return $response->getContent();
     }
 
 
