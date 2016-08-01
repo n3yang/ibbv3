@@ -167,6 +167,7 @@ class SpiderBase extends \yii\base\Component
         }
 
         return [
+            'id'       => $link->id,
             'url'      => $link->url,
             'slug'     => $link->slug,
             'shortUrl' => Link::REDIRECT_SLUG_PREFIX . '/' . $link->slug,
