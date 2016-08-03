@@ -60,6 +60,28 @@ class WeiboClient extends Object
         }
     }
 
+    /**
+     * 头条文章
+     * @param  string $title   文章标题，限定32个中英文字符以内
+     * @param  string $content 正文内容，限制20000个中英文字符内，需要urlencode
+     * @param  string $conver  文章封面图片地址url
+     * @param  string $status  与其绑定短微博内容，限制120个中英文字符内
+     * @param  string $summary 文章导语
+     * @return [type]          [description]
+     */
+    public function uploadArticle($title, $content, $conver, $status, $summary = null)
+    {
+        $params = [
+            'title'     => $title,
+            'content'   => $content,
+            'conver'    => $conver,
+            'summary'   => $summary,
+            'text'      => $status,
+        ];
+        $rs = $this->client->oauth->post( 'proxy/article/publish', $params );
+        
+    }
+
     private function test()
     {
         // $sae = new \SaeTOAuthV2(Yii::$app->params['weibo']['appKey'], Yii::$app->params['weibo']['appSecret']);
