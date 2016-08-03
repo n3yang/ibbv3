@@ -202,7 +202,7 @@ class SpiderPyh extends SpiderBase
         }
         $imgTags = $dom->find('img');
         foreach ($imgTags as $i => $img) {
-            if ($i>1) {
+            if ($i>2) {
                 $img->delete();
             }
             $src = $img->getAttribute('src');

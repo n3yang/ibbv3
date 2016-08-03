@@ -82,7 +82,7 @@ class SpiderBase extends \yii\base\Component
         $tempfile = $this->fileTempDir . '/' . basename($url);
         // get file
         $curlopt = [ CURLOPT_REFERER => $this->requestReferer ];
-        $content = $this->getHttpContent($url, '', $curlopt);
+        $content = $this->getHttpContent($url, null, $curlopt);
         
         if ( file_put_contents($tempfile, $content) < 1 ) {
             Yii::warning('Fail to save remote tempfile');
