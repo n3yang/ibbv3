@@ -11,11 +11,13 @@ class WeiboClient extends Object
     public $appKey;
     public $appSecret;
     public $accessToken;
+    public $rateLimit;
     /**
      * 
      * @var SaeTClientV2
      */
     protected $client;
+    const CACHE_RATE_LIMIT_KEY = 'weibo:api:ratelimit';
 
     public function __construct()
     {
@@ -23,6 +25,7 @@ class WeiboClient extends Object
         $this->appSecret = Yii::$app->params['weibo']['appSecret'];
         $this->accessToken = Yii::$app->params['weibo']['accessToken'];
         $this->client = new \SaeTClientV2($this->appKey, $this->appSecret, $this->accessToken);
+        $this->setRateLimit(1, 1200);
     }
 
     /**
@@ -42,6 +45,11 @@ class WeiboClient extends Object
      */
     public function upload( $status, $picPath = null, $lat = null, $long = null, $visible=0 )
     {
+        $runTimes = Yii::$app->cache->get(self::CACHE_RATE_LIMIT_KEY);
+        if ($runTimes >= $this->rateLimit[0]) {
+            return false;
+        }
+
         if (empty($picPath)) {
             $rs = $this->client->update($status, $lat, $long, null, $visible);
         } else {
@@ -49,6 +57,7 @@ class WeiboClient extends Object
         }
 
         if ($this->client->oauth->http_code == 200) {
+            Yii::$app->cache->set(self::CACHE_RATE_LIMIT_KEY, $runTimes + 1, $this->rateLimit[1]);
             return true;
         } else {
             Yii::warning('Fail to upload weibo.'
@@ -80,6 +89,16 @@ class WeiboClient extends Object
         ];
         $rs = $this->client->oauth->post( 'proxy/article/publish', $params );
         
+    }
+
+    /**
+     * 设置频率限制
+     * @param int $times   次数
+     * @param int $seconds 单位时间：每XXX秒
+     */
+    public function setRateLimit($times, $seconds)
+    {
+        return $this->rateLimit = [$times, $seconds];
     }
 
     private function test()
