@@ -96,7 +96,7 @@ class JosClient extends Object
         }
 
         $data = $response->getData();
-        $dataKey = str_replace('.', '_', $method) . '_response';
+        $dataKey = str_replace('.', '_', $method) . '_responce';
         $queryResult = json_decode($data[$dataKey]['queryjs_result'], true);
 
         // 返回错误码
