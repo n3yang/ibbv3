@@ -26,13 +26,13 @@ use yii\widgets\ActiveForm;
 
     <?//= $form->field($model, 'price') ?>
 
-    <?//= $form->field($model, 'thumb_file_id') ?>
+    <?//= $form->field($model, 'cover') ?>
 
-    <?php // echo $form->field($model, 'link_slug') ?>
+    <?//= echo $form->field($model, 'link_id') ?>
 
-    <?=$form->field($model, 'site')->dropDownList([''=>"ALL"] + $model->getSiteLabels()) ?>
+    <?=$form->field($model, 'site')->dropDownList($model->getSiteLabels()) ?>
 
-    <?=$form->field($model, 'b2c')->dropDownList([''=>'ALL'] + $model->getB2cLabels()) ?>
+    <?=$form->field($model, 'b2c')->dropDownList($model->getB2cLabels()) ?>
 
     <?php // echo $form->field($model, 'created_at') ?>
 

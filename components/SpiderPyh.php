@@ -129,16 +129,15 @@ class SpiderPyh extends SpiderBase
         // price
         $price = $a['price'];
         // quick link
-        $linkSlug = $this->replaceUrl($a['money_url'], $title);
-        preg_match("/([\w]+)$/", $linkSlug, $matches);
-        $linkSlug = $matches[1];
+        $link = $this->replaceUrl($a['money_url'], $title);
+        $linkId = empty($link['id']) ? null : $link['id'];
         // excerpt
         $excerpt = mb_substr(strip_tags($a['post']), 0, 150);
         // content
         $content = $this->parseContent($a['post'], $a['item_name']);
-        // thumbnail
-        $thumbnail = $this->addRemoteFile($a['thumbnail'], $a['item_name']);
-        $thumb_file_id = $thumbnail['id'];
+        // cover
+        $cover = $this->addRemoteFile($a['thumbnail'], $a['item_name']);
+        $cover = $cover['path'];
         // b2c
         $b2c = static::getB2cIdByShopName($a['shop']['name']);
         // site
@@ -155,14 +154,14 @@ class SpiderPyh extends SpiderBase
 
         $offerDs = [
             'title'         => $title,
-            'link_slug'     => $linkSlug,
+            'link_id'       => $linkId,
             'content'       => $content,
             'price'         => $price,
             'site'          => $this->fromSite,
             'b2c'           => $b2c,
             'status'        => $status,
             'excerpt'       => $excerpt,
-            'thumb_file_id' => $thumb_file_id,
+            'cover'         => $cover,
             'fetched_from'  => $fetchedFrom,
             'category_id'   => static::getCategoryIdByCategoryName($a['category']),
         ];
@@ -196,7 +195,8 @@ class SpiderPyh extends SpiderBase
                 $a->setAttribute('href', '#');
             } else {
                 $title = strip_tags($a->innerHtml());
-                $myurl = self::replaceUrl($url, $title);
+                $link = self::replaceUrl($url, $title);
+                $myurl = $link['shortUrl'];
                 $a->setAttribute('href', $myurl);
             }
         }
@@ -240,17 +240,16 @@ class SpiderPyh extends SpiderBase
         if ($real != $url) {
             // create new short url
             $link = parent::addLinkUniq($real, $title);
-            $shortUrl = $link['shortUrl'];
         } else {
-            $shortUrl = '';
+            $link = [];
         }
         // TODO: maybe we can find it in my shortUrl. try it!
 
-        $this->urlReplaceCache[$url] = $shortUrl;
+        $this->urlReplaceCache[$url] = $link;
         
-        Yii::info($logstr . ' -> ' . $shortUrl);
+        Yii::info($logstr . ' -> ' . $link['shortUrl']);
 
-        return $shortUrl;
+        return $link;
     }
 
     public function getRealUrl($url='')

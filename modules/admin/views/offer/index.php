@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'format' => 'html',
                 'value'=>function($model){
-                    $src = $model->thumb ? $model->thumb->getImageUrl() : '';
+                    $src = $model->getCoverUrl();
                     return sprintf('<img src="%s" width="40">', $src);
                 }
             ],

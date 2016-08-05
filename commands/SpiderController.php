@@ -127,18 +127,21 @@ class SpiderController extends Controller
     public function actionUp()
     {
 
-        // $os = Offer::find()->all();
-        // foreach ($os as $o) {
-        //     $link = Link::findOne(['id' => $o->link_slug]);
-        //     if ($link) {
-        //         $o->link_slug = $link->slug;
-        //         if (!$o->save()){
-        //             print_r((array) $link);
-        //         }
-        //     }
-        // }
+        $os = Offer::find()->all();
+        foreach ($os as $o) {
+            $link = Link::findOneBySlug($o->link_slug);
+            if ($link) {
+                $o->link_id = $link->id;
+            }
 
-        // $link = Link::findAll([ids or condition]);
+            $file = File::findOne($o->thumb_file_id);
+            if ($file) {
+                $o->cover = $file->path;
+            }
+            if (!$o->save()){
+                print_r((array) $o);
+            }
+        }
     }
 
 

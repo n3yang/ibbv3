@@ -189,9 +189,14 @@ class File extends \yii\db\ActiveRecord
         return Yii::getAlias('@uploadUrl') . '/' . $file['path'];
     }
 
+    public static function getImageUrlByPath($path)
+    {
+        return Yii::getAlias('@uploadUrl') . '/' . $path;
+    }
+
     public function getImageUrl()
     {
-        return Yii::getAlias('@uploadUrl') . '/' . $this->path;
+        return static::getImageUrlByPath($this->path);
     }
 
     public static function getImageUrlById($id)

@@ -25,7 +25,7 @@ $hots = Offer::findHot();
                     ?>
 
                     <a href="<?=Url::toRoute(['offer/view', 'id'=>$hot->id])?>" class="list-group-item">
-                        <img src="<?=$hot->getThumbUrl()?>" class="img-responsive hidden-xs" alt="<?= Html::encode($hot->title); ?>" /> <?=$hot->title?> <span class="price"><?=$hot->price?></span>
+                        <img src="<?=$hot->getCoverUrl()?>" class="img-responsive hidden-xs" alt="<?= Html::encode($hot->title); ?>" /> <?=$hot->title?> <span class="price"><?=$hot->price?></span>
                     </a>
                     <? } // end foreach ?>
                 </div>

@@ -61,7 +61,7 @@ class SpiderBase extends \yii\base\Component
                     . ' ' . Url::toRoute(['offer/view', 'id' => $offer->id], true)
                     . ' ' . $offer->excerpt;
                 $twi = mb_substr($twi, 0, 136) . '..';
-                $thumbUrl = $offer->getThumbUrl();
+                $thumbUrl = $offer->getCoverUrl();
                 $weibo = new WeiboClient;
                 $weibo->upload($twi, $thumbUrl);
             }
@@ -134,6 +134,7 @@ class SpiderBase extends \yii\base\Component
                 'id'    => $fileModel->id,
                 'url'   => Yii::$aliases['@uploadUrl'] . '/' . $fileModel->path,
                 'name'  => $fileModel->name,
+                'path'  => $fileModel->path,
             ];
         } else {
             $fileModel = new File;
@@ -142,9 +143,10 @@ class SpiderBase extends \yii\base\Component
 
         if ( $fileModel->uploadByLocal($newFile, true, $name) && $fileModel->save() ) {
             return [
-                'id'  => $fileModel->id,
-                'url' => Yii::$aliases['@uploadUrl'] . '/' . $fileModel->path,
-                'name' => $name,
+                'id'    => $fileModel->id,
+                'url'   => Yii::$aliases['@uploadUrl'] . '/' . $fileModel->path,
+                'name'  => $name,
+                'path'  => $fileModel->path,
             ];
         } else {
             yii::warning('Fail to upload by local');

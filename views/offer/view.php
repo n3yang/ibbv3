@@ -8,7 +8,7 @@ use yii\helpers\Url;
 
 // SEO Open Graph
 $this->registerMetaTag(['property' => 'og:title', 'content' => $offer->title . $offer->price]);
-$this->registerMetaTag(['property' => 'og:image', 'content' => $offer->getThumbUrl()]);
+$this->registerMetaTag(['property' => 'og:image', 'content' => $offer->getCoverUrl()]);
 $this->registerMetaTag(['property' => 'og:url', 'content' => Yii::$app->request->absoluteUrl]);
 $this->registerMetaTag(['property' => 'og:type', 'content' => 'article']);
 $this->registerMetaTag(['property' => 'og:description', 'content' => $offer->excerpt]);
@@ -61,7 +61,7 @@ $this->registerJsFile('http://tjs.sjs.sinajs.cn/open/api/js/wb.js');
                 <div class="info">
                     <div class="row">
                         <div class="thumb col-xs-8 col-xs-offset-2 col-sm-3 col-sm-offset-0">
-                            <span class="thumbnail"><img src="<?=$offer->getThumbUrl()?>" class="img-responsive" alt="<?= Html::encode($offer->title); ?>"></span>
+                            <span class="thumbnail"><img src="<?=$offer->getCoverUrl()?>" class="img-responsive" alt="<?= Html::encode($offer->title); ?>"></span>
                         </div>
 
                         <div class="meta col-xs-12 col-xs-offset col-sm-9 hidden-xs">
@@ -112,7 +112,7 @@ $this->registerJsFile('http://tjs.sjs.sinajs.cn/open/api/js/wb.js');
                         <? foreach ($similarOffers as $k => $o) { ?>
                         <div class="col-xs-6 col-sm-3">
                             <a href="<?=Url::to(['offer/view', 'id'=>$o->id])?>" class="thumbnail">
-                                <img class="img-responsive" src="<?=$o->getThumbUrl()?>">
+                                <img class="img-responsive" src="<?=$o->getCoverUrl()?>">
                             </a>
                             <div class="caption"><h5><?=StringHelper::truncate($o->title, 30)?></h5></div>
                         </div>

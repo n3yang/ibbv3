@@ -30,7 +30,7 @@ $this->registerMetaTag([
 
 // SEO Open Graph
 $this->registerMetaTag(['property' => 'og:title', 'content' => $this->title]);
-// $this->registerMetaTag(['property' => 'og:image', 'content' => Url::base(true) . $offer->getThumbUrl()]);
+// $this->registerMetaTag(['property' => 'og:image', 'content' => Url::base(true) . $offer->getCoverUrl()]);
 $this->registerMetaTag(['property' => 'og:url', 'content' => Yii::$app->request->absoluteUrl]);
 $this->registerMetaTag(['property' => 'og:type', 'content' => 'site']);
 
@@ -54,7 +54,7 @@ $this->registerJsFile('js/index-jquery-ias.js', ['depends' => 'app\assets\Jquery
                 <div class="spo-row row">
                     <div class="thumb col-xs-3">
                         <a href="<?=Url::to(['offer/view', 'id'=>$o->id])?>" class="thumbnail">
-                            <img src="<?=$o->getThumbUrl()?>" class="img-responsive" alt="<?= Html::encode($o->title); ?>">
+                            <img src="<?=$o->getCoverUrl()?>" class="img-responsive" alt="<?= Html::encode($o->title); ?>">
                         </a>
                     </div>
                     <div class="info col-xs-9">

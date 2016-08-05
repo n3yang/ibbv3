@@ -18,8 +18,8 @@ class OfferSearch extends Offer
     public function rules()
     {
         return [
-            [['id', 'thumb_file_id', 'site', 'b2c', 'created_at', 'category_id'], 'integer'],
-            [['title', 'content', 'price', 'link_slug'], 'safe'],
+            [['id', 'site', 'b2c', 'created_at', 'category_id', 'link_id'], 'integer'],
+            [['title', 'content', 'price'], 'safe'],
         ];
     }
 
@@ -58,7 +58,6 @@ class OfferSearch extends Offer
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'thumb_file_id' => $this->thumb_file_id,
             'category_id' => $this->category_id,
             'site' => $this->site,
             'b2c' => $this->b2c,
@@ -68,8 +67,7 @@ class OfferSearch extends Offer
         $query->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'content', $this->content])
             ->andFilterWhere(['like', 'price', $this->price])
-            ->andFilterWhere(['like', 'link_slug', $this->link_slug])
-            ->with('thumb');
+            ->andFilterWhere(['like', 'link_slug', $this->link_slug]);
 
         return $dataProvider;
     }

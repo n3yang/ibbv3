@@ -78,9 +78,9 @@ echo $form->field($model, 'content')->widget(TinyMce::className(), [
 
     <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'thumb_file_id')->textInput() ?>
+    <?= $form->field($model, 'cover')->textInput() ?>
 
-    <?= $form->field($model, 'link_slug')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'link_id')->textInput() ?>
 
     <?= $form->field($model, 'site')->dropDownList($model->getSiteLabels()) ?>
 

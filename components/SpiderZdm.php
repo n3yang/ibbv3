@@ -128,9 +128,8 @@ class SpiderZdm extends SpiderBase
         */
 
         // set quick link
-        $quickLink = $this->replaceUrl($a['article_link'], $a['article_title']);
-        preg_match("/([\w]+)$/", $quickLink, $matches);
-        $newOffer['link_slug'] = $matches[1];
+        $link = $this->replaceUrl($a['article_link'], $a['article_title']);
+        $newOffer['link_id'] = empty($link['id']) ? null : $link['id'];
 
         // the content
         $post_content = $this->parseContent($a['article_filter_content'], '<p><a><br><span><h2><strong><b>');
@@ -142,11 +141,11 @@ class SpiderZdm extends SpiderBase
         }
         
         // fetch thumbnail
-        $thumbnail = $this->addRemoteFile($a['article_pic'], $a['article_title']);
-        $newOffer['thumb_file_id'] = $thumbnail['id'];
+        $cover = $this->addRemoteFile($a['article_pic'], $a['article_title']);
+        $newOffer['cover'] = $cover['path'];
 
         // set status
-        if (!$b2c || !$newOffer['link_slug'] || !$thumbnail['id']) {
+        if (!$b2c || !$newOffer['link_id'] || !$cover['id']) {
             $status = Offer::STATUS_DRAFT;
         } else {
             $status = Offer::STATUS_PUBLISHED;
@@ -324,17 +323,16 @@ class SpiderZdm extends SpiderBase
         if ($real != $url) {
             // create new short url
             $link = parent::addLinkUniq($real, $title);
-            $shortUrl = $link['shortUrl'];
         } else {
-            $shortUrl = '';
+            $link = [];
         }
         // TODO: maybe we can find it in my shortUrl. try it!
 
-        $this->urlReplaceCache[$url] = $shortUrl;
+        $this->urlReplaceCache[$url] = $link;
         
-        Yii::info($logstr . ' -> ' . $shortUrl);
+        Yii::info($logstr . ' -> ' . $link['shortUrl']);
 
-        return $shortUrl;
+        return $link;
     }
 
 

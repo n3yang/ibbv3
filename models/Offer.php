@@ -5,6 +5,7 @@ namespace app\models;
 use yii\db\ActiveRecord;
 use yii\db\Expression;
 use yii\behaviors\TimestampBehavior;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "offer".
@@ -16,6 +17,7 @@ use yii\behaviors\TimestampBehavior;
  * @property string $price
  * @property integer $thumb_file_id
  * @property string $link_slug
+ * @property integer $link_id
  * @property integer $site
  * @property integer $b2c
  * @property integer $created_at
@@ -78,8 +80,8 @@ class Offer extends \yii\db\ActiveRecord
         return [
             [['title', 'content'], 'required'],
             [['title', 'content'], 'string'],
-            [['thumb_file_id', 'site', 'b2c', 'category_id', 'click'], 'integer'],
-            [['price', 'link_slug'], 'string', 'max' => 200],
+            [['site', 'b2c', 'category_id', 'click', 'link_id'], 'integer'],
+            [['price', 'cover'], 'string', 'max' => 200],
             ['status', 'default', 'value' => self::STATUS_DRAFT],
             // ['tags', 'each', 'rule' => ['integer']],
         ];
@@ -96,8 +98,8 @@ class Offer extends \yii\db\ActiveRecord
             'content' => '内容',
             'excerpt'   => '摘要',
             'price' => '价格',
-            'thumb_file_id' => 'File ID',
-            'link_slug' => '链接地址',
+            'cover' => '封皮图',
+            'link_id' => '链接地址ID',
             'site' => '抓取网站',
             'b2c' => '商城',
             'fetched_from'  => 'From',
@@ -155,25 +157,19 @@ class Offer extends \yii\db\ActiveRecord
                 ->andWhere(['>', 'created_at', date('Y-m-d 00:00:00')])
                 ->orderBy('click')
                 ->limit(10)
-                ->with('thumb')
                 ->all();
         }, 300);
 
         return $rs;
     }
 
-    public function getThumbUrl()
+    public function getCoverUrl()
     {
-        if (empty($this->thumb)) {
-            return '';
+        if (Url::isRelative($this->cover)) {
+            return File::getImageUrlByPath($this->cover);
         } else {
-            return $this->thumb->getImageUrl();
+            return $this->cover;
         }
-    }
-
-    public function getThumb()
-    {
-        return $this->hasOne(File::className(), ['id'=>'thumb_file_id']);
     }
 
     public function getTags()
@@ -186,9 +182,14 @@ class Offer extends \yii\db\ActiveRecord
         return $this->hasOne(Category::className(), ['id'=>'category_id']);
     }
 
+    public function getLink()
+    {
+        return $this->hasOne(Link::className(), ['id' => 'link_id']);
+    }
+
     public function getLinkSlugUrl()
     {
-        return Link::REDIRECT_SLUG_PREFIX . '/' . $this->link_slug;
+        return Link::REDIRECT_SLUG_PREFIX . '/' . $this->link->slug;
     }
 
     public static function getStatusLabel($status='')
@@ -211,6 +212,7 @@ class Offer extends \yii\db\ActiveRecord
     public static function getB2cLabels()
     {
         return [
+            null                    => '未设置',
             self::B2C_JD            => '京东',
             self::B2C_TMALL         => '天猫',
             self::B2C_SUNING        => '苏宁',

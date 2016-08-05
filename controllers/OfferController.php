@@ -35,7 +35,7 @@ class OfferController extends \yii\web\Controller
         // limit the query using the pagination and retrieve the offer
         $offers = $query->offset($pagination->offset)
             ->limit($pagination->limit)
-            ->with('thumb')
+            ->with('link')
             ->orderBy('id DESC')
             ->all();
 
@@ -59,7 +59,7 @@ class OfferController extends \yii\web\Controller
             throw new yii\web\NotFoundHttpException;
         }
 
-        $offer->getThumb();
+        $offer->getLink();
         // the counter
         $offer->updateCounters(['click' => 1]);
 
@@ -79,7 +79,6 @@ class OfferController extends \yii\web\Controller
         //     ->where(['offer.status'=>Offer::STATUS_PUBLISHED])
         //     ->andWhere(['<', 'id', $id])
         //     ->andWhere(['tag_offer.tag_id'=>$tagId])
-        //     ->with('thumb')
         //     ->orderBy('offer.id DESC')
         //     ->limit(4)
         //     ->all();
@@ -90,7 +89,6 @@ class OfferController extends \yii\web\Controller
                 'status'        => Offer::STATUS_PUBLISHED,
                 'category_id'   => $offer->category_id,
             ])
-            ->with('thumb')
             ->orderBy('offer.id DESC')
             ->limit(4)
             ->all();
