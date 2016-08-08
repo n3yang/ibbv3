@@ -63,7 +63,7 @@ class SpiderBase extends \yii\base\Component
                 $twi = mb_substr($twi, 0, 136) . '..';
                 $thumbUrl = $offer->getCoverUrl();
                 $weibo = new WeiboClient;
-                // $weibo->upload($twi, $thumbUrl);
+                $weibo->upload($twi, $thumbUrl);
             }
         }
         
