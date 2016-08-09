@@ -60,7 +60,7 @@ class SpiderBase extends \yii\base\Component
                     . ' ' . $offer->price
                     . ' ' . Url::toRoute(['offer/view', 'id' => $offer->id], true)
                     . ' ' . $offer->excerpt;
-                $twi = mb_substr($twi, 0, 120) . '..' . '#母婴优惠#';
+                $twi = mb_substr($twi, 0, 120) . '..';
                 $thumbUrl = $offer->getCoverUrl();
                 $weibo = new WeiboClient;
                 $weibo->upload($twi, $thumbUrl);
