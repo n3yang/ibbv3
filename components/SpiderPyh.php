@@ -93,6 +93,7 @@ class SpiderPyh extends SpiderBase
             return false;
         }
 
+        var_dump($this->syncCacheKey.__FUNCTION__);
         $last = Yii::$app->cache->get($this->syncCacheKey.__FUNCTION__);
 
         foreach ($items as $r) {
@@ -146,7 +147,7 @@ class SpiderPyh extends SpiderBase
         $fetchedFrom = $this->siteUrl . $a['post_url'];
         
         // set status
-        if (!$b2c || !$linkSlug) {
+        if (!$b2c || !$linkId) {
             $status = Offer::STATUS_DRAFT;
         } else {
             $status = Offer::STATUS_PUBLISHED;

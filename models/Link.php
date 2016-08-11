@@ -33,6 +33,7 @@ class Link extends \yii\db\ActiveRecord
         // parent::__construct();
         Event::on(Link::className(), Link::EVENT_BEFORE_INSERT, function($event){
             $this->slug = empty($this->slug) ? self::generateSlug($this->url) : $this->slug;
+            $this->click = empty($this->click) ? 0 : $this->click;
         });
         Event::on(Link::className(), Link::EVENT_BEFORE_UPDATE, function($event){
             $this->slug = empty($this->slug) ? self::generateSlug($this->url) : $this->slug;
