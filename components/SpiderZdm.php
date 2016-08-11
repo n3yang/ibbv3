@@ -57,7 +57,7 @@ class SpiderZdm extends SpiderBase
         $list = $this->fetchList();
 
         foreach ($list as $r) {
-            $maxId = $r['article_id'] > $maxId ? $r['article_id'] : $maxId;
+            $maxId = max($r['article_id'], $maxId);
             if ($r['article_id'] <= $last['article_id']) {
                 continue;
             }

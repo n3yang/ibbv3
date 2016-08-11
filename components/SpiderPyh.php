@@ -93,7 +93,6 @@ class SpiderPyh extends SpiderBase
             return false;
         }
 
-        var_dump($this->syncCacheKey.__FUNCTION__);
         $last = Yii::$app->cache->get($this->syncCacheKey.__FUNCTION__);
 
         foreach ($items as $r) {
@@ -101,7 +100,7 @@ class SpiderPyh extends SpiderBase
                 continue;
             }
             // echo $r['category'] .'-'. static::getCategoryIdByCategoryName($r['category']) ."\n";
-            echo $r['shop']['name'] .'-'. static::getB2cIdByShopName($r['shop']['name']) ."\n";
+            // echo $r['shop']['name'] .'-'. static::getB2cIdByShopName($r['shop']['name']) ."\n";
             if ($r['id'] > $last['maxId']) {
                 $this->fetchArticle($r);
             }
