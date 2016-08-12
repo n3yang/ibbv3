@@ -83,6 +83,9 @@ class SpiderZdmYc extends SpiderZdm
                 $a->setAttribute('href', '#');
             } else {
                 $title = strip_tags($a->innerHtml());
+                if (empty($title)) {
+                    $title = $articleTitle;
+                }
                 $myurl = self::replaceUrl($url, $title);
                 $a->setAttribute('href', $myurl['shortUrl']);
             }
