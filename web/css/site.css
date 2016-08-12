@@ -13,6 +13,11 @@ body {
     margin-bottom: 10px;
 }
 
+.detail {
+    line-height: 150%;
+    font-size: 14px;
+}
+
 @media (min-width: 979px) {
     ul.nav li.dropdown:hover > ul.dropdown-menu {
         display: block;
@@ -144,8 +149,6 @@ body {
 }
 .spo .detail {
     margin: 20px 0 0 0;
-    line-height: 150%;
-    font-size: 14px;
 }
 .spo .detail .lead, .spo .related .lead {
     border-bottom: 1px solid #eee;
