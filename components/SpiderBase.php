@@ -222,6 +222,9 @@ class SpiderBase extends \yii\base\Component
                     ->setOptions($options)
                     ->setData($reqData);
                 $response = $request->send();
+            } else {
+                Yii::error('Curl error, message: ' . $e->getMessage());
+                return null;
             }
         }
 
