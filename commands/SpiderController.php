@@ -123,7 +123,12 @@ class SpiderController extends Controller
         // /api/product/getcontent/?id=83851
     }
 
-
+    public function actionYc($id)
+    {
+        $s = new \app\components\SpiderZdmYc;
+        $s->fetchArticle($id);
+        // $s->parseContent();
+    }
     public function actionUp()
     {
 
