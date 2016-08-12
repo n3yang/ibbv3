@@ -5,10 +5,17 @@ body {
     margin: 0;
     font-family: "Helvetica","Hiragino Sans GB", "PingFang SC", "Microsoft YaHei UI","Microsoft YaHei","宋体";
 }
-
+.glyphicon{
+    top: 2px;
+}
 
 .breadcrumb{
     margin-bottom: 10px;
+}
+
+.detail {
+    line-height: 150%;
+    font-size: 14px;
 }
 
 /***********************************
@@ -113,8 +120,6 @@ body {
 }
 .spo .detail {
     margin: 20px 0 0 0;
-    line-height: 150%;
-    font-size: 14px;
 }
 .spo .detail .lead, .spo .related .lead {
     border-bottom: 1px solid #eee;
@@ -149,6 +154,84 @@ body {
         margin-bottom: 20px;
     }
 }
+
+/**********************************
+ * note
+ */
+.note .title {
+    line-height: 150%;
+}
+.note .detail{
+    margin-top: 20px;
+}
+.note .site-box{
+    margin: 30px auto;
+    width: 80%;
+    max-width: 500px;
+}
+.note .site-box .media {
+    margin: auto;
+}
+.note .site-box .media-heading {
+    min-height: 45px;
+}
+.note .site-box .media .price {
+    margin-right: 40px;
+}
+.note .site-box .media-left img {
+    width: 64px;
+    height: 64px;
+}
+.note .related .lead, .note .comment .lead {
+    border-bottom: 1px solid #eee;
+}
+.note .comment, .note .related {
+    margin-top: 40px;
+    padding-bottom: 20px;
+}
+.note .comment blockquote {
+    font-size: 14px;
+    border-left: 2px solid #eee;
+    margin-left: 30px;
+}
+.note .comment .content:hover {
+    background: #f7f7f7;
+}
+.note .comment .input-text {
+    padding: 10px 20px;
+}
+.note .comment .content {
+    /*padding: 0px 20px;*/
+    /*margin: 0 0 20px;*/
+    border-left: 0px solid #eee;
+    /*padding: 10px 0 20px 0;*/
+    /*margin: 10px 0;*/
+    border-bottom: 1px solid #ddd;
+}
+.note .comment .content footer {
+    display: block;
+    font-size: 80%;
+    line-height: 1.42857143;
+    color: #777;
+}
+.note .comment .content footer:before {
+    content: '\2014 \00A0';
+}
+.note .comment .toolbar {
+    /*float: right;*/
+    /*display: none;*/
+    margin-left: 30px;
+}
+.note .comment blockquote:hover > footer .toolbar, .note .comment .content .input-text:hover > footer .toolbar {
+    display: inline;
+}
+.note .comment .author {
+
+}
+/*.note .site-box a, .note .site-box a:hover{
+    color: #000;
+    text-decoration: none;
+}*/
 /**********************************
 * bootstrap theme overwrite
 ***********************************/
