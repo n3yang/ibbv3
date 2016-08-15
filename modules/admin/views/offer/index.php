@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Url;
 use app\models\File;
 
 /* @var $this yii\web\View */
@@ -27,7 +28,13 @@ $this->params['breadcrumbs'][] = $this->title;
             // ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'title',
+            [
+                'format' => 'raw',
+                'value' => function($model){
+                    $url = Url::to(['/offer/view', 'id'=>$model->id]);
+                    return sprintf('<a href="%s" target="_blank">%s</a>', $url, $model->title);
+                },
+            ],
             'price',
             [
                 'format' => 'html',
