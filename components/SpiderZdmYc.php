@@ -7,7 +7,7 @@ use yii\helpers\Url;
 use PHPHtmlParser\Dom;
 use PHPHtmlParser\Dom\TextNode;
 use app\components\SpiderZdm;
-use app\models\Offer;
+use app\models\Note;
 
 /**
  * Spider zdm yuanchuang

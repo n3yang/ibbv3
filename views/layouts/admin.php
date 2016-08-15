@@ -102,6 +102,10 @@ $navItems = [
             'url' => Url::toRoute('/admin/file'),
         ],
         [
+            'label' => 'Note',
+            'url' => Url::toRoute('/admin/note'),
+        ],
+        [
             'label' => 'User',
             'url' => Url::toRoute('/admin/user'),
         ],
