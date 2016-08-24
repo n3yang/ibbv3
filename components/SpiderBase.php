@@ -213,7 +213,8 @@ class SpiderBase extends \yii\base\Component
             $response = $request->send();
         } catch (\Exception $e) {
             preg_match('/\#(\d+)/', $e->getMessage(), $matches);
-            if (!empty($matches[1]) && $matches[1] == 7) {
+            // if it can NOT connect to proxy
+            if (in_array($matches[1], [7, 28, 52])) {
                 unset($options[CURLOPT_PROXY], $options[CURLOPT_PROXYTYPE]);
                 $request = $client->createRequest()
                     ->setUrl($url)
@@ -224,6 +225,7 @@ class SpiderBase extends \yii\base\Component
                 $response = $request->send();
             } else {
                 Yii::error('Curl error, message: ' . $e->getMessage());
+                
                 return null;
             }
         }
