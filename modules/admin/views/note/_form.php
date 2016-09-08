@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\models\tag;
+use app\models\category;
 use app\assets\JqueryFormAsset;
 use dosamigos\ckeditor\CKEditor;
 use dosamigos\tinymce\TinyMce;
@@ -10,6 +11,8 @@ use dosamigos\tinymce\TinyMce;
 /* @var $this yii\web\View */
 /* @var $model app\models\Note */
 /* @var $form yii\widgets\ActiveForm */
+
+$this->registerJsFile('//cdn.bootcss.com/jquery.form/3.51/jquery.form.min.js', ['depends' => 'yii\web\JqueryAsset']);
 ?>
 
 <div class="note-form">
@@ -20,7 +23,7 @@ use dosamigos\tinymce\TinyMce;
 
     <?= $form->field($model, 'title')->textInput() ?>
 
-    <?= $form->field($model, 'category_id')->textInput() ?>
+    <?= $form->field($model, 'category_id')->dropDownList(Category::getAllAsArrayIdName(Category::TYPE_NOTE)) ?>
 
 <?
 echo $form->field($model, 'content')->widget(TinyMce::className(), [
@@ -45,6 +48,12 @@ echo $form->field($model, 'content')->widget(TinyMce::className(), [
                 this.getDoc().body.style.fontSize = '14px';
             });
         }"),
+
+        'content_style' => new \yii\web\JsExpression('
+            "span.span-img-wrap {display:block;text-align:center} .img-attach{display:block;margin:auto}"
+        '),
+
+        // content_css : '/myLayout.css'        
     ]
 ]);
 ?>
@@ -57,6 +66,8 @@ echo $form->field($model, 'content')->widget(TinyMce::className(), [
 
     <?= $form->field($model, 'fetched_from')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'fetched_title')->textInput(['maxlength' => true]) ?>
+
     <?= $form->field($model, 'status')->textInput() ?>
 
     <?//= $form->field($model, 'tags')->checkboxList($tags) ?>
@@ -68,3 +79,8 @@ echo $form->field($model, 'content')->widget(TinyMce::className(), [
     <?php ActiveForm::end(); ?>
 
 </div>
+
+<?= Html::beginForm(['/admin/file/upload-by-tinymce'], 'post', ['enctype' => 'multipart/form-data', 'style' => "width:0px;height:0;overflow:hidden", 'id' => 'uploadForm']) ?>
+    
+    <input name="image" type="file" onchange="$('#uploadForm').ajaxSubmit({ success: function(d){eval(d);} });this.value='';">
+<?= Html::endForm() ?>

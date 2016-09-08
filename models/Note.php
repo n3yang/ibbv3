@@ -18,12 +18,18 @@ use yii\behaviors\TimestampBehavior;
  * @property string $cover
  * @property string $keyword
  * @property string $fetched_from
+ * @property string $fetched_title
  * @property string $created_at
  * @property string $updated_at
  * @property integer $status
  */
 class Note extends \yii\db\ActiveRecord
 {
+
+    const STATUS_PUBLISHED = 1;
+    const STATUS_DRAFT = 2;
+    const STATUS_DELETED = 3;
+
     /**
      * @inheritdoc
      */
@@ -38,9 +44,9 @@ class Note extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'category_id', 'title', 'content', 'created_at', 'updated_at', 'status'], 'required'],
+            [['user_id', 'category_id', 'title', 'content', 'status'], 'required'],
             [['user_id', 'category_id', 'status'], 'integer'],
-            [['title', 'content', 'excerpt'], 'string'],
+            [['title', 'content', 'excerpt', 'fetched_title'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['cover', 'keyword', 'fetched_from'], 'string', 'max' => 200],
         ];
@@ -61,6 +67,7 @@ class Note extends \yii\db\ActiveRecord
             'cover' => '封面图',
             'keyword' => '关键词',
             'fetched_from' => '采集地址',
+            'fetched_title' => '原始标题',
             'created_at' => '添加时间',
             'updated_at' => '修改时间',
             'status' => '状态',
@@ -89,6 +96,31 @@ class Note extends \yii\db\ActiveRecord
 
     public function getCategory()
     {
-        return $this->hasOne(Category::className(), ['id'=>'category_id']);
+        return $this->hasOne(Category::className(), ['id' => 'category_id']);
+    }
+
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    public function getCoverUrl()
+    {
+        if (Url::isRelative($this->cover)) {
+            return File::getImageUrlByPath($this->cover);
+        } else {
+            return $this->cover;
+        }
+    }
+
+    public static function getStatusLabel($status = '')
+    {
+        $labels = [
+            self::STATUS_PUBLISHED  => '已发布',
+            self::STATUS_DRAFT      => '草稿',
+            self::STATUS_DELETED    => '已删除',
+        ];
+
+        return $status == '' ? $labels : $labels[$status];
     }
 }

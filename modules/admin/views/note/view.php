@@ -37,6 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'cover',
             'keyword',
             'fetched_from',
+            'fetched_title',
             'created_at',
             'updated_at',
             'status',
