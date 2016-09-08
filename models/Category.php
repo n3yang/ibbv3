@@ -38,10 +38,18 @@ class Category extends \yii\db\ActiveRecord
         ('22','图书影音',0,1,'tushuyingyin', NOW(), NOW()),
         ('23','美食生鲜',0,1,'meishishengxian', NOW(), NOW());
         ('24','家用电器',0,1,'jiayongdianqi', NOW(), NOW());
+
+    insert into category values
+        ('100', '未分类', 0, 2, 'none', NOW(), NOW()),
+        ('101', '屯粮备货', 0, 2, 'beihuo', NOW(), NOW()),
+        ('102', '孕期经验', 0, 2, 'yunqi', NOW(), NOW()),
+        ('103', '喂养护理', 0, 2, 'weiyang', NOW(), NOW()),
+        ('104', '育儿早教', 0, 2, 'zaojiao', NOW(), NOW()),
+        ('105', '亲子生活', 0, 2, 'shenghuo', NOW(), NOW());
     */
    
     const TYPE_OFFER = 1;
-    const TYPE_ARTICLE = 2;
+    const TYPE_NOTE = 2;
 
     /**
      * @inheritdoc
