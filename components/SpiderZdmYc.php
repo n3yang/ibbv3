@@ -29,9 +29,10 @@ class SpiderZdmYc extends SpiderZdm
             's'             => substr(uniqid().time(), 0, 19),
             'imgmode'       => 0
         );
-
+        $url = $this->fetchArticleUrl . $id;
         $rdata = $this->getHttpContent($url, $reqData);
         $rdata = json_decode($rdata, 1);
+        print_r($rdata);
 
         // get error ? log it.
         if ($rdata['error_code'] != 0) {
@@ -42,10 +43,29 @@ class SpiderZdmYc extends SpiderZdm
             $newNote['fetched_from'] = $url . '?' . http_build_query($reqData);
         }
 
-        $content = $this->parseContent($a['article_filter_content'], null, $a['article_title']);
+        // article cover image
+        $src = str_replace('_c640.', '_d320.', $a['article_pic']);
+        $cover = $this->addRemoteFile($src, $a['article_title']);
+        $newNote['cover'] = $cover['path'];
+        // parses content
+        $content = $this->parseContent($a['article_filter_content'], $a['article_title']);
+        $newNote['content'] = $content;
+        // setup
+        $newNote['user_id'] = 1;
+        $newNote['category_id'] = 100;
+        $newNote['title'] = $a['article_title'];
+        $newNote['fetched_title'] = $a['article_title'];
+        $newNote['status'] = Note::STATUS_DRAFT;
 
         // insert into DB
+        $note = new Note;
+        $note->setAttributes($newNote, false);
 
+        if (!$note->save()) {
+            return 0;
+        }
+
+        return 1;
     }
 
     public function parseContent($content = null, $articleTitle = null)
@@ -65,6 +85,7 @@ class SpiderZdmYc extends SpiderZdm
         $detail = str_replace('张大妈', '网站', $detail);
         // replace image url
         $detail = str_replace('_e600.jpg', '_e440.jpg', $detail);
+        // $detail = str_replace('_e600.jpg', '_a680.jpg', $detail);
         // echo $detail;
 
         // load dom
@@ -105,23 +126,28 @@ class SpiderZdmYc extends SpiderZdm
             }
             // fetch and replace
             if (!Url::isRelative($src)) {
-                if (strpos($src, '.360buyimg.com')) {
+                if (strpos($src, '?from=net')) {
                     $src = str_replace('?from=net', '', $src);
                 }
-                $rs = $this->addRemoteFile($src, $articleTitle, [600, 400]);
+                $rs = $this->addRemoteFile($src, $articleTitle, [1600, 1600]);
                 if (!empty($rs['url'])) {
-                    $attributes = ['src1', 'src2', 'itemprop', 'class', '_size', 'data-title', 'title'];
+                    // it's image show
+                    if (!empty($img->getAttribute('itemprop'))) {
+                        $img->setAttribute('class', 'img-attach');
+                    }
+                    $imgTitle = $img->getAttribute('title');
+                    $attributes = ['src1', 'src2', 'itemprop', '_size', 'data-title', 'title'];
                     foreach ($attributes as $attr) {
                         $img->removeAttribute($attr);
                     }
                     $img->setAttribute('src', $rs['url']);
-                    $img->setAttribute('alt', $articleTitle);
+                    $img->setAttribute('alt', $imgTitle);
                     echo 'replace to: ' . $rs['url'] . PHP_EOL;
                 }
             }
         }
 
-        // get sit info
+        // get site info
         $wraps = $dom->find('.site_wrap');
         foreach ($wraps as $w) {
             $w->removeAttribute('class');
@@ -134,13 +160,29 @@ class SpiderZdmYc extends SpiderZdm
             // remove old tags
             $w->find('.site_box')->delete();
 
-            $i = "[sitebox link=\"$link\" cover=\"$src\" title=\"$title\" site=\"$site\" price=\"$price\"]";
+            $i = PHP_EOL . "[sitebox link=\"$link\" cover=\"$src\" title=\"$title\" site=\"$site\" price=\"$price\"]" . PHP_EOL;
             $text = new TextNode($i);
             $w->addChild($text);
             echo 'add site: ' . $i . PHP_EOL;
         }
 
-        return $dom->outerHtml;
+        // remove descriptions
+        // $wraps = $dom->find('span.img_desc');
+        // foreach ($wraps as $w) {
+        //     $w->setText = '';
+        // }
+
+        $patterns = [
+            '/(span class)="img_desc"/',
+            '/^(<div class="details_box" id="details_box">\s)/',
+            '/(<\/div>)$/'
+        ];
+        $replacements = [
+            '$1="span-img-wrap"',
+        ];
+        $html = preg_replace($patterns, $replacements, $dom->outerHtml);
+
+        return $html;
     }
 
 
