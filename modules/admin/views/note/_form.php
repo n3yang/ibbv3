@@ -36,26 +36,44 @@ echo $form->field($model, 'content')->widget(TinyMce::className(), [
             "insertdatetime media table contextmenu paste code emoticons image"
         ],
         'toolbar' => "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image code | emoticons",
-        'menubar' => false,
+        'menubar' => true,
         'images_upload_url'=> '/admin/file/upload-by-ckeditor',
         'relative_urls' => false,
         'file_browser_callback'=> new yii\web\JsExpression("function(field_name, url, type, win) {
             if(type=='image') $('#uploadForm input').click();
         }"),
+        'image_class_list' => [
+            ['title' => 'img-attach', 'value' => 'img-attach'],
+            ['title' => 'center-block', 'value' => 'center-block'],
+            ['title' => 'None', 'value' => ''],
+        ],
 
-        'setup' => new yii\web\JsExpression("function(ed){
-            ed.on('init', function(){
-                this.getDoc().body.style.fontSize = '14px';
-            });
-        }"),
+        // 'setup' => new yii\web\JsExpression("function(ed){
+        //     ed.on('init', function(){
+        //         this.getDoc().body.style.fontSize = '14px';
+        //     });
+        // }"),
 
-        'content_style' => new \yii\web\JsExpression('
-            "span.span-img-wrap {display:block;text-align:center} .img-attach{display:block;margin:auto}"
-        '),
+        // 'content_style' => new \yii\web\JsExpression('
+        //     ""
+        // '),
 
-        // content_css : '/myLayout.css'        
+        'content_css' => '/css/admin-tinymce-editor.css',
+
+        'formats' => new \yii\web\JsExpression('{
+            alignleft: [
+                {selector: "img,table", collapsed: false, classes: "pull-left"}
+            ],
+            aligncenter: [
+                {selector: "img,table", collapsed: false, classes: "center-block"}
+            ],
+            alignright: [
+                {selector: "img,table", collapsed: false, classes: "pull-right"}
+            ]
+        }'),
     ]
 ]);
+
 ?>
 
     <?= $form->field($model, 'excerpt')->textarea(['rows' => 4]) ?>
@@ -68,7 +86,7 @@ echo $form->field($model, 'content')->widget(TinyMce::className(), [
 
     <?= $form->field($model, 'fetched_title')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'status')->textInput() ?>
+    <?= $form->field($model, 'status')->dropDownList($model->getStatusLabel()) ?>
 
     <?//= $form->field($model, 'tags')->checkboxList($tags) ?>
 

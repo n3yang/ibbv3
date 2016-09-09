@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use app\models\Category;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\NoteSearch */
@@ -17,9 +18,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'user_id') ?>
+    <?// = $form->field($model, 'user_id') ?>
 
-    <?= $form->field($model, 'category_id') ?>
+    <?= $form->field($model, 'category_id')->dropDownList(Category::getAllAsArrayIdName(Category::TYPE_NOTE)) ?>
 
     <?= $form->field($model, 'title') ?>
 

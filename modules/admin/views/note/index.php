@@ -13,20 +13,19 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="note-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
         <?= Html::a('Create Note', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        // 'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            // ['class' => 'yii\grid\SerialColumn'],
 
             'id',
             // 'user_id',
-            'category_id',
+            ['attribute'=>'category_id', 'value'=>function($model){return $model->category->name;}],
             'title:ntext',
             // 'content:ntext',
             // 'excerpt:ntext',
@@ -36,9 +35,11 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'fetched_title',
             // 'created_at',
             'updated_at',
-            'status',
+            ['attribute'=>'status', 'value'=>function($model){return $model->getStatusLabel($model->status);}],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
+
+    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
 </div>

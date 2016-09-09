@@ -172,6 +172,11 @@ class File extends \yii\db\ActiveRecord
         }
     }
 
+    /**
+     * find One By Md5
+     * @param  string $hash md5 string of uploaded file
+     * @return File       
+     */
     public static function findOneByMd5($hash)
     {
         return static::findOne(['md5' => $hash]);

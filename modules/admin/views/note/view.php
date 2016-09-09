@@ -9,6 +9,7 @@ use yii\widgets\DetailView;
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Notes', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+$this->registerCssFile('/css/admin-tinymce-editor.css');
 ?>
 <div class="note-view">
 
@@ -32,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'user_id',
             'category_id',
             'title:ntext',
-            'content:ntext',
+            'content:html',
             'excerpt:ntext',
             'cover',
             'keyword',
