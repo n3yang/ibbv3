@@ -44,7 +44,7 @@ class SpiderZdmYc extends SpiderZdm
         }
 
         // article cover image
-        $src = str_replace('_c640.', '_d320.', $a['article_pic']);
+        // $src = str_replace('_c640.', '_d320.', $a['article_pic']);
         $cover = $this->addRemoteFile($src, $a['article_title']);
         $newNote['cover'] = $cover['path'];
         // parses content

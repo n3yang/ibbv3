@@ -37,6 +37,7 @@ $this->registerCssFile('/css/admin-tinymce-editor.css');
             'formatedContent:raw',
             'excerpt:ntext',
             'cover',
+            'coverUrl:image',
             'keyword',
             'fetched_from',
             'fetched_title',

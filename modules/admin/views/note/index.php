@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
@@ -26,10 +27,17 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             // 'user_id',
             ['attribute'=>'category_id', 'value'=>function($model){return $model->category->name;}],
-            'title:ntext',
+            // 'title:ntext',
+            [
+                'format' => 'raw',
+                'value' => function($model){
+                    $url = Url::to(['/note/view', 'id'=>$model->id]);
+                    return sprintf('<a href="%s" target="_blank">%s</a>', $url, $model->title);
+                },
+            ],
             // 'content:ntext',
             // 'excerpt:ntext',
-            // 'cover',
+            ['attribute' => 'coverUrl', 'format' => ['image', ['height' => 80, 'class' => 'center-block']]],
             // 'keyword',
             // 'fetched_from',
             // 'fetched_title',
