@@ -115,3 +115,34 @@ body {
   display: block;
   margin: auto;
 }
+
+
+
+/**********************************
+ * note
+ */
+.note-view .site-box{
+    margin: 30px auto;
+    width: 80%;
+    max-width: 500px;
+}
+.note-view .site-box .media {
+    margin: auto;
+}
+.note-view .site-box .media-heading {
+    min-height: 45px;
+}
+.note-view .site-box .media .price {
+    margin-right: 40px;
+}
+.note-view .site-box .media-left img {
+    width: 64px;
+    height: 64px;
+}
+.note-view .related .lead, .note-view .comment .lead {
+    border-bottom: 1px solid #eee;
+}
+/*.note-view .site-box a, .note-view .site-box a:hover{
+    color: #000;
+    text-decoration: none;
+}*/

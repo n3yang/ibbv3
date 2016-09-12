@@ -113,6 +113,33 @@ class Note extends \yii\db\ActiveRecord
         }
     }
 
+    public function getFormatedContent()
+    {
+        return static::formatContent($this->content);
+    }
+    public static function formatContent($content)
+    {
+        if (empty($content)) {
+            return $content;
+        }
+        if (!preg_match_all("/(\[sitebox+[^\]]*\])/", $content, $m)) {
+            return $content;
+        }
+        $template = Yii::$app->view->renderFile('@app/views/note/sitebox.php');
+        foreach ($m[1] as $sitebox) {
+            $formated = $template;
+            if (preg_match_all("/([link|cover|title|site|price]+)=\"([^\"]+)\"/", $sitebox, $matches, PREG_SET_ORDER)) {
+                foreach ($matches as $params) {
+                    $formated = str_replace('{$'.$params[1].'}', $params[2], $formated);
+                }
+            }
+            $content = str_replace($sitebox, $formated, $content);
+        }
+
+        return $content;
+    }
+
+
     public static function getStatusLabel($status = '')
     {
         $labels = [
