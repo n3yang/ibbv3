@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use yii\db\Expression;
 use yii\behaviors\TimestampBehavior;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "note".
@@ -128,9 +129,10 @@ class Note extends \yii\db\ActiveRecord
         $template = Yii::$app->view->renderFile('@app/views/note/sitebox.php');
         foreach ($m[1] as $sitebox) {
             $formated = $template;
-            if (preg_match_all("/([link|cover|title|site|price]+)=\"([^\"]+)\"/", $sitebox, $matches, PREG_SET_ORDER)) {
+            if (preg_match_all("/([link|cover|title|site|price]+)=\"([^\"]+)?\"/", $sitebox, $matches, PREG_SET_ORDER)) {
                 foreach ($matches as $params) {
-                    $formated = str_replace('{$'.$params[1].'}', $params[2], $formated);
+                    $value = empty($params[2]) ? '' : $params[2];
+                    $formated = str_replace('{$'.$params[1].'}', $value, $formated);
                 }
             }
             $content = str_replace($sitebox, $formated, $content);
@@ -149,5 +151,17 @@ class Note extends \yii\db\ActiveRecord
         ];
 
         return $status == '' ? $labels : $labels[$status];
+    }
+
+    public function findSimilar($limit = 4)
+    {
+        return $this->find()
+            ->where([
+                'status'        => Note::STATUS_PUBLISHED,
+                'category_id'   => $this->category_id,
+            ])
+            ->orderBy('note.id DESC')
+            ->limit($limit)
+            ->all();
     }
 }
