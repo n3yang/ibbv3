@@ -33,14 +33,13 @@ class NoteController extends \yii\web\Controller
         ]);
         
         // limit the query using the pagination and retrieve the offer
-        $offers = $query->offset($pagination->offset)
+        $notes = $query->offset($pagination->offset)
             ->limit($pagination->limit)
-            ->with('link')
             ->orderBy('id DESC')
             ->all();
 
         return $this->render('index',[
-            'offers' => $offers,
+            'notes' => $notes,
             'pagination' => $pagination,
             'category' => $catObj,
         ]);
