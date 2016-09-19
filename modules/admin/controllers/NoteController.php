@@ -5,8 +5,10 @@ namespace app\modules\admin\controllers;
 use Yii;
 use app\models\Note;
 use app\models\NoteSearch;
+use app\models\File;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\UploadedFile;
 use yii\filters\VerbFilter;
 
 /**
@@ -66,7 +68,13 @@ class NoteController extends Controller
     {
         $model = new Note();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $fileModel = new File;
+            $fileModel->upfile = UploadedFile::getInstance($fileModel, 'upfile');
+            if ($fileModel->upload()) {
+                $model->cover = $fileModel->path;
+            }
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -85,7 +93,13 @@ class NoteController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $fileModel = new File;
+            $fileModel->upfile = UploadedFile::getInstance($fileModel, 'upfile');
+            if ($fileModel->upload()) {
+                $model->cover = $fileModel->path;
+            }
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [

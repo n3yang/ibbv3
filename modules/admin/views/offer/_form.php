@@ -19,11 +19,9 @@ $this->registerJsFile('//cdn.bootcss.com/jquery.form/3.51/jquery.form.min.js', [
 
     <?php $form = ActiveForm::begin(); ?>
 
+    <div class="col-lg-8">
+
     <?= $form->field($model, 'title')->textInput() ?>
-
-    <?= $form->field($model, 'category_id')->dropDownList($categories) ?>
-
-    <?= $form->field($model, 'excerpt')->textarea(['rows' => 4]) ?>
 
     <?//= $form->field($model, 'content')->textarea(['rows' => 6]) ?>
     <?
@@ -65,26 +63,40 @@ echo $form->field($model, 'content')->widget(TinyMce::className(), [
             if(type=='image') $('#uploadForm input').click();
         }"),
 
-        'setup' => new yii\web\JsExpression("function(ed){
-            ed.on('init', function(){
-                this.getDoc().body.style.fontSize = '14px';
-            });
-        }"),
+        // 'setup' => new yii\web\JsExpression("function(ed){
+        //     ed.on('init', function(){
+        //         this.getDoc().body.style.fontSize = '14px';
+        //     });
+        // }"),
+
+        'content_css' => '/css/admin-tinymce-editor.css',
     ]
 ]);
 
 
     ?>
 
+    <?= $form->field($model, 'excerpt')->textarea(['rows' => 4]) ?>
+
+    <?= $form->field($model, 'b2c')->dropDownList($model->getB2cLabels()) ?>
+
+    <?= $form->field($model, 'site')->dropDownList($model->getSiteLabels()) ?>
+
+    </div>
+
+    <div class="col-lg-4">
+
+    <div class="form-group">
+        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+    </div>
+
+    <?= $form->field($model, 'category_id')->dropDownList($categories) ?>
+
     <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'cover')->textInput() ?>
 
     <?= $form->field($model, 'link_id')->textInput() ?>
-
-    <?= $form->field($model, 'site')->dropDownList($model->getSiteLabels()) ?>
-
-    <?= $form->field($model, 'b2c')->dropDownList($model->getB2cLabels()) ?>
 
     <?= $form->field($model, 'created_at')->textInput() ?>
 
@@ -94,11 +106,9 @@ echo $form->field($model, 'content')->widget(TinyMce::className(), [
 
     <?= $form->field($model, 'tags')->checkboxList($tags) ?>
 
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-    </div>
-
     <?php ActiveForm::end(); ?>
+
+    </div>
 
 </div>
 
