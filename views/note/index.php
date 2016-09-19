@@ -55,15 +55,15 @@ $this->registerMetaTag(['property' => 'og:type', 'content' => 'site']);
                 <div class="note-row row">
                     <div class="thumb col-sm-4 col-xs-12">
                         <a href="<?=Url::to(['note/view', 'id'=>$note->id])?>" class="thumbnail">
-                            <img src="<?=$note->getCoverUrl()?>" class="img-responsive" alt="<?= Html::encode($note->title); ?>">
+                            <img src="<?=$note->getCoverUrl()?>" class="" alt="<?= Html::encode($note->title); ?>">
                         </a>
                     </div>
                     <div class="info col-sm-8 col-xs-12">
                         <a href="<?=Url::to(['note/view', 'id'=>$note->id])?>"><h4 class="title"><?=$note->title?></h4></a>
                         <div class="detail hidden-xs"><?=StringHelper::truncate($note->excerpt, 180)?></div>
-                        <div class="meta row text-muted hidden-xs">
+                        <div class="meta text-muted hidden-xs">
                             <!-- <span class="mall col-xs-4"><span class="glyphicon hidden-xs" aria-hidden="true"></span></span> -->
-                            <span class="time col-xs-4"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> 更新于：<time datetime="<?=$note->created_at?>"><?=Yii::$app->formatter->asRelativeTime($note->created_at)?></time></span>
+                            <span class="time"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> 更新于：<time datetime="<?=$note->created_at?>"><?=Yii::$app->formatter->asRelativeTime($note->created_at)?></time></span>
                         </div>
                     </div>
                 </div>

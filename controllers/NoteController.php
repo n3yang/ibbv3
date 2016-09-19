@@ -29,7 +29,7 @@ class NoteController extends \yii\web\Controller
         // create a pagination object with the total count
         $pagination = new pagination([
             'totalCount'=>$total,
-            'defaultPageSize'=>20,
+            'defaultPageSize'=>10,
         ]);
         
         // limit the query using the pagination and retrieve the offer
