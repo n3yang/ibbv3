@@ -196,7 +196,7 @@ class SpiderPyh extends SpiderBase
             } else {
                 $title = strip_tags($a->innerHtml());
                 $link = self::replaceUrl($url, $title);
-                $myurl = $link['shortUrl'];
+                $myurl = isset($link['shortUrl']) ? $link['shortUrl'] : '';
                 $a->setAttribute('href', $myurl);
             }
         }

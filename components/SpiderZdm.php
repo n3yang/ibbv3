@@ -298,7 +298,8 @@ class SpiderZdm extends SpiderBase
                 $a->setAttribute('href', '#');
             } else {
                 $title = strip_tags($a->innerHtml());
-                $myurl = self::replaceUrl($url, $title);
+                $link = self::replaceUrl($url, $title);
+                $myurl = isset($link['shortUrl']) ? $link['shortUrl'] : '';
                 $a->setAttribute('href', $myurl);
             }
         }
