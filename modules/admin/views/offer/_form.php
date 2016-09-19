@@ -62,6 +62,11 @@ echo $form->field($model, 'content')->widget(TinyMce::className(), [
         'file_browser_callback'=> new yii\web\JsExpression("function(field_name, url, type, win) {
             if(type=='image') $('#uploadForm input').click();
         }"),
+        'image_class_list' => [
+            ['title' => 'img-attach', 'value' => 'img-attach'],
+            ['title' => 'center-block', 'value' => 'center-block'],
+            ['title' => 'None', 'value' => ''],
+        ],
 
         // 'setup' => new yii\web\JsExpression("function(ed){
         //     ed.on('init', function(){
@@ -72,7 +77,6 @@ echo $form->field($model, 'content')->widget(TinyMce::className(), [
         'content_css' => '/css/admin-tinymce-editor.css',
     ]
 ]);
-
 
     ?>
 

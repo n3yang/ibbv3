@@ -210,6 +210,7 @@ class SpiderPyh extends SpiderBase
             if (!Url::isRelative($src)) {
                 $rs = $this->addRemoteFile($src, $articleTitle, [600, 400]);
                 if (!empty($rs['url'])) {
+                    $img->setAttribute('class', 'img-attach');
                     $img->setAttribute('src', $rs['url']);
                     $img->setAttribute('alt', $articleTitle);
                     $img->removeAttribute('width');
