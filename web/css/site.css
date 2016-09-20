@@ -113,6 +113,12 @@ body {
         padding: 0 5px;
         font-size: 11px;
     }
+    .spo-nav-xs .col-xs-3{
+        padding: 5px 5px;
+    }
+    .spo-nav-xs a, .spo-nav-xs a:hover{
+        color: white;
+    }
 }
 
 
