@@ -73,6 +73,24 @@ body {
 .spo-row .time, .spo-row .mall{
     margin-top: 10px;
 }
+.spo-navbar .nav-tabs{
+    margin-bottom: 12px;
+    border-bottom: 1px solid #dd4814;
+}
+.spo-navbar .nav-tabs li.active a{
+    color: #fff;
+    background-color: #dd4814;
+    border: 1px solid #dd4814;
+}
+.spo-navbar .list-inline li.active, 
+.spo-navbar .list-inline li.active a, 
+.spo-navbar .list-inline li:hover, 
+.spo-navbar .list-inline li:hover a{
+    color: #fff;
+    background-color: #dd4814;
+    border-radius: 3px;
+    text-decoration: none;
+}
 
 @media (max-width: 500px) {
     .index{
@@ -112,6 +130,9 @@ body {
     .spo-row .meta .time{
         padding: 0 5px;
         font-size: 11px;
+    }
+    .spo-nav-xs{
+        padding-left: 15px;
     }
     .spo-nav-xs .col-xs-3{
         padding: 5px 5px;
@@ -249,9 +270,6 @@ body {
 .note-row .meta{
     position: absolute;
     top: 180px;
-}
-.note-row .info, .note-row .thumb{
-    height: 220px;
 }
 
 @media (max-width: 500px) {
