@@ -55,6 +55,25 @@ body {
     margin-top: 10px;
 }
 
+.spo-navbar .nav-tabs{
+    margin-bottom: 12px;
+    border-bottom: 1px solid #dd4814;
+}
+.spo-navbar .nav-tabs li.active a{
+    color: #fff;
+    background-color: #dd4814;
+    border: 1px solid #dd4814;
+}
+.spo-navbar .list-inline li.active, 
+.spo-navbar .list-inline li.active a, 
+.spo-navbar .list-inline li:hover, 
+.spo-navbar .list-inline li:hover a{
+    color: #fff;
+    background-color: #dd4814;
+    border-radius: 3px;
+    text-decoration: none;
+}
+
 @media (max-width: 500px) {
     .index{
         padding: 0px;
@@ -86,7 +105,7 @@ body {
         padding: 5px 10px;
         font-size: 12px;
         line-height: 1.5;
-        border-radius: 3p
+        border-radius: 3px;
     }
     .spo-nav-xs .col-xs-3{
         padding: 5px 5px;
