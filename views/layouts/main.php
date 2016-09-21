@@ -74,7 +74,7 @@ $navbarActive = Yii::$app->request->get('category');
                 </form>
  -->
                 <ul class="nav navbar-nav visible-xs">
-                    <li class=""><a href="#">首页</a></li>
+                    <li class=""><a href="/">首页</a></li>
                     <li><a href="/sp/p/1">优惠资讯</a></li>
                     <li class="spo-nav-xs text-center">
                         <div class="col-xs-3"><a href="/sp/category/yingyangfushi">营养辅食</a></div>

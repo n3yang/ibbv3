@@ -91,6 +91,15 @@ body {
     border-radius: 3px;
     text-decoration: none;
 }
+.spo-nav-xs{
+    padding-left: 15px;
+}
+.spo-nav-xs .col-xs-3{
+    padding: 5px 5px;
+}
+.spo-nav-xs a, .spo-nav-xs a:hover{
+    color: white;
+}
 
 @media (max-width: 500px) {
     .index{
@@ -130,15 +139,6 @@ body {
     .spo-row .meta .time{
         padding: 0 5px;
         font-size: 11px;
-    }
-    .spo-nav-xs{
-        padding-left: 15px;
-    }
-    .spo-nav-xs .col-xs-3{
-        padding: 5px 5px;
-    }
-    .spo-nav-xs a, .spo-nav-xs a:hover{
-        color: white;
     }
 }
 
