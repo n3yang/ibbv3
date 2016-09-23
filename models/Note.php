@@ -20,6 +20,7 @@ use yii\helpers\Url;
  * @property string $keyword
  * @property string $fetched_from
  * @property string $fetched_title
+ * @property string $fetched_author
  * @property string $created_at
  * @property string $updated_at
  * @property integer $status
@@ -47,7 +48,7 @@ class Note extends \yii\db\ActiveRecord
         return [
             [['user_id', 'category_id', 'title', 'content', 'status'], 'required'],
             [['user_id', 'category_id', 'status'], 'integer'],
-            [['title', 'content', 'excerpt', 'fetched_title'], 'string'],
+            [['title', 'content', 'excerpt', 'fetched_title', 'fetched_author'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['cover', 'keyword', 'fetched_from'], 'string', 'max' => 200],
         ];
@@ -69,6 +70,7 @@ class Note extends \yii\db\ActiveRecord
             'keyword' => '关键词',
             'fetched_from' => '采集地址',
             'fetched_title' => '原始标题',
+            'fetched_author' => '原始作者',
             'created_at' => '添加时间',
             'updated_at' => '修改时间',
             'status' => '状态',

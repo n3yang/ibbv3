@@ -55,6 +55,7 @@ class SpiderZdmYc extends SpiderZdm
         $newNote['category_id'] = 100;
         $newNote['title'] = $a['article_title'];
         $newNote['fetched_title'] = $a['article_title'];
+        $newNote['fetched_author'] = $a['article_referrals'];
         $newNote['status'] = Note::STATUS_DRAFT;
 
         // insert into DB

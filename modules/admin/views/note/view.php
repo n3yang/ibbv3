@@ -42,6 +42,7 @@ $this->registerCssFile('/css/admin-tinymce-editor.css');
             'keyword',
             'fetched_from',
             'fetched_title',
+            'fetched_author',
             'created_at',
             'updated_at',
             'status',

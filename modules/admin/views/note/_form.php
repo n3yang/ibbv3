@@ -77,6 +77,12 @@ echo $form->field($model, 'content')->widget(TinyMce::className(), [
 ?>
     <?= $form->field($model, 'excerpt')->textarea(['rows' => 4]) ?>
 
+    <?= $form->field($model, 'fetched_from')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'fetched_title')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'fetched_author')->textInput(['maxlength' => true]) ?>
+
     </div>
 
     <div class="col-lg-4">
@@ -92,10 +98,6 @@ echo $form->field($model, 'content')->widget(TinyMce::className(), [
     <?= $form->field($model, 'cover')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field(new File, 'upfile')->fileInput()->label('上传封面图片') ?>
-
-    <?= $form->field($model, 'fetched_from')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'fetched_title')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'status')->dropDownList($model->getStatusLabel()) ?>
 
