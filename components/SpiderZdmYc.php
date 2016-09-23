@@ -44,7 +44,7 @@ class SpiderZdmYc extends SpiderZdm
         }
 
         // article cover image
-        // $src = str_replace('_c640.', '_d320.', $a['article_pic']);
+        $src = str_replace('_c640.', '_d320.', $a['article_pic']);
         $cover = $this->addRemoteFile($src, $a['article_title'], [320, 240]);
         $newNote['cover'] = $cover['path'];
         // parses content
@@ -81,8 +81,16 @@ class SpiderZdmYc extends SpiderZdm
         $allowedTags = '<p><a><br /><span><h2><strong><b><img><div>';
         $detail = trim(strip_tags($content, $allowedTags));
         // replace some text
-        $detail = str_replace('值友', '网友', $detail);
-        $detail = str_replace('张大妈', '网站', $detail);
+        $replacements = [
+            '值友'       => '网友',
+            '张大妈'     => '网站',
+            '<span >'   => '<span>',
+            '<p >'      => '<p>',
+            '<strong >' => '<strong>',
+            '<b >' => '<b>',
+            '<div >' => '<div>',
+        ];
+        $detail = str_replace(array_keys($replacements), array_values($replacements), $detail);
         // replace image url
         $detail = str_replace('_e600.jpg', '_e440.jpg', $detail);
         // $detail = str_replace('_e600.jpg', '_a680.jpg', $detail);

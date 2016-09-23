@@ -57,12 +57,8 @@ class NoteController extends \yii\web\Controller
             throw new yii\web\NotFoundHttpException;
         }
 
-        // $note->getLink();
-        // the counter
-        // $offer->updateCounters(['click' => 1]);
-
         // same category id
-        $similarOffers = $note->findSimilar();
+        // $similarNotes = $note->findSimilar();
 
         // find next and pre
         $nextNote = Note::find()
@@ -81,10 +77,10 @@ class NoteController extends \yii\web\Controller
             ->one();
 
         return $this->render('view', [
-            'note'          => $note,
+            'note'         => $note,
             'nextNote'     => $nextNote,
             'prevNote'     => $prevNote,
-            'similarOffers' => $similarOffers,
+            'similarNotes' => $similarNotes,
         ]);
     }
 
