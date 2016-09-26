@@ -25,7 +25,6 @@ body {
     margin: 40px 0 0 0;
 }
 .index .note-navbar .nav-tabs{
-    margin-bottom: 10px;
     border-bottom: 1px solid #dd4814;
 }
 .index .note-navbar .nav-tabs li.active{
@@ -38,6 +37,33 @@ body {
     color: #fff;
     background-color: #dd4814;
     border: 1px solid #dd4814;
+}
+.index .note-navbar .nav-tabs li a:focus,
+.index .note-navbar .nav-tabs li a:hover{
+    background-color: #fff;
+    border-color: #fff;
+}
+.index .note-navbar .note-list{
+    margin: 0 10px;
+    height: 100px;
+    overflow-y: hidden;
+}
+.index .spo-xs-navbar {
+    margin: 0 10px;
+}
+.index .note-navbar .note-list .col-xs-12{
+    line-height: 170%;
+    text-indent: 5px;
+}
+.index  .nav-presentation {
+    color: #fff;
+    background-color: #dd4814;
+    border-radius: 3px;
+    line-height: 200%;
+    text-align: center;
+}
+.index  .nav-presentation a{
+    color: #fff;
 }
 .spo-row{
     margin: 20px 0;
