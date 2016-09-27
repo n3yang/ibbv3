@@ -18,6 +18,18 @@ body {
     font-size: 14px;
 }
 
+@media (min-width: 979px) {
+    ul.nav li.dropdown:hover > ul.dropdown-menu {
+        display: block;
+    }
+}
+
+.hot-row .img-responsive{
+    margin: 0px auto 10px auto;
+    width: 80%;
+    display: block;
+}
+
 /***********************************
 * index
 ************************************/
@@ -45,8 +57,9 @@ body {
 }
 .index .note-navbar .note-list{
     margin: 0 10px;
-    height: 100px;
-    overflow-y: hidden;
+    height: 105px;
+    overflow: hidden;
+    padding-top: 5px;
 }
 .index .spo-xs-navbar {
     margin: 0 10px;
@@ -73,6 +86,10 @@ body {
 .spo-row .thumb{
     padding-right: 0px;
 }
+.spo-row .thumbnail img{
+    max-height: 160px;
+    margin: auto;
+}
 .spo-row .title{
     font-weight: 400;
     line-height: 120%;
@@ -87,7 +104,8 @@ body {
     font-size: 18px;
 }
 .spo-row .detail{
-    height: 65px;
+    height: 70px;
+    line-height: 180%;
 }
 .spo-row .meta{
     height: 35px;
@@ -95,7 +113,6 @@ body {
 .spo-row .time, .spo-row .mall{
     margin-top: 10px;
 }
-
 .spo-navbar .nav-tabs{
     margin-bottom: 12px;
     border-bottom: 1px solid #dd4814;
@@ -178,6 +195,10 @@ body {
     border: 0 none;
     font-size: 18px;
 }
+.spo .thumb img{
+    display: block;
+    margin: auto;
+}
 .spo .meta label {
     font-weight: normal;
 }
@@ -192,6 +213,10 @@ body {
 .spo .detail .lead, .spo .related .lead {
     border-bottom: 1px solid #eee;
 }
+.spo .detail img{
+    display: block;
+    margin: 20px auto 0 auto;
+}
 .spo .pnlink {
     margin-top: 20px;
 }
@@ -205,8 +230,13 @@ body {
     margin-top: 40px;
     margin-bottom: 20px;
 }
+.spo .related img{
+    height: 158px;
+    display: block;
+    margin: auto;
+}
 @media (max-width: 500px) {
-    .spo .spo-info {
+    .spo .info {
         width: 100%;
         margin: 5px auto auto auto;
         padding-top: 5px;
@@ -216,10 +246,27 @@ body {
         line-height: 150%;
         font-size: 14px;
     }
+    .spo .detail img{
+        width: 80%;
+    }
     .spo .meta .link {
         text-align: center;
         margin-top: 20px;
         margin-bottom: 20px;
+    }
+    .spo .pager .previous>a, .spo .pager .previous>span, .spo .pager .next>a, .spo .pager .next>span {
+        float: none;
+    }
+    .spo .pager {
+        margin-top: 20px;
+        margin-bottom: 0px;
+    }
+    .spo .related .thumbnail img{
+        height: 120px;
+    }
+    .spo .related .caption h5{
+        height: 30px;
+        overflow: hidden;
     }
 }
 
