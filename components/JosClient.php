@@ -30,7 +30,7 @@ class JosClient extends Object
 
     public function getPromotionUrl($url)
     {
-        $channel = (strpos($url, '//m.jd.') || strpos($url, '.m.jd.')) ? 'WL' : 'PC';
+        $channel = (strpos($url, '//m.jd.') || strpos($url, '.m.jd.') || strpos($url, '//wq.jd.com')) ? 'WL' : 'PC';
         $params = [
             'promotionType' => 7,
             'materialId'    => $url,
