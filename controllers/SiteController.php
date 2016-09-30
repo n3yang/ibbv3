@@ -3,11 +3,15 @@
 namespace app\controllers;
 
 use Yii;
+use yii\data\Pagination;
 use yii\filters\AccessControl;
-use yii\web\Controller;
 use yii\filters\VerbFilter;
+use yii\web\Controller;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\Offer;
+use app\models\Note;
+use app\models\Category;
 
 class SiteController extends Controller
 {
@@ -47,11 +51,6 @@ class SiteController extends Controller
         ];
     }
 
-    public function actionIndex()
-    {
-        return $this->render('index');
-    }
-
     public function actionLogin()
     {
         if (!\Yii::$app->user->isGuest) {
@@ -87,8 +86,39 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionAbout()
+    public function actionIndex()
     {
-        return $this->render('about');
+        // notes top 8
+        $notes = Note::find()
+            // ->where(['status' => Note::STATUS_PUBLISHED])
+            ->orderBy('created_at DESC')
+            ->limit(8)
+            ->all();
+
+        // the navbar list of category
+        $navCats = Category::getIndexPageNav();
+
+        // find offers
+        $query = Offer::find()->where(['status' => Offer::STATUS_PUBLISHED]);
+        $total = $query->count();
+        // create a pagination object with the total count
+        $pagination = new pagination([
+            'totalCount' => $total,
+            'defaultPageSize' => 20,
+        ]);
+        
+        // limit the query using the pagination and retrieve the offer
+        $offers = $query->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->with('link')
+            ->orderBy('id DESC')
+            ->all();
+
+        return $this->render('index',[
+            'offers' => $offers,
+            'pagination' => $pagination,
+            'navCats' => $navCats,
+            'notes' => $notes,
+        ]);
     }
 }

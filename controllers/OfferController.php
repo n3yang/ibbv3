@@ -11,16 +11,21 @@ use app\models\Category;
 
 class OfferController extends \yii\web\Controller
 {
-    public function actionIndex()
+    public function actionIndex($category = null, $m = null)
     {
         
+        // the navbar list of category
+        $navCats = Category::getIndexPageNav();
+
         // build a DB query to get all offer with status = 1
         $query = Offer::find()->where(['status' => Offer::STATUS_PUBLISHED]);
 
-        $category = Yii::$app->request->get('category');
         if ($category) {
             $catObj = Category::findOne(['slug'=>$category]);
             $query->andWhere(['category_id' => $catObj->id]);
+        }
+        if ($m) {
+            $query->andWhere(['b2c' => $m]);
         }
 
         // get the total number of offer (but do not fetch the article data yet)
@@ -39,10 +44,12 @@ class OfferController extends \yii\web\Controller
             ->orderBy('id DESC')
             ->all();
 
+
         return $this->render('index',[
             'offers' => $offers,
             'pagination' => $pagination,
             'category' => $catObj,
+            'navCats' => $navCats,
         ]);
     }
 

@@ -7,13 +7,12 @@ use yii\widgets\LinkPager;
 use yii\helpers\Html;
 use yii\helpers\StringHelper;
 use yii\helpers\Url;
+use app\models\Offer;
 
-// index page
-if (!$category->name) {
-    $this->title = yii::$app->params['site']['title'];
-    $categoryName = '';
-} else {
-    // category page
+// page title
+$this->title = yii::$app->params['site']['title'];
+$categoryName = '';
+if ($category){
     $this->title = yii::$app->params['site']['title'] . ' - ' . $category->name;
     $categoryName = $category->name;
 }
@@ -36,18 +35,56 @@ $this->registerMetaTag(['property' => 'og:type', 'content' => 'site']);
 
 // auto loading
 $this->registerJsFile('js/index-jquery-ias.js', ['depends' => 'app\assets\JqueryIasAsset']);
+
+// nav malls
+$navMalls = [
+    ['id' => Offer::B2C_JD            , name => '京东'],
+    ['id' => Offer::B2C_TMALL         , name => '天猫'],
+    ['id' => Offer::B2C_SUNING        , name => '苏宁'],
+    ['id' => Offer::B2C_GOME          , name => '国美'],
+    ['id' => Offer::B2C_DANGDANG      , name => '当当'],
+    ['id' => Offer::B2C_TAOBAO        , name => '淘宝'],
+    ['id' => Offer::B2C_AMAZON_CN     , name => '亚马逊'],
+    ['id' => Offer::B2C_YHD           , name => '一号店'],
+    ['id' => Offer::B2C_MUYINGZHIJIA  , name => '母婴之家'],
+    ['id' => Offer::B2C_KAOLA         , name => '考拉海淘'],
+    ['id' => Offer::B2C_TMALL_CS      , name => '天猫超市'],
+    ['id' => Offer::B2C_WOMAI         , name => '中粮我买网'],
+];
 ?>
 
         <div class="row row-offcanvas row-offcanvas-right">
 
             <div class="index col-sm-12 col-md-9">
 
-                <? if ($category->name): ?>
                 <ul class="breadcrumb hidden-xs">
                     <li><a href="/">首页</a></li>
-                    <li class="active breadcrumb-title"><?=$category->name;?></li>
+                    <li><a href="/sp">优惠信息</a></li>
+                    <? if ($category->name){ ?><li class="active breadcrumb-title"><?=$category->name;?></li><? } ?>
                 </ul>
-                <? endif; ?>
+
+                <div class="spo-navbar row hidden-xs" id="spo-navbar">
+                    <div class="row"><p></p></div>
+                    <div class="col-xs-1 text-right head">分类</div>
+                    <div class="col-xs-11 ">
+                        <ul class="list-inline">
+                            <li><a href="<?= Url::to(['/offer/index', 'category' => null, 'm' => yii::$app->request->get('m')]) ?>">不限分类</a></li>
+                            <? foreach ($navCats as $cat) { ?>
+                            <li<?= $cat->id == $category->id ? ' class="active"' : '' ?>><a href="<?=Url::to(['/offer/index', 'category' => $cat->slug, 'm' => yii::$app->request->get('m')])?>"><?=$cat->name?></a></li>
+                            <? } ?>
+                        </ul>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-xs-1 text-right head">商城</div>
+                    <div class="col-xs-11">
+                        <ul class="list-inline">
+                            <li><a href="<?= Url::to(['/offer/index', 'm' => null, 'category' => yii::$app->request->get('category')]) ?>">不限商城</a></li>
+<? foreach ($navMalls as $mall) { ?>
+                            <li<?= $mall['id'] == Yii::$app->request->get('m') ? ' class="active"' : '' ?>><a href="<?= Url::to(['/offer/index', 'm' => $mall['id'], 'category' => yii::$app->request->get('category')]) ?>"><?= $mall['name'] ?></a></li>
+<? } ?>
+                        </ul>
+                    </div>
+                </div>
 
                 <!-- <div class="spo-container"> -->
                 <? foreach ($offers as $o) { ?>

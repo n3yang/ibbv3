@@ -115,4 +115,31 @@ class Category extends \yii\db\ActiveRecord
 
         return ArrayHelper::map($categories, 'id', 'name');
     }
+
+    public static function getIndexPageNav($type = Category::TYPE_OFFER)
+    {
+        // $ckey = __CLASS__ . __METHOD__ . $type;
+        // if ($cdata = Yii::$app->cache->get($ckey)) {
+        //     return $cdata;
+        // }
+        if ($type == Category::TYPE_OFFER) {
+            $filterIds = [12, 13, 15, 14, 11, 17, 19, 18, 21, 20, 22, 24];
+            $cats = Category::findAll($filterIds);
+            foreach ($filterIds as $id) {
+                foreach ($cats as $cat) {
+                    if ($id == $cat->id) {
+                        $ds[] = $cat;
+                    }
+                }
+            }
+
+            return $ds;
+        }
+
+        if ($type == Category::TYPE_NOTE) {
+            return static::findAll(['type' => Category::TYPE_NOTE]);
+        }
+
+        return null;
+    }
 }

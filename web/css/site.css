@@ -29,11 +29,59 @@ body {
     width: 80%;
     display: block;
 }
+
 /***********************************
 * index
 ************************************/
 .index .pagebar{
     margin: 40px 0 0 0;
+}
+.index .note-navbar .nav-tabs{
+    border-bottom: 1px solid #dd4814;
+}
+.index .note-navbar .nav-tabs li.active{
+    border-radius: 3px;
+}
+.index .note-navbar .nav-tabs li.active,
+.index .note-navbar .nav-tabs li.active a,
+.index .note-navbar .nav-tabs li.active a:focus,
+.index .note-navbar .nav-tabs li.active a:hover{
+    color: #fff;
+    background-color: #dd4814;
+    border: 1px solid #dd4814;
+}
+.index .note-navbar .nav-tabs li a:focus,
+.index .note-navbar .nav-tabs li a:hover{
+    background-color: #fff;
+    border-color: #fff;
+}
+.index .note-navbar .note-list a{
+    color: #000;
+}
+.index .note-navbar .note-list{
+    margin: 0 10px;
+    max-height: 105px;
+    overflow: hidden;
+    padding-top: 5px;
+}
+.index .spo-xs-navbar {
+    margin: 0 10px;
+}
+.index .note-navbar .note-list .col-xs-12{
+    line-height: 170%;
+    text-indent: 5px;
+    white-space: nowrap;
+    overflow-x: hidden;
+}
+.index  .nav-presentation {
+    color: #fff;
+    background-color: #dd4814;
+    border-radius: 3px;
+    line-height: 200%;
+    text-align: center;
+}
+.index  .nav-presentation a{
+    color: #fff;
 }
 .spo-row{
     margin: 20px 0;
@@ -42,9 +90,6 @@ body {
 }
 .spo-row .thumb{
     padding-right: 0px;
-}
-.spo-row .thumbnail{
-    margin-bottom: 0px;
 }
 .spo-row .thumbnail img{
     max-height: 160px;
@@ -73,6 +118,9 @@ body {
 .spo-row .time, .spo-row .mall{
     margin-top: 10px;
 }
+.spo-navbar{
+    margin-top: 10px
+}
 .spo-navbar .nav-tabs{
     margin-bottom: 12px;
     border-bottom: 1px solid #dd4814;
@@ -81,6 +129,16 @@ body {
     color: #fff;
     background-color: #dd4814;
     border: 1px solid #dd4814;
+}
+.spo-navbar div.head{
+    line-height: 200%;
+    text-align: right;
+    padding-right: 0px;
+}
+.spo-navbar .list-inline li{
+    margin-left: 20px;
+    line-height: 200%;
+    text-align: center;
 }
 .spo-navbar .list-inline li.active, 
 .spo-navbar .list-inline li.active a, 
@@ -100,7 +158,6 @@ body {
 .spo-nav-xs a, .spo-nav-xs a:hover{
     color: white;
 }
-
 @media (max-width: 500px) {
     .index{
         padding: 0px;
@@ -141,7 +198,6 @@ body {
         font-size: 11px;
     }
 }
-
 
 /**
  * spo
@@ -393,6 +449,14 @@ body {
 /**********************************
 * bootstrap theme overwrite
 ***********************************/
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:hover,
+.dropdown-menu > .active > a:focus {
+  color: #fff;
+  text-decoration: none;
+  background-color: #e7007e;
+  outline: 0;
+}
 .navbar-default {
     /*background-color: #e7007e;*/
     background-color: #e7007e;
