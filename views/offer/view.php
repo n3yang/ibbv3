@@ -68,7 +68,7 @@ $this->registerJsFile('http://tjs.sjs.sinajs.cn/open/api/js/wb.js');
                         <div class="meta col-xs-12 col-xs-offset col-sm-9 hidden-xs">
                             <span class="col-xs-12"><h4 class="title"><?=$offer->title?><span class="price"><?=$offer->price?></span></h4></span>
                             <span class="time col-sm-6 text-muted"><label>时间：</label><?=$offer->created_at?></span>
-                            <span class="mall col-sm-6 text-muted"><label>商城：</label><?=$offer->getB2cLabel()?></span>
+                            <span class="mall col-sm-6 text-muted"><label>商城：</label><a href="<?=Url::to(['/offer/index', 'm' => $offer->b2c])?>"><?=$offer->getB2cLabel()?></span>
                             <span class="tag col-sm-6 text-muted"><label>分类：</label><a href="<?=Url::toRoute(['offer/index', 'category'=>$offer->category->slug])?>"><?=$offer->category->name?></a></span>
                             <span class="tag col-sm-6 text-muted"><label>来自：</label><?=$offer->getSiteLabel()?></span>
                             <span class="link col-sm-12 col-sm-offset-10"><a href="<?=$offer->getLinkSlugUrl()?>" class="btn btn-primary" rel="nofollow">去看看</a> </span>
