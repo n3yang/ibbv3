@@ -103,6 +103,7 @@ class JosClient extends Object
         if ($queryResult['resultCode']!='0') {
             Yii::error('jos response code is fault. ' . __METHOD__);
             Yii::error('jos response content: ' . var_export($response->getData(), 1));
+            Yii::error('jos request content: ' . var_export($params, 1));
 
             return false;
         }
