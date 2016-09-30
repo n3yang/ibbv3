@@ -52,8 +52,9 @@ $this->registerJsFile('http://tjs.sjs.sinajs.cn/open/api/js/wb.js');
 
                 <ul class="breadcrumb hidden-xs">
                     <li><a href="/">首页</a></li>
-                    <li class="active breadcrumb-title"><a href="<?=Url::toRoute(['offer/index', 'category'=>$offer->category->slug])?>"><?=$offer->category->name?></a></li>
-                    <li class="active breadcrumb-title"><?=$offer->title?></li>
+                    <li><a href="/sp">优惠资讯</a></li>
+                    <li class="breadcrumb-title"><a href="<?=Url::toRoute(['offer/index', 'category'=>$offer->category->slug])?>"><?=$offer->category->name?></a></li>
+                    <li class="breadcrumb-title"><?=$offer->title?></li>
                 </ul>
                 <ul class="breadcrumb visible-xs">
                     <li><a href="/" onclick="history.back(1)">返回</a></li>
