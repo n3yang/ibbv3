@@ -78,7 +78,7 @@ $navMalls = [
                 </div>
                 <div class="spo-xs-navbar row">
                     <div class="row note-list">
-                        <div class="col-xs-4 visible-xs clearfix nav-presentation"><a href="/sp/">优惠信息</a></div>
+                        <div class="col-xs-4 visible-xs clearfix nav-presentation"><a href="/sp">优惠信息</a></div>
                     </div>
                 </div>
 

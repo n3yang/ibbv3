@@ -49,7 +49,7 @@ $navbarActive = Yii::$app->request->get('category');
                 <ul class="nav navbar-nav hidden-xs">
                     <li><a href="/">首页</a></li>
                     <li class="dropdown<? if (strpos(Yii::$app->request->url, '/sp')===0) { echo ' active'; } ?>">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="/sp/" id="download">优惠信息</a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="/sp" id="download">优惠信息</a>
                         <ul class="dropdown-menu" aria-labelledby="download">
                             <li<? if ($navbarActive=='yingyangfushi') { echo ' class="active"'; } ?>><a href="/sp/category/yingyangfushi">营养辅食</a></li>
                             <li<? if ($navbarActive=='niaokushijin') { echo ' class="active"'; } ?>><a href="/sp/category/niaokushijin">尿裤湿巾</a></li>
