@@ -59,7 +59,7 @@ $navMalls = [
 
                 <ul class="breadcrumb hidden-xs">
                     <li><a href="/">首页</a></li>
-                    <li><a href="/sp">优惠信息</a></li>
+                    <li><a href="/sp">优惠资讯</a></li>
                     <? if ($category->name){ ?><li class="active breadcrumb-title"><?=$category->name;?></li><? } ?>
                 </ul>
 

@@ -56,7 +56,7 @@ $navMalls = [
 
                 <div class="spo-navbar row hidden-xs" id="spo-navbar">
                     <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation" class="active"><a href="#">优惠信息</a></li>
+                        <li role="presentation" class="active"><a href="/sp">优惠资讯</a></li>
                     </ul>
                     <div class="col-xs-1 text-right head">分类</div>
                     <div class="col-xs-11 ">
