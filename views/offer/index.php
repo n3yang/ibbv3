@@ -10,7 +10,7 @@ use yii\helpers\Url;
 use app\models\Offer;
 
 // page title
-$this->title = yii::$app->params['site']['title'];
+$this->title = yii::$app->params['site']['title'] . ' - ' . '优惠资讯';
 $categoryName = '';
 if ($category){
     $this->title = yii::$app->params['site']['title'] . ' - ' . $category->name;
@@ -20,11 +20,11 @@ if ($category){
 // keywords, description
 $this->registerMetaTag([
     'property' => 'keywords',
-    'content' =>  yii::$app->params['site']['keywords'] . ' ' . $categoryName,
+    'content' =>  yii::$app->params['site']['keywords'] . ',' . $categoryName,
 ]);
 $this->registerMetaTag([
     'property' => 'description',
-    'content' => yii::$app->params['site']['description'] . $categoryName,
+    'content' => yii::$app->params['site']['description'] ' 分享' . $categoryName . '优惠资讯',
 ]);
 
 // SEO Open Graph
