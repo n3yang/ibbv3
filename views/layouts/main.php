@@ -51,18 +51,18 @@ $navbarActive = Yii::$app->request->get('category');
                     <li class="dropdown<? if (strpos(Yii::$app->request->url, '/sp')===0) { echo ' active'; } ?>">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="/sp" id="download">优惠资讯</a>
                         <ul class="dropdown-menu" aria-labelledby="download">
-                            <li<? if ($navbarActive=='yingyangfushi') { echo ' class="active"'; } ?>><a href="/sp/category/yingyangfushi">营养辅食</a></li>
-                            <li<? if ($navbarActive=='niaokushijin') { echo ' class="active"'; } ?>><a href="/sp/category/niaokushijin">尿裤湿巾</a></li>
-                            <li<? if ($navbarActive=='weiyangyongpin') { echo ' class="active"'; } ?>><a href="/sp/category/weiyangyongpin">喂养用品</a></li>
-                            <li<? if ($navbarActive=='xihuyongpin') { echo ' class="active"'; } ?>><a href="/sp/category/xihuyongpin">洗护用品</a></li>
-                            <li<? if ($navbarActive=='naifenniunai') { echo ' class="active"'; } ?>><a href="/sp/category/naifenniunai">奶粉牛奶</a></li>
-                            <li<? if ($navbarActive=='wanjuyueqi') { echo ' class="active"'; } ?>><a href="/sp/category/wanjuyueqi">玩具乐器</a></li>
-                            <li<? if ($navbarActive=='tongzhuangtongxie') { echo ' class="active"'; } ?>><a href="/sp/category/tongzhuangtongxie">童装童鞋</a></li>
-                            <li<? if ($navbarActive=='tongchejiaju') { echo ' class="active"'; } ?>><a href="/sp/category/tongchejiaju">童车家具</a></li>
-                            <li<? if ($navbarActive=='mamayongpin') { echo ' class="active"'; } ?>><a href="/sp/category/mamayongpin">妈妈用品</a></li>
-                            <li<? if ($navbarActive=='anquanzuoyi') { echo ' class="active"'; } ?>><a href="/sp/category/anquanzuoyi">安全座椅</a></li>
-                            <li<? if ($navbarActive=='tushuyingyin') { echo ' class="active"'; } ?>><a href="/sp/category/tushuyingyin">图书影音</a></li>
-                            <li<? if ($navbarActive=='jiayongdianqi') { echo ' class="active"'; } ?>><a href="/sp/category/jiayongdianqi">家用电器</a></li>
+                            <li<? if ($navbarActive=='yingyangfushi') { echo ' class="active"'; } ?>><a href="/sp/c/yingyangfushi">营养辅食</a></li>
+                            <li<? if ($navbarActive=='niaokushijin') { echo ' class="active"'; } ?>><a href="/sp/c/niaokushijin">尿裤湿巾</a></li>
+                            <li<? if ($navbarActive=='weiyangyongpin') { echo ' class="active"'; } ?>><a href="/sp/c/weiyangyongpin">喂养用品</a></li>
+                            <li<? if ($navbarActive=='xihuyongpin') { echo ' class="active"'; } ?>><a href="/sp/c/xihuyongpin">洗护用品</a></li>
+                            <li<? if ($navbarActive=='naifenniunai') { echo ' class="active"'; } ?>><a href="/sp/c/naifenniunai">奶粉牛奶</a></li>
+                            <li<? if ($navbarActive=='wanjuyueqi') { echo ' class="active"'; } ?>><a href="/sp/c/wanjuyueqi">玩具乐器</a></li>
+                            <li<? if ($navbarActive=='tongzhuangtongxie') { echo ' class="active"'; } ?>><a href="/sp/c/tongzhuangtongxie">童装童鞋</a></li>
+                            <li<? if ($navbarActive=='tongchejiaju') { echo ' class="active"'; } ?>><a href="/sp/c/tongchejiaju">童车家具</a></li>
+                            <li<? if ($navbarActive=='mamayongpin') { echo ' class="active"'; } ?>><a href="/sp/c/mamayongpin">妈妈用品</a></li>
+                            <li<? if ($navbarActive=='anquanzuoyi') { echo ' class="active"'; } ?>><a href="/sp/c/anquanzuoyi">安全座椅</a></li>
+                            <li<? if ($navbarActive=='tushuyingyin') { echo ' class="active"'; } ?>><a href="/sp/c/tushuyingyin">图书影音</a></li>
+                            <li<? if ($navbarActive=='jiayongdianqi') { echo ' class="active"'; } ?>><a href="/sp/c/jiayongdianqi">家用电器</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -76,18 +76,18 @@ $navbarActive = Yii::$app->request->get('category');
                     <li class=""><a href="/">首页</a></li>
                     <li><a href="/sp/p/1">优惠资讯</a></li>
                     <li class="spo-nav-xs text-center">
-                        <div class="col-xs-3"><a href="/sp/category/yingyangfushi">营养辅食</a></div>
-                        <div class="col-xs-3"><a href="/sp/category/niaokushijin">尿裤湿巾</a></div>
-                        <div class="col-xs-3"><a href="/sp/category/weiyangyongpin">喂养用品</a></div>
-                        <div class="col-xs-3"><a href="/sp/category/xihuyongpin">洗护用品</a></div>
-                        <div class="col-xs-3"><a href="/sp/category/naifenniunai">奶粉牛奶</a></div>
-                        <div class="col-xs-3"><a href="/sp/category/wanjuyueqi">玩具乐器</a></div>
-                        <div class="col-xs-3"><a href="/sp/category/tongzhuangtongxie">童装童鞋</a></div>
-                        <div class="col-xs-3"><a href="/sp/category/tongchejiaju">童车家具</a></div>
-                        <div class="col-xs-3"><a href="/sp/category/mamayongpin">妈妈用品</a></div>
-                        <div class="col-xs-3"><a href="/sp/category/anquanzuoyi">安全座椅</a></div>
-                        <div class="col-xs-3"><a href="/sp/category/tushuyingyin">图书影音</a></div>
-                        <div class="col-xs-3"><a href="/sp/category/jiayongdianqi">家用电器</a></div>
+                        <div class="col-xs-3"><a href="/sp/c/yingyangfushi">营养辅食</a></div>
+                        <div class="col-xs-3"><a href="/sp/c/niaokushijin">尿裤湿巾</a></div>
+                        <div class="col-xs-3"><a href="/sp/c/weiyangyongpin">喂养用品</a></div>
+                        <div class="col-xs-3"><a href="/sp/c/xihuyongpin">洗护用品</a></div>
+                        <div class="col-xs-3"><a href="/sp/c/naifenniunai">奶粉牛奶</a></div>
+                        <div class="col-xs-3"><a href="/sp/c/wanjuyueqi">玩具乐器</a></div>
+                        <div class="col-xs-3"><a href="/sp/c/tongzhuangtongxie">童装童鞋</a></div>
+                        <div class="col-xs-3"><a href="/sp/c/tongchejiaju">童车家具</a></div>
+                        <div class="col-xs-3"><a href="/sp/c/mamayongpin">妈妈用品</a></div>
+                        <div class="col-xs-3"><a href="/sp/c/anquanzuoyi">安全座椅</a></div>
+                        <div class="col-xs-3"><a href="/sp/c/tushuyingyin">图书影音</a></div>
+                        <div class="col-xs-3"><a href="/sp/c/jiayongdianqi">家用电器</a></div>
                         <div class="clearfix"></div>
                     </li>
                     <!--
