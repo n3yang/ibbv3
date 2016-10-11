@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
 use app\models\Tag;
 use app\models\Category;
 use app\models\File;
@@ -103,7 +104,7 @@ echo $form->field($model, 'content')->widget(TinyMce::className(), [
 
     <?= $form->field($model, 'created_at')->textInput(['maxlength' => true]) ?>
 
-    <?//= $form->field($model, 'tags')->checkboxList($tags) ?>
+    <?= $form->field($model, 'tags')->checkboxList(ArrayHelper::map(Tag::find()->asArray()->all(), 'id', 'name')) ?>
 
     </div>
     
