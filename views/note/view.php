@@ -55,6 +55,8 @@ $this->registerJsFile('http://tjs.sjs.sinajs.cn/open/api/js/wb.js');
 
                 <ul class="breadcrumb hidden-xs">
                     <li><a href="/">首页</a></li>
+                    <li><a href="/note">经验分享</a></li>
+                    <li><a href="<?=Url::toRoute(['note/index', 'category'=>$note->category->slug])?>"><?=$note->category->name?></a></li>
                     <li class="active breadcrumb-title"><?=$note->title?></li>
                 </ul>
                 <ul class="breadcrumb visible-xs">
@@ -74,6 +76,7 @@ $this->registerJsFile('http://tjs.sjs.sinajs.cn/open/api/js/wb.js');
                             <div class="small text-muted col-xs-12 text-right"><?=$note->created_at?></div>
                             <div class="small text-muted col-xs-12 text-right">分类：<?=$note->category->name?></div>
                             <div class="small text-muted col-xs-12 text-right">来自：<?=$note->fetched_from ? '网络' : '原创';?></div>
+                            <div class="small text-muted col-xs-12 text-right">原作者：<?=$note->fetched_author?></div>
                         </div>
 
                         <ul class="pager col-sm-6 col-xs-6">

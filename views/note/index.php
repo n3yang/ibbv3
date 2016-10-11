@@ -44,7 +44,7 @@ $this->registerMetaTag(['property' => 'og:type', 'content' => 'site']);
 
                 <ul class="breadcrumb">
                     <li><a href="/">首页</a></li>
-                    <li class="breadcrumb-title"><?= Html::a('经验分享', Url::to(['/note'])); ?></li>
+                    <li><?= Html::a('经验分享', Url::to(['/note'])); ?></li>
                     <? if ($category->name): ?>
                     <li class="active breadcrumb-title"><?=$category->name;?></li>
                     <? endif; ?>

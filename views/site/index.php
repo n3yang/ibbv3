@@ -41,11 +41,11 @@ $navMalls = [
 
                 <div class="note-navbar row">
                     <ul class="nav nav-tabs hidden-xs" role="tablist">
-                        <li role="presentation" class="active"><a href="#">经验共享</a></li>
+                        <li role="presentation" class="active"><a href="#">经验分享</a></li>
                         <li class="pull-right"><a href="<?=Url::to('/note')?>">more</a></li>
                     </ul>
                     <div class="row note-list">
-                        <div class="col-xs-4 visible-xs clearfix nav-presentation"><a href="<?= Url::to(['note/index'])?>">经验共享</a></div>
+                        <div class="col-xs-4 visible-xs clearfix nav-presentation"><a href="<?= Url::to(['note/index'])?>">经验分享</a></div>
                         <? foreach ($notes as $note) { ?>
                             <div class="col-xs-12 col-sm-6">
                                 <a href="<?=Url::to(['/note/view', 'id' => $note->id])?>"><?=$note->title?></a>
