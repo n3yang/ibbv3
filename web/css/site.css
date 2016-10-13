@@ -48,7 +48,7 @@ body {
 .index .note-navbar .nav-tabs li.active a:hover{
     color: #fff;
     background-color: #dd4814;
-    border: 1px solid #dd4814;
+    border: 1px solid #dd4814; 
 }
 .index .note-navbar .nav-tabs li a:focus,
 .index .note-navbar .nav-tabs li a:hover{
@@ -56,7 +56,11 @@ body {
     border-color: #fff;
 }
 .index .note-navbar .note-list a{
-    color: #000;
+    /*color: #000;*/
+}
+.index .note-navbar .note-list .nav-presentation a{
+    color: #fff;
+    text-decoration: none;
 }
 .index .note-navbar .note-list{
     margin: 0 10px;
@@ -65,7 +69,7 @@ body {
     padding-top: 5px;
 }
 .index .spo-xs-navbar {
-    margin: 0 10px;
+    margin: 10px 10px;
 }
 .index .note-navbar .note-list .col-xs-12{
     line-height: 170%;
@@ -75,7 +79,7 @@ body {
 }
 .index  .nav-presentation {
     color: #fff;
-    background-color: #dd4814;
+    background-color: #e7007e;
     border-radius: 3px;
     line-height: 200%;
     text-align: center;
@@ -458,7 +462,6 @@ body {
   outline: 0;
 }
 .navbar-default {
-    /*background-color: #e7007e;*/
     background-color: #e7007e;
     border-color: #bf3e11;
 }
