@@ -105,10 +105,10 @@ class SpiderPyh extends SpiderBase
                 $this->fetchArticle($r);
             }
             $maxId = max($maxId, $r['id']);
+            $last['maxId'] = $maxId;
+            $last['actionTime'] = date('Y-m-d H:i:s');
+            Yii::$app->cache->set($this->syncCacheKey.__FUNCTION__, $last);
         }
-        $last['maxId'] = $maxId;
-        $last['actionTime'] = date('Y-m-d H:i:s');
-        Yii::$app->cache->set($this->syncCacheKey.__FUNCTION__, $last);
         Yii::info('Fetch finished. ' . json_encode($last));
     }
 
@@ -202,9 +202,6 @@ class SpiderPyh extends SpiderBase
         }
         $imgTags = $dom->find('img');
         foreach ($imgTags as $i => $img) {
-            if ($i>2) {
-                $img->delete();
-            }
             $src = $img->getAttribute('src');
             // fetch and replace
             if (!Url::isRelative($src)) {
@@ -216,6 +213,8 @@ class SpiderPyh extends SpiderBase
                     $img->removeAttribute('width');
                     $img->removeAttribute('height');
                 }
+            } else {
+                $img->delete();
             }
         }
         $content = $dom->outerHtml;
