@@ -74,6 +74,7 @@ class Note extends \yii\db\ActiveRecord
             'created_at' => '添加时间',
             'updated_at' => '修改时间',
             'status' => '状态',
+            'tags' => '标签',
         ];
     }
 

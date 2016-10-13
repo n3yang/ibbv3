@@ -6,10 +6,12 @@ use Yii;
 use app\models\Note;
 use app\models\NoteSearch;
 use app\models\File;
+use app\models\Tag;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 
 /**
  * NoteController implements the CRUD actions for Note model.
@@ -69,12 +71,19 @@ class NoteController extends Controller
         $model = new Note();
 
         if ($model->load(Yii::$app->request->post())) {
+            // upload cover image
             $fileModel = new File;
             $fileModel->upfile = UploadedFile::getInstance($fileModel, 'upfile');
             if ($fileModel->upload()) {
                 $model->cover = $fileModel->path;
             }
+            // link tags
+            $newTagIds = ArrayHelper::getValue(Yii::$app->request->post('Note'), 'tags');
+            foreach ($newTagIds as $tagId){
+                $model->link('tags', Tag::findOne($tagId));
+            }
             $model->save();
+
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -99,7 +108,16 @@ class NoteController extends Controller
             if ($fileModel->upload()) {
                 $model->cover = $fileModel->path;
             }
+            // unlink all tags, and link new
+            $model->unlinkAll('tags', true);
+            $newTagIds = ArrayHelper::getValue(Yii::$app->request->post('Note'), 'tags');
+            if ($newTagIds) {
+                foreach ($newTagIds as $tagId){
+                    $model->link('tags', Tag::findOne($tagId));
+                }
+            }
             $model->save();
+
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
