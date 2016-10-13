@@ -24,7 +24,7 @@ $this->registerMetaTag([
 ]);
 $this->registerMetaTag([
     'property' => 'description',
-    'content' => yii::$app->params['site']['description'] ' 分享' . $categoryName . '优惠资讯',
+    'content' => yii::$app->params['site']['description'] . ' 分享' . $categoryName . '优惠资讯',
 ]);
 
 // SEO Open Graph
