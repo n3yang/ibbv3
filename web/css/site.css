@@ -382,6 +382,7 @@ body {
 .note span.span-img-wrap {
     display: block;
     text-align: center;
+    margin: 15px auto;
 }
 
 .note .img-attach{

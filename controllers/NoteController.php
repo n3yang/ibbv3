@@ -19,7 +19,7 @@ class NoteController extends \yii\web\Controller
 
         $category = Yii::$app->request->get('category');
         if ($category) {
-            $catObj = Category::findOne(['slug'=>$category]);
+            $catObj = Category::findOne(['slug' => $category, 'type' => Category::TYPE_NOTE]);
             $query->andWhere(['category_id' => $catObj->id]);
         }
 
