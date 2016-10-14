@@ -39,22 +39,25 @@ $navMalls = [
 
             <div class="index col-sm-12 col-md-9">
 
-                <div class="note-navbar row">
-                    <ul class="nav nav-tabs hidden-xs" role="tablist">
+                <div class="note-navbar hidden-xs row">
+                    <ul class="nav nav-tabs " role="tablist">
                         <li role="presentation" class="active"><a href="#">经验分享</a></li>
                         <li class="pull-right"><a href="<?=Url::to('/note')?>">more</a></li>
                     </ul>
-                    <div class="row note-list">
-                        <div class="col-xs-4 visible-xs clearfix nav-presentation"><a href="<?= Url::to(['note/index'])?>">经验分享</a></div>
-                        <? foreach ($notes as $note) { ?>
-                            <div class="col-xs-12 col-sm-6">
-                                <a href="<?=Url::to(['/note/view', 'id' => $note->id])?>"><?=$note->title?></a>
-                            </div>
-                        <? } ?>
-                    </div>
+                </div>
+                <div class="note-xs-navbar visible-xs row">
+                    <div class="col-xs-4 visible-xs clearfix nav-presentation"><a href="<?= Url::to(['note/index'])?>">经验分享</a></div>
                 </div>
 
-                <div class="spo-navbar row hidden-xs" id="spo-navbar">
+                <div class="row note-list">
+                    <? foreach ($notes as $note) { ?>
+                        <div class="col-xs-12 col-sm-6">
+                            <a href="<?=Url::to(['/note/view', 'id' => $note->id])?>"><?=$note->title?></a>
+                        </div>
+                    <? } ?>
+                </div>
+
+                <div class="spo-navbar hidden-xs row" id="spo-navbar">
                     <ul class="nav nav-tabs" role="tablist">
                         <li role="presentation" class="active"><a href="/sp">优惠资讯</a></li>
                     </ul>
@@ -76,10 +79,8 @@ $navMalls = [
                         </ul>
                     </div>
                 </div>
-                <div class="spo-xs-navbar row">
-                    <div class="row">
-                        <div class="col-xs-4 visible-xs clearfix nav-presentation"><a href="/sp">优惠信息</a></div>
-                    </div>
+                <div class="spo-xs-navbar visible-xs row">
+                    <div class="col-xs-4 clearfix nav-presentation"><a href="/sp">优惠信息</a></div>
                 </div>
 
                 <!-- <div class="spo-container"> -->
