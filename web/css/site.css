@@ -63,14 +63,18 @@ body {
     text-decoration: none;
 }
 .index .note-list{
-    margin: 0 10px;
+    margin: 0 10px 10px 0;
     max-height: 100px;
     overflow: hidden;
     padding-top: 5px;
 }
+.index .note-list .glyphicon-heart{
+    color: #e7007e;
+    margin-right: 4px;
+}
 .index .note-list .col-xs-12{
     line-height: 170%;
-    text-indent: 5px;
+    /*text-indent: 5px;*/
     white-space: nowrap;
     overflow-x: hidden;
 }
@@ -129,7 +133,7 @@ body {
 .spo-navbar div.head{
     line-height: 200%;
     text-align: right;
-    padding-right: 0px;
+    padding-right: 15px;
 }
 .spo-navbar .list-inline li{
     margin-left: 20px;

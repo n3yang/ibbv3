@@ -52,7 +52,7 @@ $navMalls = [
                 <div class="row note-list">
                     <? foreach ($notes as $note) { ?>
                         <div class="col-xs-12 col-sm-6">
-                            <a href="<?=Url::to(['/note/view', 'id' => $note->id])?>"><?=$note->title?></a>
+                            <span class="glyphicon glyphicon-heart"></span><a href="<?=Url::to(['/note/view', 'id' => $note->id])?>"><?=$note->title?></a>
                         </div>
                     <? } ?>
                 </div>
