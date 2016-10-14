@@ -128,9 +128,10 @@ class SpiderZdmYc extends SpiderZdm
             $src = $img->getAttribute('src');
             echo 'found img: ' . $src . PHP_EOL;
             // remove emotion
-            if (strpos($src, 'emotion')) {
+            if (strpos($src, 'emotion') || strpos($src, 'wp-includes/images/smilies/')) {
                 $img->delete();
                 unset($img);
+                echo 'img removed' . PHP_EOL;
                 continue;
             }
             // fetch and replace
@@ -145,6 +146,9 @@ class SpiderZdmYc extends SpiderZdm
                         $img->setAttribute('class', 'img-attach');
                     }
                     $imgTitle = $img->getAttribute('title');
+                    if (empty($imgTitle)) {
+                        $imgTitle = $articleTitle;
+                    }
                     $attributes = ['src1', 'src2', 'itemprop', '_size', 'data-title', 'title'];
                     foreach ($attributes as $attr) {
                         $img->removeAttribute($attr);

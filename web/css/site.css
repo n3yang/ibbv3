@@ -47,8 +47,10 @@ body {
 .index .note-navbar .nav-tabs li.active a:focus,
 .index .note-navbar .nav-tabs li.active a:hover{
     color: #fff;
-    background-color: #dd4814;
-    border: 1px solid #dd4814; 
+    /*background-color: #dd4814;
+    border: 1px solid #dd4814;*/ 
+    background-color: #e7007e;
+    border: 1px solid #e7007e; 
 }
 .index .note-navbar .nav-tabs li a:focus,
 .index .note-navbar .nav-tabs li a:hover{
@@ -127,12 +129,12 @@ body {
 }
 .spo-navbar .nav-tabs{
     margin-bottom: 12px;
-    border-bottom: 1px solid #dd4814;
+    border-bottom: 1px solid #e7007e;
 }
 .spo-navbar .nav-tabs li.active a{
     color: #fff;
-    background-color: #dd4814;
-    border: 1px solid #dd4814;
+    background-color: #e7007e;
+    border: 1px solid #e7007e;
 }
 .spo-navbar div.head{
     line-height: 200%;
@@ -149,7 +151,7 @@ body {
 .spo-navbar .list-inline li:hover, 
 .spo-navbar .list-inline li:hover a{
     color: #fff;
-    background-color: #dd4814;
+    background-color: #e7007e;
     border-radius: 3px;
     text-decoration: none;
 }

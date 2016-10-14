@@ -90,7 +90,7 @@ class SiteController extends Controller
     {
         // notes top 8
         $notes = Note::find()
-            // ->where(['status' => Note::STATUS_PUBLISHED])
+            ->where(['status' => Note::STATUS_PUBLISHED])
             ->orderBy('created_at DESC')
             ->limit(8)
             ->all();
