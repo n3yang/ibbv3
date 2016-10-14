@@ -46,7 +46,7 @@ $navMalls = [
                     </ul>
                 </div>
                 <div class="note-xs-navbar visible-xs row">
-                    <div class="col-xs-4 visible-xs clearfix nav-presentation"><a href="<?= Url::to(['note/index'])?>">经验分享</a></div>
+                    <div class="col-xs-4 visible-xs clearfix nav-presentation"><a href="<?= Url::to(['/note'])?>">经验分享</a></div>
                 </div>
 
                 <div class="row note-list">
