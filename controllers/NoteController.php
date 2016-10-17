@@ -49,7 +49,7 @@ class NoteController extends \yii\web\Controller
     {
         $note = Note::findOne([
             'id'        => $id,
-            'status'    => Note::STATUS_PUBLISHED,
+            // 'status'    => Note::STATUS_PUBLISHED,
         ]);
 
         // not found
