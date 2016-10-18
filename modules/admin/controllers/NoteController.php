@@ -78,9 +78,11 @@ class NoteController extends Controller
                 $model->cover = $fileModel->path;
             }
             // link tags
-            $newTagIds = (array) ArrayHelper::getValue(Yii::$app->request->post('Note'), 'tags');
-            foreach ($newTagIds as $tagId){
-                $model->link('tags', Tag::findOne($tagId));
+            $newTagIds = ArrayHelper::getValue(Yii::$app->request->post('Note'), 'tags');
+            if ($newTagIds) {
+                foreach ($newTagIds as $tagId){
+                    $model->link('tags', Tag::findOne($tagId));
+                }
             }
             $model->save();
 
