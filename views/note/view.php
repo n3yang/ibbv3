@@ -74,7 +74,7 @@ $this->registerJsFile('http://tjs.sjs.sinajs.cn/open/api/js/wb.js');
                             <div class="small text-muted col-xs-12 text-right"><?=substr($note->created_at, 0, 10)?></div>
                             <div class="small text-muted col-xs-12 text-right">分类：<?=$note->category->name?></div>
                             <div class="small text-muted col-xs-12 text-right">来自：<?=$note->fetched_from ? '网络' : '原创';?></div>
-                            <div class="small text-muted col-xs-12 text-right">原作者：<?=$note->fetched_author?></div>
+                            <div class="small text-muted col-xs-12 text-right">原作者：<?=$note->fetched_author ?: '未知' ?></div>
                         </div>
 
                         <ul class="pager col-sm-6 col-xs-6">
