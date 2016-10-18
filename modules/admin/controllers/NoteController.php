@@ -84,6 +84,7 @@ class NoteController extends Controller
                     $model->link('tags', Tag::findOne($tagId));
                 }
             }
+            $model->user_id = Yii::$app->user->identity->id;
             $model->save();
 
             return $this->redirect(['view', 'id' => $model->id]);
