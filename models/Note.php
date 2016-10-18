@@ -167,4 +167,22 @@ class Note extends \yii\db\ActiveRecord
             ->limit($limit)
             ->all();
     }
+
+    public function findBro()
+    {
+        $ds['prev'] = $this->find()
+            ->where(['status' => Note::STATUS_PUBLISHED])
+            ->andWhere(['<', 'id', $this->id])
+            ->orderBy('id DESC')
+            ->limit(1)
+            ->one();
+        $ds['next'] = $this->find()
+            ->where(['status' => Note::STATUS_PUBLISHED])
+            ->andWhere(['>', 'id', $this->id])
+            ->orderBy('id ASC')
+            ->limit(1)
+            ->one();
+
+        return $ds;
+    }
 }

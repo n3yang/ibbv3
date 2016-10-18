@@ -60,26 +60,13 @@ class NoteController extends \yii\web\Controller
         // same category id
         // $similarNotes = $note->findSimilar();
 
-        // find next and pre
-        $nextNote = Note::find()
-            ->where(['status' => Note::STATUS_PUBLISHED])
-            ->andWhere(['>', 'id', $id])
-            ->orderBy('id ASC')
-            ->limit(1)
-            ->asArray()
-            ->one();
-        $prevNote = Note::find()
-            ->where(['status' => Note::STATUS_PUBLISHED])
-            ->andWhere(['<', 'id', $id])
-            ->orderBy('id DESC')
-            ->limit(1)
-            ->asArray()
-            ->one();
+        // find next and prev
+        $broNote = $note->findBro();
 
         return $this->render('view', [
             'note'         => $note,
-            'nextNote'     => $nextNote,
-            'prevNote'     => $prevNote,
+            'nextNote'     => $broNote['next'],
+            'prevNote'     => $broNote['prev'],
             'similarNotes' => $similarNotes,
         ]);
     }

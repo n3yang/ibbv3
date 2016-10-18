@@ -27,22 +27,20 @@ $this->registerMetaTag([
 ]);
 
 // SEO next and prev
-/*
-if ($nextOffer) {
+if ($nextNote) {
     $this->registerLinkTag([
         'rel'   => 'next',
-        'title' => $nextOffer['title'],
-        'href'  => Url::to(['offer/view', 'id'=>$nextOffer['id']], true)
+        'title' => $nextNote['title'],
+        'href'  => Url::to(['note/view', 'id'=>$nextNote['id']], true)
     ]);
 }
-if ($prevOffer) {
+if ($prevNote) {
     $this->registerLinkTag([
         'rel'   => 'prev',
-        'title' => $prevOffer['title'],
-        'href'  => Url::to(['offer/view', 'id'=>$prevOffer['id']], true)
+        'title' => $prevNote['title'],
+        'href'  => Url::to(['note/view', 'id'=>$prevNote['id']], true)
     ]);
 }
-*/
 
 // for weibo share
 $this->registerJsFile('http://tjs.sjs.sinajs.cn/open/api/js/wb.js');
@@ -73,22 +71,30 @@ $this->registerJsFile('http://tjs.sjs.sinajs.cn/open/api/js/wb.js');
 
                         <div class="meta col-xs-12">
                             <div class="small text-muted col-xs-12 text-right"></div>
-                            <div class="small text-muted col-xs-12 text-right"><?=$note->created_at?></div>
+                            <div class="small text-muted col-xs-12 text-right"><?=substr($note->created_at, 0, 10)?></div>
                             <div class="small text-muted col-xs-12 text-right">分类：<?=$note->category->name?></div>
                             <div class="small text-muted col-xs-12 text-right">来自：<?=$note->fetched_from ? '网络' : '原创';?></div>
                             <div class="small text-muted col-xs-12 text-right">原作者：<?=$note->fetched_author?></div>
                         </div>
 
                         <ul class="pager col-sm-6 col-xs-6">
-                            <li class="previous"><a href="#">← </a></li>
+                            <li class="previous">
+                                <a href="<?= $prevNote ? Url::to(['note/view', 'id'=>$prevNote['id']]) : '###' ?>">
+                                    ← <?= $prevNote ? StringHelper::truncate($prevNote['title'], 20) : '无' ?> 
+                                </a>
+                            </li>
                         </ul>
                         <ul class="pager col-sm-6 col-xs-6">
-                            <li class="next"><a href="#"> →</a></li>
+                            <li class="next">
+                                <a href="<?= $nextNote ? Url::to(['note/view', 'id'=>$nextNote['id']]) : '###'?>">
+                                    <?= $nextNote ? StringHelper::truncate($nextNote['title'], 20) : '无' ?> →
+                                </a>
+                            </li>
                         </ul>
-
                     </div>
-<!--
+
                     <div class="related row">
+<!--
                         <div class="col-sm-12">
                             <div class="lead text-warning">相关文章</div>
                         </div>
@@ -104,8 +110,13 @@ $this->registerJsFile('http://tjs.sjs.sinajs.cn/open/api/js/wb.js');
                                 <a href="#" class=""><h5>果用上一夏天就准备扔那就果用上一夏天就准备扔那就</h5></a>
                             </li>
                         </ul>
-                    </div>
 -->
+                    </div>
+
+                    <div class="comment row">
+
+                    </div>
+
 
                 </div>
 
