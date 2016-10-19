@@ -77,14 +77,14 @@ $this->registerJsFile('http://tjs.sjs.sinajs.cn/open/api/js/wb.js');
                             <div class="small text-muted col-xs-12 text-right">原作者：<?=$note->fetched_author ?: '未知' ?></div>
                         </div>
 
-                        <ul class="pager col-sm-6 col-xs-6">
+                        <ul class="pager col-sm-6 col-xs-12">
                             <li class="previous">
                                 <a href="<?= $prevNote ? Url::to(['note/view', 'id'=>$prevNote['id']]) : '###' ?>">
                                     ← <?= $prevNote ? StringHelper::truncate($prevNote['title'], 20) : '无' ?> 
                                 </a>
                             </li>
                         </ul>
-                        <ul class="pager col-sm-6 col-xs-6">
+                        <ul class="pager col-sm-6 col-xs-12">
                             <li class="next">
                                 <a href="<?= $nextNote ? Url::to(['note/view', 'id'=>$nextNote['id']]) : '###'?>">
                                     <?= $nextNote ? StringHelper::truncate($nextNote['title'], 20) : '无' ?> →
