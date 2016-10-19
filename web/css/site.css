@@ -440,6 +440,13 @@ body {
         margin: 20px auto;
         width: auto;
     }
+    .note .pager .previous>a, .note .pager .previous>span, .note .pager .next>a, .note .pager .next>span {
+        float: none;
+    }
+    .note .pager {
+        margin-top: 20px;
+        margin-bottom: 0px;
+    }
 }
 /*.note .site-box a, .note .site-box a:hover{
     color: #000;
