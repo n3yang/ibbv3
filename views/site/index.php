@@ -9,6 +9,19 @@ use yii\helpers\StringHelper;
 use yii\helpers\Url;
 use app\models\Offer;
 
+
+// title
+$this->title = yii::$app->params['site']['title'];
+// keywords, description
+$this->registerMetaTag([
+    'property' => 'keywords',
+    'content' =>  yii::$app->params['site']['keywords'],
+]);
+$this->registerMetaTag([
+    'property' => 'description',
+    'content' => yii::$app->params['site']['description'],
+]);
+
 // SEO Open Graph
 $this->registerMetaTag(['property' => 'og:title', 'content' => $this->title]);
 // $this->registerMetaTag(['property' => 'og:image', 'content' => Url::base(true) . $offer->getCoverUrl()]);
