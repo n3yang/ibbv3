@@ -12,6 +12,7 @@ use app\assets\AppAsset;
 AppAsset::register($this);
 
 $navbarActive = Yii::$app->request->get('category');
+var_dump($navbarActive);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -49,8 +50,8 @@ $navbarActive = Yii::$app->request->get('category');
                 <ul class="nav navbar-nav hidden-xs">
                     <li><a href="/">首页</a></li>
                     <li class="dropdown<? if (strpos(Yii::$app->request->url, '/sp')===0) { echo ' active'; } ?>">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="/sp" id="download">优惠资讯</a>
-                        <ul class="dropdown-menu" aria-labelledby="download">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="/sp" id="sp">优惠资讯</a>
+                        <ul class="dropdown-menu" aria-labelledby="sp">
                             <li<? if ($navbarActive=='yingyangfushi') { echo ' class="active"'; } ?>><a href="/sp/c/yingyangfushi">营养辅食</a></li>
                             <li<? if ($navbarActive=='niaokushijin') { echo ' class="active"'; } ?>><a href="/sp/c/niaokushijin">尿裤湿巾</a></li>
                             <li<? if ($navbarActive=='weiyangyongpin') { echo ' class="active"'; } ?>><a href="/sp/c/weiyangyongpin">喂养用品</a></li>
@@ -65,6 +66,10 @@ $navbarActive = Yii::$app->request->get('category');
                             <li<? if ($navbarActive=='jiayongdianqi') { echo ' class="active"'; } ?>><a href="/sp/c/jiayongdianqi">家用电器</a></li>
                         </ul>
                     </li>
+                    <li class="<?= $navbarActive=='beihuo' ? 'active' : '' ?>"><a href="<?=Url::to(['note/index', 'category' => 'beihuo'])?>">屯粮备货</a></li>
+                    <li class="<?= $navbarActive=='yunqi' ? 'active' : '' ?>"><a href="<?=Url::to(['note/index', 'category' => 'yunqi'])?>">孕期经验</a></li>
+                    <li class="<?= $navbarActive=='weiyang' ? 'active' : '' ?>"><a href="<?=Url::to(['note/index', 'category' => 'weiyang'])?>">喂养护理</a></li>
+                    <li class="<?= $navbarActive=='zaojiao' ? 'active' : '' ?>"><a href="<?=Url::to(['note/index', 'category' => 'zaojiao'])?>">育儿早教</a></li>
                 </ul>
 <!-- 
                 <form id="offer-search" class="navbar-form navbar-left" action="/search" method="get" role="search">
@@ -90,17 +95,15 @@ $navbarActive = Yii::$app->request->get('category');
                         <div class="col-xs-3"><a href="/sp/c/jiayongdianqi">家用电器</a></div>
                         <div class="clearfix"></div>
                     </li>
-                    <!--
                     <li><a href="<?=Url::to(['note/index'])?>">经验分享</a></li>
                     <li class="spo-nav-xs text-center">
                         <div class="col-xs-3"><a href="<?=Url::to(['note/index', 'category' => 'beihuo'])?>">屯粮备货</a></div>
                         <div class="col-xs-3"><a href="<?=Url::to(['note/index', 'category' => 'yunqi'])?>">孕期经验</a></div>
                         <div class="col-xs-3"><a href="<?=Url::to(['note/index', 'category' => 'weiyang'])?>">喂养护理</a></div>
                         <div class="col-xs-3"><a href="<?=Url::to(['note/index', 'category' => 'zaojiao'])?>">育儿早教</a></div>
-                        <div class="col-xs-3"><a href="<?=Url::to(['note/index', 'category' => 'shenghuo'])?>">亲子生活</a></div>
+                        <!-- <div class="col-xs-3"><a href="<?=Url::to(['note/index', 'category' => 'shenghuo'])?>">亲子生活</a></div> -->
                         <div class="clearfix"></div>
                     </li>
-                    -->
                 </ul>
 
             </div><!-- /.nav-collapse -->
