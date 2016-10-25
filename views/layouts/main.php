@@ -12,7 +12,7 @@ use app\assets\AppAsset;
 AppAsset::register($this);
 
 $navbarActive = Yii::$app->request->get('category');
-var_dump($navbarActive);
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
