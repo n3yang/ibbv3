@@ -9,6 +9,7 @@ use yii\filters\VerbFilter;
 use yii\web\Controller;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\FrontSearchForm;
 use app\models\Offer;
 use app\models\Note;
 use app\models\Category;
@@ -119,6 +120,20 @@ class SiteController extends Controller
             'pagination' => $pagination,
             'navCats' => $navCats,
             'notes' => $notes,
+        ]);
+    }
+
+    public function actionSearch()
+    {
+
+        $form = new FrontSearchForm();
+        $form->load(Yii::$app->request->get());
+        $form->search();
+
+        // create a pagination object with the total count
+        $pagination = new pagination([
+            'totalCount' => $form->total,
+            'defaultPageSize' => $form->limit,
         ]);
     }
 }
