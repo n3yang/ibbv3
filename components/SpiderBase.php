@@ -219,7 +219,7 @@ class SpiderBase extends \yii\base\Component
         } catch (\Exception $e) {
             preg_match('/\#(\d+)/', $e->getMessage(), $matches);
             // if it can NOT connect to proxy
-            if (in_array($matches[1], [7, 28, 52])) {
+            if (in_array($matches[1], [7, 28, 52, 35])) {
                 unset($options[CURLOPT_PROXY], $options[CURLOPT_PROXYTYPE]);
                 $request = $client->createRequest()
                     ->setUrl($url)
@@ -518,7 +518,7 @@ class SpiderBase extends \yii\base\Component
                 '乐玩裤'],
             // 洗护用品
             14  => ['香皂', '指甲钳', '指甲剪', '洗衣液', '洗衣皂', '护唇膏', '牙刷', '澡盆', '浴盆',
-                '洗脸盆', '宝宝金水', '护臀霜', '护臀膏', '防蚊', '驱蚊', '清洁', '蚊香', '润肤乳', '护肤',
+                '洗脸盆', '宝宝金水', '护臀霜', '护臀膏', '防蚊', '驱蚊', '清洁', '蚊香', '润肤', '护肤',
                 '沐浴', '洗发', '修护膏', '防护霜', '洗澡粉', '洗涤剂', '精油', '护理套装', '衣物柔顺剂',
                 '滋润膏', '洗护', '洗澡网', '脸盆', '营养霜', '暖贴宝宝贴'],
             // 喂养用品
