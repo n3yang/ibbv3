@@ -2,10 +2,11 @@
 
 namespace app\components;
 
-use Yii;
+use yii;
 use yii\base\Model;
 use yii\httpclient\Client;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Json;
 use PHPHtmlParser\Dom;
 use app\components\SpiderBase;
 use app\models\Offer;
@@ -65,9 +66,11 @@ class SpiderZdm extends SpiderBase
         }
         $last['article_id'] = $maxId;
         $last['action_time'] = date('Y-m-d H:i:s');
+        $last['article_list'] = $list;
 
         Yii::$app->cache->set($this->syncCacheKey, $last);
-        Yii::info('Syncing Finished. ' . json_encode($last));
+        unset($last['article_list']);
+        Yii::info('Syncing Finished. ' . Json::encode($last));
 
         return true;
     }
@@ -464,6 +467,11 @@ class SpiderZdm extends SpiderBase
         }
 
         return $myCategoryId;
+    }
+
+    public function getLastSync()
+    {
+        return Yii::$app->cache->get($this->syncCacheKey);
     }
 }
 

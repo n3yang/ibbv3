@@ -2,6 +2,7 @@
 
 namespace app\components;
 
+use yii;
 use app\components\SpiderZdm;
 use app\models\Offer;
 
@@ -30,9 +31,14 @@ class SpiderZdmFx extends SpiderZdm
 
     public static function isValidArticle($article)
     {
-        if (in_array($article['article_id'], self::$ignoredArticleIds)) {
-            Yii::info('Find repeated article: ' . $a['article_id'] . ', ' . $a['article_title']);
-            return false;
+        $zdm = new SpiderZdm();
+        $rs = $zdm->getLastSync();
+        $list = $rs['article_list'];
+        foreach ($list as $passed) {
+            if ($article['article_title'] == $passed['article_title']) {
+                Yii::info('Find repeated article: ' . $a['article_id'] . ', ' . $a['article_title']);
+                return false;
+            }
         }
         return parent::isValidArticle($article);
     }
