@@ -191,7 +191,7 @@ class SpiderPyh extends SpiderBase
         $aTags = $dom->find('a');
         foreach ($aTags as $a) {
             $url = $a->getAttribute('href');
-            if (!preg_match('/goods\/\w+/', $url)){
+            if (!preg_match('/goods\/\w+/', $url) && strpos('mgpyh', $url)) {
                 $a->setAttribute('href', '#');
             } else {
                 $title = strip_tags($a->innerHtml());
