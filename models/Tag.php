@@ -6,6 +6,8 @@ use Yii;
 use yii\db\ActiveRecord;
 use yii\db\Expression;
 use yii\behaviors\TimestampBehavior;
+use yii\base\Event;
+use Overtrue\Pinyin\Pinyin;
 
 /**
  * This is the model class for table "tag".
@@ -53,6 +55,16 @@ insert into tag values
         '23'  => ['name' => '美食生鲜', 'slug' => 'meishishengxian'],
     ];
 
+    public function __construct()
+    {
+        Event::on(Tag::className(), Tag::EVENT_BEFORE_INSERT, function($event){
+            $this->slug = $this->slug ?: self::generateSlug($this->name);
+        });
+        Event::on(Tag::className(), Tag::EVENT_BEFORE_UPDATE, function($event){
+            $this->slug = $this->slug ?: self::generateSlug($this->name);
+        });
+    }
+
     /**
      * @inheritdoc
      */
@@ -67,7 +79,7 @@ insert into tag values
     public function rules()
     {
         return [
-            [['name', 'slug'], 'required'],
+            [['name'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
             [['name'], 'string', 'max' => 200],
             [['slug'], 'string', 'max' => 100]
@@ -106,9 +118,20 @@ insert into tag values
         ];
     }
 
+    public static function generateSlug($name)
+    {
+        $pinyin = new Pinyin();
+        return $pinyin->permalink($name);
+    }
+
     public function getOffers()
     {
         return $this->hasMany(Offer::className(), ['id' => 'offer_id'])->viaTable('tag_offer', ['tag_id' => 'id']);
+    }
+
+    public function getNotes()
+    {
+        return $this->hasMany(Note::className(), ['id' => 'note_id'])->viaTable('tag_note', ['tag_id' => 'id']);
     }
 
 }
