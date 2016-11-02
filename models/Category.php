@@ -36,7 +36,7 @@ class Category extends \yii\db\ActiveRecord
         ('20','安全座椅',0,1,'anquanzuoyi', NOW(), NOW()),
         ('21','妈妈用品',0,1,'mamayongpin', NOW(), NOW()),
         ('22','图书影音',0,1,'tushuyingyin', NOW(), NOW()),
-        ('23','美食生鲜',0,1,'meishishengxian', NOW(), NOW());
+        ('23','美食生鲜',0,1,'meishishengxian', NOW(), NOW()),
         ('24','家用电器',0,1,'jiayongdianqi', NOW(), NOW());
 
     insert into category values
