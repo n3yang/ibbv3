@@ -72,7 +72,6 @@ class SpiderController extends Controller
         // $spider->replaceUrl('http://www.smzdm.com/gourl/5D8916EA9AA5AC64/AA_YH_75');
 
         $spider = new SpiderZdmFx;
-        $spider->setIgnoredArticleIds($fetchedArticleIds);
         $spider->syncArticle();
     }
 
