@@ -371,6 +371,14 @@ class SpiderBase extends \yii\base\Component
             $real = static::removeQueryFromUrl(['sid'], static::getQueryValueFromUrl('url', $url));
         }
         // womai.com
+        // yaoqing.com
+        else if (strpos($url, 'yaoqing.com')) {
+            $real = static::getQueryValueFromUrl('t', $url);
+        }
+        // linkstars.com
+        else if (strpos($url, 'linkstars.com')) {
+            $real = static::getQueryValueFromUrl('to', $url);
+        }
         // default 
         else {
             Yii::warning('Fail to get real url, URL: ' . $url);
