@@ -155,6 +155,19 @@ class Link extends \yii\db\ActiveRecord
         $str = substr( md5( $salt . $url ), 0, 12 );
         return gmp_strval( gmp_init( $str, 16 ), 62 );
     }
+
+    /**
+     * generate slug by url
+     * @param  string $url url
+     * @return string      short string
+     */
+    public static function generateSlugWithoutScheme($url)
+    {
+        $rs = parse_url($url);
+        unset($rs['scheme']);
+        $url = implode('', $rs);
+        return static::generateSlug($url);
+    }
     
     /**
      * find link by slug
