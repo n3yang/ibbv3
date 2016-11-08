@@ -191,13 +191,20 @@ class SpiderPyh extends SpiderBase
         $aTags = $dom->find('a');
         foreach ($aTags as $a) {
             $url = $a->getAttribute('href');
-            if (!preg_match('/goods\/\w+/', $url) && strpos('mgpyh', $url)) {
-                $a->setAttribute('href', '#');
-            } else {
+            if (preg_match('/goods\/\w+/', $url)) {
                 $title = strip_tags($a->innerHtml());
                 $link = self::replaceUrl($url, $title);
-                $myurl = isset($link['shortUrl']) ? $link['shortUrl'] : '';
+                $myurl = $link['shortUrl'] ?: '';
                 $a->setAttribute('href', $myurl);
+            } else {
+                // 也可能是CPS链接
+                $realUrl = parent::getRealUrl($url);
+                if ($realUrl == $url) {
+                    $a->setAttribute('href', '#');
+                } else {
+                    $a->setAttribute('href', $realUrl);
+                    parent::addLinkUniq($realUrl, $title);
+                }
             }
         }
         $imgTags = $dom->find('img');
