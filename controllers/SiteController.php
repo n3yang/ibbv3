@@ -9,7 +9,7 @@ use yii\filters\VerbFilter;
 use yii\web\Controller;
 use app\models\LoginForm;
 use app\models\ContactForm;
-use app\models\FrontSearchForm;
+use app\models\FrontSearch;
 use app\models\Offer;
 use app\models\Note;
 use app\models\Category;
@@ -123,17 +123,19 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionSearch()
+    public function actionSearch($k)
     {
-
-        $form = new FrontSearchForm();
-        $form->load(Yii::$app->request->get());
-        $form->search();
-
-        // create a pagination object with the total count
+        $search = new FrontSearch();
+        $total = $search->countOffer($k);
         $pagination = new pagination([
-            'totalCount' => $form->total,
-            'defaultPageSize' => $form->limit,
+            'totalCount' => $total,
+            // 'defaultPageSize' => 20,
+        ]);
+        $offers = $search->searchOffer($k, $pagination->limit, $pagination->offset);
+
+        return $this->render('index', [
+            'offers'        => $offers,
+            'pagination'    => $pagination,
         ]);
     }
 }
