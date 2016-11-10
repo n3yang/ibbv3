@@ -129,11 +129,11 @@ class SiteController extends Controller
         $total = $search->countOffer($k);
         $pagination = new pagination([
             'totalCount' => $total,
-            // 'defaultPageSize' => 20,
+            'defaultPageSize' => 20,
         ]);
-        $offers = $search->searchOffer($k, $pagination->limit, $pagination->offset);
+        $offers = $search->getOffers($k, $pagination->limit, $pagination->offset);
 
-        return $this->render('index', [
+        return $this->render('search', [
             'offers'        => $offers,
             'pagination'    => $pagination,
         ]);

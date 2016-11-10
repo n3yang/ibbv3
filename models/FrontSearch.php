@@ -36,7 +36,7 @@ class FrontSearch extends Model
      * @param  integer $offset  offset
      * @return app\models\Note  
      */
-    public static function searchNote($keyword, $limit = 20, $offset = 0)
+    public static function getNotes($keyword, $limit = 20, $offset = 0)
     {
         return self::buildNoteQuery($keyword)
             ->limit($limit)
@@ -75,15 +75,15 @@ class FrontSearch extends Model
      * @param  integer $offset  offset
      * @return app\models\Offer  
      */
-    public static function searchOffer($keyword, $limit = 20, $offset = 0)
+    public static function getOffers($keyword, $limit = 20, $offset = 0)
     {
-        $ds = Offer::getDb()->cache(function ($db) {
-            return self::buildOfferQuery()
+        $ds = Offer::getDb()->cache(function ($db) use ($keyword, $limit, $offset) {
+            return self::buildOfferQuery($keyword)
                 ->limit($limit)
                 ->offset($offset)
                 ->orderBy(['id' => SORT_DESC])
                 ->all();
-        }, 1200);
+        }, 0);
 
         return $ds;
     }
