@@ -72,9 +72,11 @@ $navbarActive = Yii::$app->request->get('category');
                     <li class="<?= $navbarActive=='zaojiao' ? 'active' : '' ?>"><a href="<?=Url::to(['note/index', 'category' => 'zaojiao'])?>">育儿早教</a></li>
                 </ul>
 
-                <form id="offer-search" class="navbar-form navbar-left" action="/search" method="get" role="search">
-                    <div class="form-group"><input type="text" class="form-control" placeholder="Search" name="k"></div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                <form id="offer-search" class="navbar-form navbar-left" action="/search" method="get" role="search" style="border: none">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="请输入关键字" name="k">
+                        <span class="input-group-btn"><button type="submit" class="btn btn-default">搜索</button></span>
+                    </div>
                 </form>
 
                 <ul class="nav navbar-nav visible-xs">

@@ -6,6 +6,7 @@ use Yii;
 use yii\data\Pagination;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\helpers\StringHelper;
 use yii\web\Controller;
 use app\models\LoginForm;
 use app\models\ContactForm;

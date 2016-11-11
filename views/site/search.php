@@ -10,26 +10,22 @@ use yii\helpers\Url;
 use app\models\Offer;
 
 // page title
-$this->title = yii::$app->params['site']['title'] . ' - ' . '优惠资讯';
-$categoryName = '';
-if ($category){
-    $this->title = yii::$app->params['site']['title'] . ' - ' . $category->name;
-    $categoryName = $category->name;
-}
+$inputKeyword = Yii::$app->request->get('k');
+$this->title = yii::$app->params['site']['title'] . ' - ' . '关键词搜索：' . $inputKeyword;
 
 // keywords, description
 $this->registerMetaTag([
     'property' => 'keywords',
-    'content' =>  yii::$app->params['site']['keywords'] . ',' . $categoryName,
+    'content' =>  yii::$app->params['site']['keywords'] . ',搜索,结果,' . $inputKeyword,
 ]);
 $this->registerMetaTag([
     'property' => 'description',
-    'content' => yii::$app->params['site']['description'] . ' 分享' . $categoryName . '优惠资讯',
+    'content' => yii::$app->params['site']['description'],
 ]);
 
 // SEO Open Graph
 $this->registerMetaTag(['property' => 'og:title', 'content' => $this->title]);
-// $this->registerMetaTag(['property' => 'og:image', 'content' => Url::base(true) . $offer->getCoverUrl()]);
+$this->registerMetaTag(['property' => 'og:image', 'content' => Url::base(true) . '/logo-mobile.jpg']);
 $this->registerMetaTag(['property' => 'og:url', 'content' => Yii::$app->request->absoluteUrl]);
 $this->registerMetaTag(['property' => 'og:type', 'content' => 'site']);
 
@@ -40,18 +36,28 @@ $this->registerMetaTag(['property' => 'og:type', 'content' => 'site']);
 
             <div class="index col-sm-12 col-md-9">
 
-                <ul class="breadcrumb hidden-xs">
+                <ul class="breadcrumb">
                     <li><a href="/">首页</a></li>
                     <li><a href="#">搜索结果</a></li>
-                    <li class="active breadcrumb-title">关键字：<s><?=$category->name;?></s></li>
+                    <li class="active breadcrumb-title">关键字：<i><?=Html::encode($inputKeyword)?></i></li>
                 </ul>
-
-                <!-- <div class="spo-container"> -->
-                <? if (!$offers){ ?>
+<!-- 
                 <div class="spo-row row">
-                    <h2>没有找到相关的内容</h2>
-                    <hr>
-                    <p class="text-center">(＞﹏＜) 对不起，没有找到与您搜索匹配的项。请尝试不同的关键词。</p>
+                    <div class="col-md-12">
+                        <ul class="nav nav-pills">
+                            <li class="active"><a href="#">Home <span class="badge">42</span></a></li>
+                            <li><a href="#">Messages <span class="badge">3</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+ -->
+                <? if ($pagination->totalCount == 0){ ?>
+                <div class="spo-row row">
+                    <div class="col-md-12">
+                        <h4>没有找到相关的内容</h4>
+                        <hr>
+                        <p class="text-center">(＞﹏＜) 对不起，没有找到与您搜索匹配的项。请尝试不同的关键词。</p>
+                    </div>
                 </div>
                 <? } ?>
                 <? foreach ($offers as $o) { ?>
@@ -72,7 +78,8 @@ $this->registerMetaTag(['property' => 'og:type', 'content' => 'site']);
                     </div>
                 </div>
                 <? } // end foreach ?>
-                <!-- </div> -->
+
+
                 <div class="pagebar">
                     <nav class="text-center">
 <?
