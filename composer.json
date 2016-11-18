@@ -16,7 +16,8 @@
         "xiaosier/libweibo": "dev-master",
         "webcreate/jquery-ias": "^2.2",
         "yiisoft/yii2-redis": "~2.0",
-        "overtrue/pinyin": "~3.0"
+        "overtrue/pinyin": "~3.0",
+        "2amigos/yii2-selectize-widget": "~1.0"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

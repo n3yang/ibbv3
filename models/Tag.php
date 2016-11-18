@@ -120,7 +120,7 @@ insert into tag values
 
     public static function generateSlug($name)
     {
-        return (new Pinyin())->permalink($name);
+        return (new Pinyin())->permalink($name, '');
     }
 
     public function getOffers()

@@ -103,6 +103,20 @@ class TagController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionAjaxQueryByKeyword($keyword)
+    {
+        $data = Tag::find()
+            ->where(['like', 'name', $keyword])
+            ->orWhere(['like', 'slug', $keyword])
+            ->limit(10)
+            ->all();
+        Yii::$app->getResponse()->format = yii\web\Response::FORMAT_JSON;
+
+        return [
+            'data' => $data
+        ];
+    }
+
     /**
      * Finds the Tag model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

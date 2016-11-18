@@ -78,10 +78,11 @@ class NoteController extends Controller
                 $model->cover = $fileModel->path;
             }
             // link tags
-            $newTagIds = ArrayHelper::getValue(Yii::$app->request->post('Note'), 'tags');
-            if ($newTagIds) {
-                foreach ($newTagIds as $tagId){
-                    $model->link('tags', Tag::findOne($tagId));
+            $tags = ArrayHelper::getValue(Yii::$app->request->post('Note'), 'tags');
+            if ($tags) {
+                $newTags = $this->findTags($tags);
+                foreach ($newTags as $tag){
+                    $model->link('tags', $tag);
                 }
             }
             $model->user_id = Yii::$app->user->identity->id;
@@ -113,10 +114,11 @@ class NoteController extends Controller
             }
             // unlink all tags, and link new
             $model->unlinkAll('tags', true);
-            $newTagIds = ArrayHelper::getValue(Yii::$app->request->post('Note'), 'tags');
-            if ($newTagIds) {
-                foreach ($newTagIds as $tagId){
-                    $model->link('tags', Tag::findOne($tagId));
+            $tags = ArrayHelper::getValue(Yii::$app->request->post('Note'), 'tags');
+            if ($tags) {
+                $newTags = $this->findTags($tags);
+                foreach ($newTags as $tag){
+                    $model->link('tags', $tag);
                 }
             }
             $model->save();
@@ -156,5 +158,31 @@ class NoteController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    /**
+     * format name of tags
+     * @param  string|array $tags      标签名称的字符串或者数组
+     * @param  string       $delimiter 如果是字符串，需要提供分隔符
+     * @return array                   含有 app\models\Tag 的数组
+     */
+    protected function findTags($tags = null, $delimiter = ',')
+    {
+        if (!is_array($tags)) {
+            $r = explode($delimiter, $tags);
+        }
+
+        $all = [];
+        foreach ($r as $name) {
+            $tag = Tag::findOne(['name' => $name]);
+            if (!$tag) {
+                $tag = new Tag;
+                $tag->name = $name;
+                $tag->save();
+            }
+            $all[] = $tag;
+        }
+
+        return $all;
     }
 }

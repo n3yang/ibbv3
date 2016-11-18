@@ -14,7 +14,9 @@ use dosamigos\tinymce\TinyMce;
 /* @var $model app\models\Note */
 /* @var $form yii\widgets\ActiveForm */
 
-$this->registerJsFile('//cdn.bootcss.com/jquery.form/3.51/jquery.form.min.js', ['depends' => 'yii\web\JqueryAsset']);
+app\assets\JqueryFormAsset::register($this);
+app\assets\JquerySelectizeAsset::register($this);
+
 ?>
 
 <div class="note-form">
@@ -104,7 +106,12 @@ echo $form->field($model, 'content')->widget(TinyMce::className(), [
 
     <?= $form->field($model, 'created_at')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'tags')->checkboxList(ArrayHelper::map(Tag::find()->asArray()->all(), 'id', 'name')) ?>
+    <?// $form->field($model, 'tags')->checkboxList(ArrayHelper::map(Tag::find()->asArray()->all(), 'id', 'name')) ?>
+
+    <?= $form->field($model, 'tags')->textInput([
+        'id' => 'input-tags',
+        'value' => implode(',', ArrayHelper::getColumn($model->tags, 'name'))
+        ]) ?>
 
     </div>
     
@@ -116,3 +123,44 @@ echo $form->field($model, 'content')->widget(TinyMce::className(), [
     
     <input name="image" type="file" onchange="$('#uploadForm').ajaxSubmit({ success: function(d){eval(d);} });this.value='';">
 <?= Html::endForm() ?>
+
+<?
+$js = <<<EOF
+$('#input-tags').selectize({
+    valueField: 'name',
+    labelField: 'name',
+    searchField: ['name', 'slug'],
+    delimiter: ',',
+    persist: false,
+    create: true,
+    load: function(query, callback) {
+        if (!query.length) return callback();
+        $.ajax({
+            url: '/admin/tag/ajax-query-by-keyword',
+            type: 'GET',
+            data: {
+                keyword: query,
+            },
+            error: function() {
+                callback();
+            },
+            success: function(res) {
+                callback(res.data);
+            }
+        });
+    }
+});
+EOF;
+$this->registerJs($js);
+$this->registerCss('
+.selectize-control.multi .selectize-input div.item{
+    margin-right: 10px;
+    color: #fff;
+    background-color: #428bca;
+}
+.selectize-control.multi .selectize-input div.active{
+    color: #000;
+    background-color: #ddd;
+}
+');
+?>
