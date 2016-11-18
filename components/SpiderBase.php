@@ -569,7 +569,7 @@ class SpiderBase extends \yii\base\Component
 
         foreach ($matches as $k => $v) {
             foreach ($v as $keyword) {
-                if (strpos($title, $keyword)!==false) {
+                if (mb_strpos($title, $keyword) !== false) {
                     return $k;
                 }
             }
