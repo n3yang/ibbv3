@@ -359,7 +359,7 @@ class SpiderZdm extends SpiderBase
         } else {
             $js = self::decodeEval($m[1][0], $m[2][0]);
             // echo $js;
-            $pattern = "/zdmhref=\\\'(.*)\\\';ga/";
+            $pattern = "/zdmhref=\\\'([^\']+)\\\'/";
             if (preg_match($pattern, $js, $matches)) {
                 // print_r($matches);
                 $real = parent::getRealUrl($matches[1]);
