@@ -62,15 +62,13 @@ class WechatResponse extends Model
      */
     public function replyText($message = '')
     {
-        $replyData = [
+        return [
             'ToUserName'    => $this->data['FromUserName'],
             'FromUserName'  => $this->data['ToUserName'],
             'CreateTime'    => time(),
             'MsgType'       => 'text',
             'Content'       => $message,
         ];
-
-        return $replyData;
     }
 
     /**
@@ -97,17 +95,13 @@ class WechatResponse extends Model
      */
     public function replyNews($articles)
     {
-        $replyData = [
+        return [
             'ToUserName'    => $this->data['FromUserName'],
             'FromUserName'  => $this->data['ToUserName'],
             'CreateTime'    => time(),
             'MsgType'       => 'news',
-        ];
-        $replyData[
             'Articles'      => $articles,
             'ArticleCount'  => count($articles),
         ];
-
-        return $replyData;
     }
 }

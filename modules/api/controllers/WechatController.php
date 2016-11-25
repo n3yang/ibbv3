@@ -25,8 +25,12 @@ class WechatController extends Controller
     public function formatDataBeforeSend($event)
     {
         $response = $event->sender;
-        $response->format = Response::FORMAT_RAW;
-        $response->data = XmlHelper::build($response->data);
+        if ($response->code == 200) {
+            $response->format = Response::FORMAT_RAW;
+            $response->data = XmlHelper::build($response->data);
+        } else {
+            $response->format = Response::FORMAT_HTML;
+        }
     }
     /**
      * Renders the index view for the module
@@ -36,13 +40,13 @@ class WechatController extends Controller
     {
         $wechat = new WechatResponse();
         if (!$wechat->checkSignature()) {
-            throw new \yii\web\NotFoundHttpException("The requested resource was not found.");
+            throw new \yii\web\NotFoundHttpException( "The requested resource was not found.");
         }
 
         $rs = null;
         switch ($wechat->data['MsgType']) {
             case 'text':
-                $rs = 'text'
+                $rs = 'text';
                 break;
 
             case 'event':
