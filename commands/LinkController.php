@@ -21,15 +21,15 @@ use yii\httpclient\Client;
 class LinkController extends Controller
 {
 
-	public function actionUpdate()
-	{
-		$links = Link::findAll();
-		foreach ($links as $link) {
-			Link::generateSlugWithoutScheme($link->url);
-		}
-		// 查找所有的链接
-		// 重新计算，更新数据
-		// 查找相关的offer，更新
-		// 查找相关的文章，更新
-	}
+    public function actionUpdate()
+    {
+        $links = Link::findAll();
+        foreach ($links as $link) {
+            Link::generateSlugWithoutScheme($link->url);
+        }
+        // 查找所有的链接
+        // 重新计算，更新数据
+        // 查找相关的offer，更新
+        // 查找相关的文章，更新
+    }
 }

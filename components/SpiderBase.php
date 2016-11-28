@@ -274,6 +274,18 @@ class SpiderBase extends \yii\base\Component
         else if (strpos($url, 'count.chanet.com.cn/click.cgi')) {
             $real = static::getQueryValueFromUrl('url', $url);
         }
+        // linkstars.com
+        else if (strpos($url, 'linkstars.com')) {
+            $real = static::getQueryValueFromUrl('to', $url);
+        }
+        // CJ AFFILIATE
+        else if (strpos($url, 'www.jdoqocy.com') || strpos($url, 'www.kqzyfj.com') || strpos($url, 'www.tkqlhce.com')) {
+            $real = static::removeQueryFromUrl(['sid'], static::getQueryValueFromUrl('url', $url));
+        }
+        // yaoqing.com
+        else if (strpos($url, 'yaoqing.com')) {
+            $real = static::getQueryValueFromUrl('t', $url);
+        }
         // yhd
         else if (strpos($url, 'click.yhd.com/')) {
             $header = get_headers($url, 1);
@@ -366,19 +378,7 @@ class SpiderBase extends \yii\base\Component
         else if (strpos($url, 'fengqu.com')) {
             $real = static::removeQueryFromUrl(['_src'], $url);
         }
-        // CJ AFFILIATE
-        else if (strpos($url, 'www.jdoqocy.com') || strpos($url, 'www.kqzyfj.com') || strpos($url, 'www.tkqlhce.com')) {
-            $real = static::removeQueryFromUrl(['sid'], static::getQueryValueFromUrl('url', $url));
-        }
         // womai.com
-        // yaoqing.com
-        else if (strpos($url, 'yaoqing.com')) {
-            $real = static::getQueryValueFromUrl('t', $url);
-        }
-        // linkstars.com
-        else if (strpos($url, 'linkstars.com')) {
-            $real = static::getQueryValueFromUrl('to', $url);
-        }
         // default 
         else {
             Yii::warning('Fail to get real url, URL: ' . $url);
