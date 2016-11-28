@@ -6,6 +6,7 @@ use Yii;
 // use yii\web\Controller;
 use yii\rest\Controller;
 use yii\web\Response;
+use yii\base\Event;
 use app\components\XmlHelper;
 use app\models\WechatResponse;
 
@@ -20,18 +21,26 @@ class WechatController extends Controller
         parent::init();
         // disable session
         Yii::$app->user->enableSession = false;
+
+        /**
+         * register response event: before send
+         * format return data
+         */
+        Event::on(Response::className(), Response::EVENT_BEFORE_SEND, [$this, 'formatDataBeforeSend']);
     }
 
     public function formatDataBeforeSend($event)
     {
         $response = $event->sender;
-        if ($response->code == 200) {
+        if ($response->statusCode == 200) {
             $response->format = Response::FORMAT_RAW;
             $response->data = XmlHelper::build($response->data);
         } else {
             $response->format = Response::FORMAT_HTML;
+            $response->data = $response->data['message'];
         }
     }
+
     /**
      * Renders the index view for the module
      * @return string
@@ -40,7 +49,7 @@ class WechatController extends Controller
     {
         $wechat = new WechatResponse();
         if (!$wechat->checkSignature()) {
-            throw new \yii\web\NotFoundHttpException( "The requested resource was not found.");
+            throw new \yii\web\ForbiddenHttpException("The requested resource was forbidden.");
         }
 
         $rs = null;
