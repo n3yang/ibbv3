@@ -286,6 +286,10 @@ class SpiderBase extends \yii\base\Component
         else if (strpos($url, 'yaoqing.com')) {
             $real = static::getQueryValueFromUrl('t', $url);
         }
+        // redirect.viglink.com
+        else if (strpos($url, 'redirect.viglink.com')) {
+            $real = static::getQueryValueFromUrl('u', $url);
+        }
         // yhd
         else if (strpos($url, 'click.yhd.com/')) {
             $header = get_headers($url, 1);
@@ -378,6 +382,9 @@ class SpiderBase extends \yii\base\Component
         else if (strpos($url, 'fengqu.com')) {
             $real = static::removeQueryFromUrl(['_src'], $url);
         }
+        else if (strpos($url, 'www.xiji.com')) {
+            $real = static::removeQueryFromUrl(['utm_source', 'utm_medium'], $url);
+        }
         // womai.com
         // default 
         else {
@@ -399,16 +406,15 @@ class SpiderBase extends \yii\base\Component
         $info = parse_url($url);
         parse_str($info['query'], $query);
 
-        // single key
-        if (is_string($queryKey)) {
-            unset($query[$queryKey]);
-        }
         // multi keys
         if (is_array($queryKey)) {
             foreach ($queryKey as $key) {
                 unset($query[$key]);
             }
+        } else {
+            unset($query[$queryKey]);
         }
+        
         // build full url
         $full = $info['scheme'] . '://' . $info['host'] . $info['path'];
         if (count($query) > 0) {
