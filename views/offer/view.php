@@ -111,11 +111,11 @@ $this->registerJsFile('http://tjs.sjs.sinajs.cn/open/api/js/wb.js');
                             <div class="lead text-warning">同类推荐</div>
                         </div>
                         <? foreach ($similarOffers as $k => $o) { ?>
-                        <div class="col-xs-6 col-sm-3">
+                        <div class="col-xs-3">
                             <a href="<?=Url::to(['offer/view', 'id'=>$o->id])?>" class="thumbnail">
                                 <img class="img-responsive" src="<?=$o->getCoverUrl()?>">
                             </a>
-                            <div class="caption"><h5><?=StringHelper::truncate($o->title, 30)?></h5></div>
+                            <div class="caption hidden-xs"><h5><?=StringHelper::truncate($o->title, 30)?></h5></div>
                         </div>
                         <? } // end foreach ?>
                     </div>

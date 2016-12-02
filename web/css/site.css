@@ -253,7 +253,7 @@ body {
     margin-bottom: 20px;
 }
 .spo .related img{
-    height: 158px;
+    max-height: 158px;
     display: block;
     margin: auto;
 }
@@ -282,9 +282,6 @@ body {
     .spo .pager {
         margin-top: 20px;
         margin-bottom: 0px;
-    }
-    .spo .related .thumbnail img{
-        height: 120px;
     }
     .spo .related .caption h5{
         height: 30px;
