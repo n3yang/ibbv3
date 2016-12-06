@@ -5,8 +5,9 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\widgets\ActiveForm;
-use yii\widgets\Breadcrumbs;
+// use yii\widgets\ActiveForm;
+// use yii\bootstrap\ActiveForm;
+// use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 
 AppAsset::register($this);
@@ -120,11 +121,21 @@ $navbarActive = Yii::$app->request->get('category');
 
     <!--footer start-->
     <footer class="footer">
+    <!-- 
+        <a class="btn btn-primary btn-lg" data-toggle="modal" data-target="#loginModal" data-remote="/site/login-modal">login</a>
+     -->
         <div class="container">
             <p class="text-muted">&copy; 2016 Inc</p>
         </div>
     </footer>
 
+
+<!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content"></div>
+        </div>
+    </div>
 <?php $this->endBody() ?>
 </body>
 </html>

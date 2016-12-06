@@ -68,6 +68,14 @@ class SiteController extends Controller
         ]);
     }
 
+    public function actionLoginModal()
+    {
+        $this->layout = 'main';
+        return $this->renderPartial('loginModal', [
+            'model' => new LoginForm
+        ]);
+    }
+
     public function actionLogout()
     {
         Yii::$app->user->logout();
