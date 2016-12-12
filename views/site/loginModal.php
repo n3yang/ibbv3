@@ -29,17 +29,17 @@ use yii\bootstrap\ActiveForm;
     $loginFormModel = new \app\models\LoginForm;
  ?>
 
-    <?= $form->field($loginFormModel, 'username')->textInput(['placeholder' => '请输入用户名', 'class' => 'col-sm-12']) ?>
+    <?= $form->field($loginFormModel, 'username')->textInput(['placeholder' => '请输入用户名', 'class' => 'col-sm-12 form-control']) ?>
 
-    <?= $form->field($loginFormModel, 'password')->passwordInput(['placeholder' => '请输入密码', 'class' => 'col-sm-12']) ?>
+    <?= $form->field($loginFormModel, 'password')->passwordInput(['placeholder' => '请输入密码', 'class' => 'col-sm-12 form-control']) ?>
 
     <?= $form->field($loginFormModel, 'rememberMe')->checkbox([
-        'template' => "<div class=\"col-sm-12\">{input} 自动登录</div>\n",
+        'template' => "<div class=\"col-sm-12\">{input} 下次自动登录</div>\n",
     ]) ?>
 
     <div class="form-group">
-        <div class="col-xs-offset-4 col-xs-4">
-            <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+        <div class="col-xs-offset-3 col-xs-6 text-center">
+            <?= Html::submitButton('登录', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
         </div>
     </div>
 
