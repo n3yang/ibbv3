@@ -40,6 +40,12 @@ class SpiderController extends Controller
 
     }
 
+    public function actionJosRefreshToken()
+    {
+        $jos = new \app\components\JosClient;
+        var_dump($jos->refreshToken());
+    }
+
     public function actionSyncZdm($value='')
     {
 
