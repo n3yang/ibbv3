@@ -73,6 +73,7 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             [
                 'class' => TimestampBehavior::className(),
+                'value' => new Expression('NOW()'),
             ],
         ];
     }
