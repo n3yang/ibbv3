@@ -151,6 +151,10 @@ class Link extends \yii\db\ActiveRecord
      */
     public static function generateSlug($url)
     {
+        // $rs = parse_url($url);
+        // unset($rs['scheme']);
+        // $url = implode('', $rs);
+        
         $salt = 'ibbv3';
         $str = substr( md5( $salt . $url ), 0, 12 );
         return gmp_strval( gmp_init( $str, 16 ), 62 );
