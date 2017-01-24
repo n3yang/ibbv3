@@ -43,7 +43,7 @@ class LinkController extends Controller
             foreach ($offers as $o) {
                 $this->stdout(' update offer: ' . $o->id);
                 $o->content = str_replace($link->slug, $newSlug, $o->content);
-                // $o->save();
+                $o->save();
                 $this->stdout(PHP_EOL);
             }
 
@@ -54,7 +54,7 @@ class LinkController extends Controller
             foreach ($note as $o) {
                 $this->stdout(' update offer: ' . $o->id);
                 $o->content = str_replace($link->slug, $newSlug, $o->content);
-                // $o->save();
+                $o->save();
                 $this->stdout(PHP_EOL);
             }
 
@@ -62,7 +62,7 @@ class LinkController extends Controller
             $link->slug = $newSlug;
             $link->scheme = $newScheme;
             $link->url = $newUrl;
-            // $link->save();
+            $link->save();
             $this->stdout('link ID: ' . $link->id . ', .. saved' . PHP_EOL);
         }
         
