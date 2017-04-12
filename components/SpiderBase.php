@@ -60,7 +60,8 @@ class SpiderBase extends \yii\base\Component
                 }
             }
             // 发送微博
-            if ($offer->status == Offer::STATUS_PUBLISHED) {
+            if ($offer->status == Offer::STATUS_PUBLISHED
+                && Yii::$app->params['weibo']['autosend'] != false) {
                 $twi = $offer->title 
                     . ' ' . $offer->price
                     . ' ' . Url::toRoute(['offer/view', 'id' => $offer->id], true)
@@ -322,7 +323,7 @@ class SpiderBase extends \yii\base\Component
                 }
             }
             $this->requestUserAgent = $ua;
-        } else if (strpos($url, 'ccc.x.jd.com')) {
+        } else if (strpos($url, 'ccc.x.jd.com') || strpos($url, 'ccc-x.jd.com')) {
             $real = static::getQueryValueFromUrl('to', $url);
         } else if (strpos($url, 'item.jd.com')) {
             // preg_match('/(https?:\/\/item.jd.com.*)/', $url, $m);
