@@ -55,7 +55,7 @@ class LinkController extends Controller
             foreach ($offers as $o) {
                 $o->detachBehaviors();
                 $this->stdout(' update offer: ' . $o->id);
-                $o->content = str_replace($link->slug, $newSlug, $o->content) . '1';
+                $o->content = str_replace($link->slug, $newSlug, $o->content);
                 $o->save();
                 $this->stdout(PHP_EOL);
             }
