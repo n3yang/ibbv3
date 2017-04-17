@@ -2,19 +2,14 @@
 
 namespace app\commands;
 
-use yii;
+use Yii;
+use yii\behaviors\TimestampBehavior;
 use yii\console\Controller;
-use yii\helpers\Console;
-use yii\helpers\ArrayHelper;
-use PHPHtmlParser\Dom;
-use app\models\File;
 use app\models\Offer;
 use app\models\Note;
 use app\models\Link;
 use app\components\SpiderZdm;
-use app\components\SpiderZdmFx;
 use app\components\SpiderPyh;
-use yii\httpclient\Client;
 
 /**
  * 
@@ -58,6 +53,7 @@ class LinkController extends Controller
                 ->where(['like', 'content', $link->slug])
                 ->all();
             foreach ($offers as $o) {
+                $o->detachBehavior(TimestampBehavior::className());
                 $this->stdout(' update offer: ' . $o->id);
                 $o->content = str_replace($link->slug, $newSlug, $o->content);
                 $o->save();
@@ -69,6 +65,7 @@ class LinkController extends Controller
                 ->where(['like', 'content', $link->slug])
                 ->all();
             foreach ($note as $n) {
+                $n->detachBehavior(TimestampBehavior::className());
                 $this->stdout(' update offer: ' . $n->id);
                 $n->content = str_replace($link->slug, $newSlug, $n->content);
                 $n->save();
