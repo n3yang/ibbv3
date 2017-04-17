@@ -278,6 +278,10 @@ class SpiderBase extends \yii\base\Component
         // linkstars.com
         else if (strpos($url, 'linkstars.com')) {
             $real = static::getQueryValueFromUrl('to', $url);
+            // end of '?'
+            if (substr($real, -1) == '?') {
+                $real = substr($real, 0, strlen($real) - 1);
+            }
         }
         // CJ AFFILIATE
         else if (strpos($url, 'www.jdoqocy.com') || strpos($url, 'www.kqzyfj.com') || strpos($url, 'www.tkqlhce.com')) {
