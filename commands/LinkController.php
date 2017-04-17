@@ -53,9 +53,9 @@ class LinkController extends Controller
                 ->where(['like', 'content', $link->slug])
                 ->all();
             foreach ($offers as $o) {
-                $o->detachBehavior(TimestampBehavior::className());
+                $o->detachBehaviors();
                 $this->stdout(' update offer: ' . $o->id);
-                $o->content = str_replace($link->slug, $newSlug, $o->content);
+                $o->content = str_replace($link->slug, $newSlug, $o->content) . '1';
                 $o->save();
                 $this->stdout(PHP_EOL);
             }
@@ -65,8 +65,8 @@ class LinkController extends Controller
                 ->where(['like', 'content', $link->slug])
                 ->all();
             foreach ($note as $n) {
-                $n->detachBehavior(TimestampBehavior::className());
-                $this->stdout(' update offer: ' . $n->id);
+                $n->detachBehaviors();
+                $this->stdout(' update note: ' . $n->id);
                 $n->content = str_replace($link->slug, $newSlug, $n->content);
                 $n->save();
                 $this->stdout(PHP_EOL);
