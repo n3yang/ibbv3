@@ -22,6 +22,23 @@ use yii\httpclient\Client;
 class LinkController extends Controller
 {
 
+
+    public function actionReplace($url = null, $site = 'zdm')
+    {
+        switch ($site) {
+            case 'zdm':
+                $spider = new SpiderZdm;
+                break;
+            case 'pyh':
+                $spider = new SpiderPyh;
+                break;
+        }
+        if ($spider instanceof \app\components\SpiderBase) {
+            $real = $spider->getRealUrl($url);
+            echo $real;
+        }
+    }
+
     // 查找所有的链接
     public function actionUpdate()
     {
