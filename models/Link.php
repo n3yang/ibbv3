@@ -144,34 +144,21 @@ class Link extends \yii\db\ActiveRecord
 
 
     /**
-     * generate Slug by url
+     * generate Slug by url, pass url scheme
      * 
      * @param  string $url URL or any strings
      * @return string      short strings
      */
     public static function generateSlug($url)
     {
-        // $rs = parse_url($url);
-        // unset($rs['scheme']);
-        // $url = implode('', $rs);
-        
+        if (preg_match('/^(.*):\/\/(.*)$/', $url, $matches)) {
+            $url = $matches[2];
+        }
         $salt = 'ibbv3';
         $str = substr( md5( $salt . $url ), 0, 12 );
         return gmp_strval( gmp_init( $str, 16 ), 62 );
     }
 
-    /**
-     * generate slug by url
-     * @param  string $url url
-     * @return string      short string
-     */
-    public static function generateSlugWithoutScheme($url)
-    {
-        $rs = parse_url($url);
-        unset($rs['scheme']);
-        $url = implode('', $rs);
-        return static::generateSlug($url);
-    }
     
     /**
      * find link by slug

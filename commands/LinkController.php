@@ -44,11 +44,11 @@ class LinkController extends Controller
     {
         foreach (Link::find()->each(100) as $link) {
             // 重新计算，更新数据
-            $rs = parse_url($link->url);
-            $newScheme = $rs['scheme'];
-            unset($rs['scheme']);
-            $newUrl = implode('', $rs);
+            
             $newSlug = Link::generateSlug($link->url);
+            if ($link->slug == $newSlug) {
+                continue;
+            }
 
             // var_dump($newScheme, $newSlug, $newUrl);
             $this->stdout('link ID: ' . $link->id .  ', slug: ' . $link->slug . ' -> ' . $newSlug . PHP_EOL);
@@ -68,17 +68,15 @@ class LinkController extends Controller
             $note = Note::find()
                 ->where(['like', 'content', $link->slug])
                 ->all();
-            foreach ($note as $o) {
-                $this->stdout(' update offer: ' . $o->id);
-                $o->content = str_replace($link->slug, $newSlug, $o->content);
-                $o->save();
+            foreach ($note as $n) {
+                $this->stdout(' update offer: ' . $n->id);
+                $n->content = str_replace($link->slug, $newSlug, $n->content);
+                $n->save();
                 $this->stdout(PHP_EOL);
             }
 
             // 更新 link
             $link->slug = $newSlug;
-            $link->scheme = $newScheme;
-            $link->url = $newUrl;
             $link->save();
             $this->stdout('link ID: ' . $link->id . ', .. saved' . PHP_EOL);
         }
