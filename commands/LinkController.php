@@ -37,9 +37,15 @@ class LinkController extends Controller
     // 查找所有的链接
     public function actionUpdate()
     {
+        // @var $link Link
         foreach (Link::find()->each(100) as $link) {
             // 重新计算，更新数据
             
+            // end of '?'
+            if (substr($link->url, -1) == '?') {
+                $link->url = substr($link->url, 0, strlen($link->url) - 1);
+            }
+
             $newSlug = Link::generateSlug($link->url);
             if ($link->slug == $newSlug) {
                 continue;
