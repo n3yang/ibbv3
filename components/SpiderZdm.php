@@ -316,7 +316,7 @@ class SpiderZdm extends SpiderBase
     {
         $logstr = 'Replace url: ' . $url;
         // $url = str_replace('.com/URL/AC/', '.com/URL/AA/', $url);
-        $url = str_replace('AC_YH', 'AA_YH', $url);
+        // $url = str_replace('AC_YH', 'AA_YH', $url);
 
         if (array_key_exists($url, $this->urlReplaceCache)) {
             return $this->urlReplaceCache[$url];
@@ -366,6 +366,11 @@ class SpiderZdm extends SpiderBase
             } else {
                 Yii::warning('Fail to get real url, JS: ' . $js);
                 $real = $url;
+            }
+
+            // end of '?'
+            if (substr($real, -1) == '?') {
+                $real = substr($real, 0, strlen($real) - 1);
             }
             
             return $real;
